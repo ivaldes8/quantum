@@ -1,14 +1,23 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
 
-import AppRoutes from './routes/appRoutes';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
+import AppRoutes from "./core/routes/appRoutes";
+import Base from "./views/Base";
 
 const App = () => {
+
   return (
-    <BrowserRouter>
-      <AppRoutes/>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Base/>
+        <AppRoutes />
+      </BrowserRouter>
+      <ToastContainer />
+    </>
   );
-}
+};
 
 export default App;
