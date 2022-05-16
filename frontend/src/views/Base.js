@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 import { toast } from "react-toastify";
 
-import Login from './Auth/Auth'
 import MobileNav from './Navbars/MobileNav'
 import DesktopNav from "./Navbars/DesktopNav";
 

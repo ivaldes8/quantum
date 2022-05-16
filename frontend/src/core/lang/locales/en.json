@@ -4,7 +4,15 @@
   "Register": "Don't have an account? Sign up",
   "email": "Email",
   "password": "Password",
-  "select_language": "Select Language",
+  "Dashboard": "Dashboard",
+  "Home": "Home",
+  "Investments": "Investments",
+  "InvestmentIdeas": "Investments Ideas",
+  "Actions": "Actions",
+  "Profile": "Profile",
+  "Logout": "Log out",
+  "selectLanguage": "Select Language",
   "hello_welcome_to_react": "Hello, Welcome to React",
-  "fieldError.email": "This is not a valid email"
+  "fieldError.email": "This is not a valid email",
+  "fieldError.required": "This field es required"
 }
