@@ -3,23 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { styled } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Fab from "@mui/material/Fab";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import LogoutIcon from "@mui/icons-material/Logout";
-import Avatar from "@mui/material/Avatar";
-import PieChartIcon from "@mui/icons-material/PieChart";
-import Translate from "@mui/icons-material/Translate";
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
-import TableChartIcon from '@mui/icons-material/TableChart';
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { Tooltip } from "@mui/material";
-import { Divider } from "@mui/material";
+import { Tooltip, Divider, AppBar, Box, Toolbar, IconButton, Typography, Fab, Menu, MenuItem, Avatar} from "@mui/material";
+import { Logout, PieChart, Translate, CurrencyExchange, TableChart, AccountBalanceWallet} from "@mui/icons-material";
+
 
 const StyledFab = styled(Fab)({
   position: "absolute",
@@ -28,6 +14,9 @@ const StyledFab = styled(Fab)({
   left: 0,
   right: 0,
   margin: "0 auto",
+  width: 80,
+  height: 80
+
 });
 
 const MobileNav = () => {
@@ -57,7 +46,7 @@ const MobileNav = () => {
     <>
       <AppBar position="static">
         <Toolbar>
-          <AccountBalanceWalletIcon sx={{ display: { md: "flex" }, mr: 1 }} />
+          <AccountBalanceWallet sx={{ display: { md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -89,7 +78,7 @@ const MobileNav = () => {
                 location.pathname === "/dashboard" ? "secondary" : "inherit"
               }
             >
-              <TableChartIcon fontSize="large" />
+              <TableChart fontSize="large" />
             </IconButton>
           </Tooltip>
 
@@ -102,7 +91,7 @@ const MobileNav = () => {
                 location.pathname === "/recomended" ? "secondary" : "inherit"
               }
             >
-              <CurrencyExchangeIcon fontSize="large" />
+              <CurrencyExchange fontSize="large" />
             </IconButton>
           </Tooltip>
 
@@ -115,7 +104,7 @@ const MobileNav = () => {
                 location.pathname === "/home" ? "secondary" : "inherit"
               }
             >
-              <PieChartIcon fontSize="large" />
+              <PieChart fontSize="large" />
             </IconButton>
           </Tooltip>
 
@@ -126,11 +115,8 @@ const MobileNav = () => {
               component={Link}
               to="/investment"
             >
-              <AccountBalanceWalletIcon
-                fontSize={
-                  location.pathname === "/investment" ? "large" : "medium"
-                }
-                sx={{ display: { md: "flex" } }}
+              <AccountBalanceWallet
+                sx={{ display: { md: "flex" },fontSize: 40  }}
               />
             </StyledFab>
           </Tooltip>
@@ -142,7 +128,7 @@ const MobileNav = () => {
           </Tooltip>
           <Tooltip title={t("Logout")} sx={{ marginRight: 2 }}>
             <IconButton color="inherit" aria-label="open drawer">
-              <LogoutIcon fontSize="large" />
+              <Logout fontSize="large" />
             </IconButton>
           </Tooltip>
           <Box sx={{ flexGrow: 0 }}>
