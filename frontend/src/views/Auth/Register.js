@@ -4,10 +4,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { login, reset } from "../../core/redux/features/auth/authSlice";
+import { register, reset } from "../../core/redux/features/auth/authSlice";
 
-import {CircularProgress, Box, Avatar, Button, CssBaseline, Typography, Container, Paper}from "@mui/material";
-import {LockOutlined, Login, PersonAdd} from "@mui/icons-material";
+import {
+  CircularProgress,
+  Box,
+  Avatar,
+  Button,
+  CssBaseline,
+  Typography,
+  Container,
+  Paper,
+} from "@mui/material";
+import { LockOutlined, Login, PersonAdd } from "@mui/icons-material";
 
 import {
   composeValidators,
@@ -16,10 +25,7 @@ import {
 } from "../../core/custom-components/validations/InputErrors";
 import TextField from "../../core/custom-components/form-elements/TextField";
 
-
-
-
-const Auth = () => {
+const Register = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -39,14 +45,25 @@ const Auth = () => {
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const submitForm = (data) => {
-    dispatch(login(data));
+    const toSend = { ...data, role: "User" };
+    dispatch(register(toSend));
   };
 
   if (isLoading) {
     return (
-      <Box sx={{ display: "flex", flexDirection: "column",
-      alignItems: "center", position: 'absolute', width: '100%'}}>
-        <CircularProgress  style={{alignSelf: 'center', marginTop: '30%'}} size={150}/>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          position: "absolute",
+          width: "100%",
+        }}
+      >
+        <CircularProgress
+          style={{ alignSelf: "center", marginTop: "30%" }}
+          size={150}
+        />
       </Box>
     );
   }
@@ -75,6 +92,18 @@ const Auth = () => {
             <form onSubmit={handleSubmit} noValidate>
               <TextField
                 className="form-control"
+                field="name"
+                label="name"
+                validate={composeValidators(required)}
+              />
+              <TextField
+                className="form-control"
+                field="lastName"
+                label="lastName"
+                validate={composeValidators(required)}
+              />
+              <TextField
+                className="form-control"
                 field="email"
                 label="email"
                 validate={composeValidators(required, email)}
@@ -89,15 +118,21 @@ const Auth = () => {
 
               <div className="forms-button-container">
                 <div className="form-button-left">
-                  <Button variant="text" component={Link} to='/register' color="primary" size="small">
-                    {t("dontHaveAccount")}
-                    <PersonAdd />
+                  <Button
+                    variant="text"
+                    component={Link}
+                    to="/login"
+                    color="primary"
+                    size="small"
+                  >
+                    {t("backToLogin")}
+                    <Login />
                   </Button>
                 </div>
                 <div className="form-button-right">
                   <Button variant="contained" color="primary" type="submit">
-                    {t("Login")}
-                    <Login />
+                    {t("Register")}
+                    <PersonAdd />
                   </Button>
                 </div>
               </div>
@@ -109,4 +144,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default Register;

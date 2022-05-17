@@ -1,7 +1,11 @@
 {
+  "backToLogin": "Regresar a autenticarse",
+  "dontHaveAccount": "No tienes una cuenta? Regístrate",
   "SignIn": "Autenticarce",
   "Login": "Entrar",
-  "Register": "No tienes una cuenta? Regístrate",
+  "Register": "Regístrate",
+  "name": "Nombre",
+  "lastName": "Apellidos",
   "email": "Correo",
   "password": "Contraseña",
   "Dashboard": "Dashboard",

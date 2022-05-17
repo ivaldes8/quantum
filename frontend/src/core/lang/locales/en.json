@@ -1,7 +1,11 @@
 {
+  "backToLogin": "Back to login",
+  "dontHaveAccount": "Don't have an account? Sign up",
   "SignIn": "Sign in",
   "Login": "Login",
-  "Register": "Don't have an account? Sign up",
+  "Register": "Register",
+  "name": "Name",
+  "lastName": "Last name",
   "email": "Email",
   "password": "Password",
   "Dashboard": "Dashboard",

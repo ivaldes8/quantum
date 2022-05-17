@@ -1,10 +1,11 @@
 const RoutesName = {
     home: '/',
-    login: 'login',
+    login: '/login',
+    register: '/register',
     dashboard: '/dashboard',
     investment: '/investment',
     investmentEdit: '/investment/:id',
-    action: 'investment/action/:id',
+    action: '/investment/action/:id',
     actionEdit: '/action/:id'
 }
 
