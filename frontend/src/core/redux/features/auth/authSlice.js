@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import decode from 'jwt-decode'
 import authService from '../../../services/authService'
 
 const user = JSON.parse(localStorage.getItem('user'))
 
 const initialState = {
-    user: user ? user : null,
+    user: user ? decode(user.token).exp * 1000 > new Date().getTime() ? user : null : null,
     isError: false,
     isSuccess: false,
     isLoading: false,

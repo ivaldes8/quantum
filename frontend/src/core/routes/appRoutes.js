@@ -1,23 +1,67 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import routeNames from './routeNames'
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import routeNames from "./routeNames";
+import ProtectedRoute from "./protectedRoute";
 
-import Auth from '../../views/Auth/Auth';
-import Home from '../../views/Home/Home';
-import Investment from '../../views/Investment/Investment';
-import InvestmentEdit from '../../views/Investment/InvestmenEdit';
-import Action from '../../views/Action/Action';
-import ActionEdit from '../../views/Action/ActionEdit';
+import Auth from "../../views/Auth/Auth";
+import Home from "../../views/Home/Home";
+import Investment from "../../views/Investment/Investment";
+import InvestmentEdit from "../../views/Investment/InvestmenEdit";
+import Action from "../../views/Action/Action";
+import ActionEdit from "../../views/Action/ActionEdit";
 
 const appRoutes = () => {
-  return <Routes>
-      <Route path={routeNames.home} exact element={<Home/>}/>
-      <Route path={routeNames.login} exact element={<Auth/>}/>
-      <Route path={routeNames.investment} exact element={<Investment/>}/>
-      <Route path={routeNames.investmentEdit} exact element={<InvestmentEdit/>}/>
-      <Route path={routeNames.action} exact element={<Action/>}/>
-      <Route path={routeNames.actionEdit} exact element={<ActionEdit/>}/>
-  </Routes>
-}
+  return (
+    <Routes>
+      <Route path={routeNames.home} exact element={<Home />} />
+      <Route path={routeNames.login} exact element={<Auth />} />
+      <Route
+        path={routeNames.dashboard}
+        exact
+        element={
+          <ProtectedRoute>
+            <Investment />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routeNames.investment}
+        exact
+        element={
+          <ProtectedRoute>
+            <Investment />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routeNames.investmentEdit}
+        exact
+        element={
+          <ProtectedRoute>
+            <InvestmentEdit />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routeNames.action}
+        exact
+        element={
+          <ProtectedRoute>
+            <Action />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routeNames.actionEdit}
+        exact
+        element={
+          <ProtectedRoute>
+            <ActionEdit />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  );
+};
 
-export default appRoutes
+export default appRoutes;

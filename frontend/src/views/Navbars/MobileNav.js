@@ -1,11 +1,33 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
+
+import { logout, reset } from "../../core/redux/features/auth/authSlice";
 
 import { styled } from "@mui/material/styles";
-import { Tooltip, Divider, AppBar, Box, Toolbar, IconButton, Typography, Fab, Menu, MenuItem, Avatar} from "@mui/material";
-import { Logout, PieChart, Translate, CurrencyExchange, TableChart, AccountBalanceWallet} from "@mui/icons-material";
-
+import {
+  Tooltip,
+  Divider,
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Fab,
+  Menu,
+  MenuItem,
+  Avatar,
+} from "@mui/material";
+import {
+  Logout,
+  PieChart,
+  Translate,
+  CurrencyExchange,
+  TableChart,
+  AccountBalanceWallet,
+  Login,
+} from "@mui/icons-material";
 
 const StyledFab = styled(Fab)({
   position: "absolute",
@@ -15,13 +37,16 @@ const StyledFab = styled(Fab)({
   right: 0,
   margin: "0 auto",
   width: 80,
-  height: 80
-
+  height: 80,
 });
 
 const MobileNav = () => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { user } = useSelector((state) => state.auth);
 
   const [anchorElLanguage, setAnchorElLanguage] = useState(null);
 
@@ -42,6 +67,12 @@ const MobileNav = () => {
     setAnchorElLanguage(null);
   };
 
+  const onLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate("/");
+  };
+
   return (
     <>
       <AppBar position="static">
@@ -50,8 +81,8 @@ const MobileNav = () => {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { md: "flex" },
@@ -69,68 +100,83 @@ const MobileNav = () => {
 
       <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }}>
         <Toolbar>
-          <Tooltip title={t("Dashboard")} >
-            <IconButton
-              aria-label="open drawer"
-              component={Link}
-              to="/dashboard"
-              color={
-                location.pathname === "/dashboard" ? "secondary" : "inherit"
-              }
-            >
-              <TableChart fontSize="large" />
-            </IconButton>
-          </Tooltip>
+          {user && (
+            <Tooltip title={t("Dashboard")}>
+              <IconButton
+                aria-label="open drawer"
+                component={Link}
+                to="/dashboard"
+                color={
+                  location.pathname === "/dashboard" ? "secondary" : "inherit"
+                }
+              >
+                <TableChart fontSize="large" />
+              </IconButton>
+            </Tooltip>
+          )}
 
-          <Tooltip title={t("InvestmentIdeas")} sx={{ marginLeft: 2 }}>
-            <IconButton
-              aria-label="open drawer"
-              component={Link}
-              to="/recomended"
-              color={
-                location.pathname === "/recomended" ? "secondary" : "inherit"
-              }
-            >
-              <CurrencyExchange fontSize="large" />
-            </IconButton>
-          </Tooltip>
+          {user && (
+            <Tooltip title={t("InvestmentIdeas")} sx={{ marginLeft: 2 }}>
+              <IconButton
+                aria-label="open drawer"
+                component={Link}
+                to="/recomended"
+                color={
+                  location.pathname === "/recomended" ? "secondary" : "inherit"
+                }
+              >
+                <CurrencyExchange fontSize="large" />
+              </IconButton>
+            </Tooltip>
+          )}
 
           <Tooltip title={t("Home")} sx={{ marginLeft: 2 }}>
             <IconButton
               aria-label="open drawer"
               component={Link}
-              to="/home"
-              color={
-                location.pathname === "/home" ? "secondary" : "inherit"
-              }
+              to="/"
+              color={location.pathname === "/" ? "secondary" : "inherit"}
             >
               <PieChart fontSize="large" />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={t("Investments")}>
+          <Tooltip title={t(user ? "Investments" : "Login")}>
             <StyledFab
               color={location.pathname === "/investment" ? "secondary" : "info"}
               aria-label="add"
               component={Link}
-              to="/investment"
+              to={user ? "/investment" : "Login"}
             >
-              <AccountBalanceWallet
-                sx={{ display: { md: "flex" },fontSize: 40  }}
-              />
+              {user ? (
+                <AccountBalanceWallet
+                  sx={{ display: { md: "flex" }, fontSize: 40 }}
+                />
+              ) : (
+                <Login sx={{ display: { md: "flex" }, fontSize: 40 }} />
+              )}
             </StyledFab>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
-          <Tooltip title={t("Profile")} sx={{ marginRight: 2 }}>
-            <IconButton>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={t("Logout")} sx={{ marginRight: 2 }}>
-            <IconButton color="inherit" aria-label="open drawer">
-              <Logout fontSize="large" />
-            </IconButton>
-          </Tooltip>
+          {user && (
+            <>
+              <Tooltip title={t("Profile")} sx={{ marginRight: 2 }}>
+                <IconButton>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip
+                title={t("Logout")}
+                onClick={onLogout}
+                sx={{ marginRight: 2 }}
+              >
+                <IconButton color="inherit" aria-label="open drawer">
+                  <Logout fontSize="large" />
+                </IconButton>
+              </Tooltip>
+            </>
+          )}
+
           <Box sx={{ flexGrow: 0 }}>
             <IconButton aria-label="language" onClick={handleOpenLanguageMenu}>
               <Translate style={{ color: "white" }} fontSize="large" />

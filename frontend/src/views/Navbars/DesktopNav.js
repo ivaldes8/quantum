@@ -1,33 +1,34 @@
 import { useState } from "react";
-import { Link, useLocation } from 'react-router-dom';
-
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
 
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import Translate from "@mui/icons-material/Translate";
-import { Divider } from "@mui/material";
+import { logout, reset } from '../../core/redux/features/auth/authSlice'
+
+import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Avatar, Tooltip, MenuItem, Divider, Container } from "@mui/material";
+
+import { Login, AccountBalanceWallet, Translate } from "@mui/icons-material";
+import MenuIcon from '@mui/icons-material/Menu'
 
 const DesktopNav = () => {
   const { t, i18n } = useTranslation();
-  const location = useLocation()
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
+  const { user } = useSelector((state) => state.auth);
+
   const [anchorElLanguage, setAnchorElLanguage] = useState(null);
 
-  const pages = [{name:"Dashboard", route: "/dashboard"}, {name:"InvestmentIdeas", route: "/recomended"}, {name:"Home", route: "/home"}, {name:"Investments", route: "/investments"}];
+  const pages = [
+    { name: "Dashboard", route: "/dashboard" },
+    { name: "InvestmentIdeas", route: "/recomended" },
+    { name: "Home", route: "/" },
+    { name: "Investments", route: "/investments" },
+  ];
   const settings = ["Profile", "Logout"];
   const languages = ["Español", "English"];
 
@@ -60,20 +61,28 @@ const DesktopNav = () => {
     setAnchorElLanguage(null);
   };
 
+  const onLogout = () => {
+    setAnchorElUser(null);
+    dispatch(logout());
+    dispatch(reset());
+    navigate("/");
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AccountBalanceWalletIcon
+          <AccountBalanceWallet
             sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
           />
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to='/'
             sx={{
               mr: 2,
+              flexGrow: 1,
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
@@ -85,50 +94,62 @@ const DesktopNav = () => {
             QUANTUM
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page.name} component={Link} to={page.route} onClick={handleCloseNavMenu}>
-                  <Typography variant={location.pathname === page.route ? 'h5' : 'p'} textAlign="center">{t(page.name)}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <AccountBalanceWalletIcon
+          {user && (
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                {pages.map((page) => (
+                  <MenuItem
+                    key={page.name}
+                    component={Link}
+                    to={page.route}
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography
+                      variant={location.pathname === page.route ? "h5" : "p"}
+                      textAlign="center"
+                    >
+                      {t(page.name)}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          )}
+          <AccountBalanceWallet
             sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
           />
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
+            component={Link}
+            to='/'
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -142,43 +163,76 @@ const DesktopNav = () => {
           >
             QUANTUM
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-            <MenuItem key={page.name} component={Link} to={page.route} onClick={handleCloseNavMenu}>
-            <Typography variant={location.pathname === page.route ? 'h5' : 'p'} textAlign="center">{t(page.name)}</Typography>
-          </MenuItem>
-            ))}
-          </Box>
+          {user && (
+            <>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                {pages.map((page) => (
+                  <MenuItem
+                    key={page.name}
+                    component={Link}
+                    to={page.route}
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography
+                      variant={location.pathname === page.route ? "h5" : "p"}
+                      textAlign="center"
+                    >
+                      {t(page.name)}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title={t('Actions')}>
-              <IconButton onClick={handleOpenUserMenu} sx={{ marginRight: 2 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{t(setting)}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title={t("Actions")}>
+                  <IconButton
+                    onClick={handleOpenUserMenu}
+                    sx={{ marginRight: 2 }}
+                  >
+                    <Avatar
+                      alt="Remy Sharp"
+                      src="/static/images/avatar/2.jpg"
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={setting === 'Logout' ? onLogout : handleCloseUserMenu}>
+                      <Typography textAlign="center">{t(setting)}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            </>
+          )}
+          {!user && (
+            <Box sx={{ flexGrow: 0 }}>
+              <MenuItem component={Link} to="login">
+                <Login sx={{ marginRight: 1 }}/>
+                <Typography
+                  variant={location.pathname === "login" ? "h5" : "h6"}
+                  textAlign="center"
+                >
+                  {t("Login")}
+                </Typography>
+              </MenuItem>
+            </Box>
+          )}
 
           <Box sx={{ flexGrow: 0 }}>
             <IconButton aria-label="language" onClick={handleOpenLanguageMenu}>

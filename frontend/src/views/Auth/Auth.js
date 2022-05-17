@@ -1,5 +1,13 @@
+import { useEffect } from "react";
 import { Form } from "react-final-form";
+import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { login, reset } from "../../core/redux/features/auth/authSlice";
+
+import {CircularProgress, Box, Avatar, Button, CssBaseline, Typography, Container, Paper}from "@mui/material";
+import {LockOutlined, Login} from "@mui/icons-material";
 
 import {
   composeValidators,
@@ -8,21 +16,40 @@ import {
 } from "../../core/custom-components/validations/InputErrors";
 import TextField from "../../core/custom-components/form-elements/TextField";
 
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Login from "@mui/icons-material/Login";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { Paper } from "@mui/material";
+
+
 
 const Auth = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess || user) {
+      navigate("/");
+    }
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const submitForm = (data) => {
-    console.log(data);
+    dispatch(login(data));
   };
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: "flex", flexDirection: "column",
+      alignItems: "center", position: 'absolute', width: '100%'}}>
+        <CircularProgress  style={{alignSelf: 'center', marginTop: '30%'}} size={150}/>
+      </Box>
+    );
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -37,7 +64,7 @@ const Auth = () => {
         elevation={3}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
+          <LockOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
           {t("SignIn")}
@@ -48,7 +75,7 @@ const Auth = () => {
             <form onSubmit={handleSubmit} noValidate>
               <TextField
                 className="form-control"
-                field="username"
+                field="email"
                 label="email"
                 validate={composeValidators(required, email)}
               />
@@ -68,7 +95,7 @@ const Auth = () => {
                   </Button>
                 </div>
                 <div className="form-button-right">
-                  <Button variant="contained" color="primary"  type="submit">
+                  <Button variant="contained" color="primary" type="submit">
                     {t("Login")}
                     <Login />
                   </Button>
