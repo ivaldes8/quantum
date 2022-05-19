@@ -16,8 +16,7 @@ import {
   Typography,
   Fab,
   Menu,
-  MenuItem,
-  Avatar,
+  MenuItem
 } from "@mui/material";
 import {
   Logout,
@@ -27,6 +26,7 @@ import {
   TableChart,
   AccountBalanceWallet,
   Login,
+  Person
 } from "@mui/icons-material";
 
 const StyledFab = styled(Fab)({
@@ -36,8 +36,8 @@ const StyledFab = styled(Fab)({
   left: 0,
   right: 0,
   margin: "0 auto",
-  width: 80,
-  height: 80,
+  width: 60,
+  height: 60,
 });
 
 const MobileNav = () => {
@@ -75,7 +75,7 @@ const MobileNav = () => {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <AccountBalanceWallet sx={{ display: { md: "flex" }, mr: 1 }} />
           <Typography
@@ -101,7 +101,7 @@ const MobileNav = () => {
       <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }}>
         <Toolbar>
           {user && (
-            <Tooltip title={t("Dashboard")}>
+            <Tooltip title={t("Dashboard")} sx={{ marginLeft: -2 }}>
               <IconButton
                 aria-label="open drawer"
                 component={Link}
@@ -116,7 +116,7 @@ const MobileNav = () => {
           )}
 
           {user && (
-            <Tooltip title={t("InvestmentIdeas")} sx={{ marginLeft: 2 }}>
+            <Tooltip title={t("InvestmentIdeas")} >
               <IconButton
                 aria-label="open drawer"
                 component={Link}
@@ -130,7 +130,7 @@ const MobileNav = () => {
             </Tooltip>
           )}
 
-          <Tooltip title={t("Home")} sx={{ marginLeft: 2 }}>
+          <Tooltip title={t("Home")} >
             <IconButton
               aria-label="open drawer"
               component={Link}
@@ -157,18 +157,17 @@ const MobileNav = () => {
               )}
             </StyledFab>
           </Tooltip>
-          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 1}} />
           {user && (
             <>
-              <Tooltip title={t("Profile")} sx={{ marginRight: 2 }}>
-                <IconButton>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <Tooltip title={t("Profile")}>
+                <IconButton color="inherit">
+                  <Person fontSize="large"/>
                 </IconButton>
               </Tooltip>
               <Tooltip
                 title={t("Logout")}
                 onClick={onLogout}
-                sx={{ marginRight: 2 }}
               >
                 <IconButton color="inherit" aria-label="open drawer">
                   <Logout fontSize="large" />
@@ -177,7 +176,7 @@ const MobileNav = () => {
             </>
           )}
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, marginRight: -2 }}>
             <IconButton aria-label="language" onClick={handleOpenLanguageMenu}>
               <Translate style={{ color: "white" }} fontSize="large" />
             </IconButton>

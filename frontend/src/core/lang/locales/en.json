@@ -17,6 +17,14 @@
   "Logout": "Log out",
   "selectLanguage": "Select Language",
   "hello_welcome_to_react": "Hello, Welcome to React",
+  "Title": "Title",
+  "Save": "Save",
+  "Edit": "Edit",
+  "Delete": "Delete",
+  "Create": "Create",
+  "CreateInvestment": "Create Investment",
+  "investmentCreated": "Investment created succefully",
+  "Description": "Description",
   "fieldError.email": "This is not a valid email",
   "fieldError.required": "This field es required"
 }

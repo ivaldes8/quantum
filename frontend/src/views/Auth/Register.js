@@ -24,6 +24,7 @@ import {
   required,
 } from "../../core/custom-components/validations/InputErrors";
 import TextField from "../../core/custom-components/form-elements/TextField";
+import Loading from "../../core/custom-components/Loading";
 
 const Register = () => {
   const { t } = useTranslation();
@@ -50,22 +51,7 @@ const Register = () => {
   };
 
   if (isLoading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          position: "absolute",
-          width: "100%",
-        }}
-      >
-        <CircularProgress
-          style={{ alignSelf: "center", marginTop: "30%" }}
-          size={150}
-        />
-      </Box>
-    );
+    return <Loading/>
   }
 
   return (

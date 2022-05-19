@@ -1,92 +1,92 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import goalService from '../../../services/goalService'
+import investmentService from '../../../services/investmentService'
 
 const initialState = {
-    goals: [],
+    investments: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
     message: ''
 }
 
-//Get user goals
-export const getGoals = createAsyncThunk('goals/getAll', async(_, thunkAPI) => {
+//Get user investments
+export const getInvestments = createAsyncThunk('investments/getAll', async(_, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
-        return await goalService.getGoals(token)
+        return await investmentService.getInvestments(token)
     } catch (error) {
        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
        return thunkAPI.rejectWithValue(message)
     }
 })
 
-//Create new goal
-export const createGoal = createAsyncThunk('/goals/create', async (goalData, thunkAPI) => {
+//Create new investment
+export const createInvestment = createAsyncThunk('/investments/create', async (investmentData, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
-        return await goalService.createGoal(goalData, token)
+        return await investmentService.createInvestment(investmentData, token)
     } catch (error) {
        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
        return thunkAPI.rejectWithValue(message)
     }
 })
 
-//Delete user goal
-export const deleteGoal = createAsyncThunk('/goals/delete', async (id, thunkAPI) => {
+//Delete user investment
+export const deleteInvestment = createAsyncThunk('/investments/delete', async (id, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
-        return await goalService.deleteGoal(id, token)
+        return await investmentService.deleteInvestment(id, token)
     } catch (error) {
        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
        return thunkAPI.rejectWithValue(message)
     }
 })
 
-export const goalSlice = createSlice({
-    name: 'goal',
+export const investmentSlice = createSlice({
+    name: 'investment',
     initialState,
     reducers: {
         reset: (state) => initialState
     },
     extraReducers: (builder) => {
         builder
-            .addCase(createGoal.pending, (state) => {
+            .addCase(createInvestment.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(createGoal.fulfilled, (state, action) => {
+            .addCase(createInvestment.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.goals.push(action.payload)
+                state.investments.push(action.payload.investment)
             })
-            .addCase(createGoal.rejected, (state, action) => {
+            .addCase(createInvestment.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
             })
-            .addCase(getGoals.pending, (state) => {
+            .addCase(getInvestments.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(getGoals.fulfilled, (state, action) => {
+            .addCase(getInvestments.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.goals = action.payload.goals
+                state.investments = action.payload.investments
             })
-            .addCase(getGoals.rejected, (state, action) => {
+            .addCase(getInvestments.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
             })
             
 
-            .addCase(deleteGoal.pending, (state) => {
+            .addCase(deleteInvestment.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(deleteGoal.fulfilled, (state, action) => {
+            .addCase(deleteInvestment.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.goals = state.goals.filter((goal) => goal._id !== action.payload.id)
+                state.investments = state.investments.filter((i) => i._id !== action.payload.id)
             })
-            .addCase(deleteGoal.rejected, (state, action) => {
+            .addCase(deleteInvestment.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
@@ -94,5 +94,5 @@ export const goalSlice = createSlice({
     }
 })
 
-export const {reset} = goalSlice.actions
-export default goalSlice.reducer
+export const {reset} = investmentSlice.actions
+export default investmentSlice.reducer

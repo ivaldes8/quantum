@@ -27,7 +27,7 @@ const DesktopNav = () => {
     { name: "Dashboard", route: "/dashboard" },
     { name: "InvestmentIdeas", route: "/recomended" },
     { name: "Home", route: "/" },
-    { name: "Investments", route: "/investments" },
+    { name: "Investments", route: "/investment" },
   ];
   const settings = ["Profile", "Logout"];
   const languages = ["Español", "English"];
@@ -69,7 +69,7 @@ const DesktopNav = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AccountBalanceWallet

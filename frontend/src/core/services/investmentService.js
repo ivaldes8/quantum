@@ -1,22 +1,20 @@
 import axios from "axios"
 
-const API_URL = '/api/goals'
+const API_URL = '/api/investments'
 
-//Create goal
-const createGoal = async (goalData, token) => {
+const createInvestment = async (investmentData, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
 
-    const response = await axios.post(API_URL, goalData, config)
+    const response = await axios.post(API_URL, investmentData, config)
 
     return response.data
 }
 
-//Get user goals
-const getGoals = async (token) => {
+const getInvestments = async (token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -28,8 +26,7 @@ const getGoals = async (token) => {
     return response.data
 }
 
-//Delete user goal
-const deleteGoal = async (id, token) => {
+const deleteInvestment = async (id, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -41,10 +38,10 @@ const deleteGoal = async (id, token) => {
     return response.data
 }
 
-const goalService = {
-    createGoal,
-    getGoals,
-    deleteGoal
+const investmentService = {
+    createInvestment,
+    getInvestments,
+    deleteInvestment
 }
 
-export default goalService
+export default investmentService
