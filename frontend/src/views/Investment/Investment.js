@@ -7,7 +7,9 @@ import { useNavigate } from "react-router-dom";
 import {
   getInvestments,
   reset,
-  createInvestment
+  createInvestment,
+  updateInvestment,
+  deleteInvestment
 } from "../../core/redux/features/investments/investmentSlice";
 import {
   composeValidators,
@@ -22,6 +24,7 @@ import CardList from "../../core/custom-components/cardList/cardList";
 import Header from "../../core/custom-components/Header";
 import DialogForm from "../../core/custom-components/dialog/DialogForm";
 import Loading from "../../core/custom-components/Loading";
+import DialogConfirmation from "../../core/custom-components/dialog/DialogConfirmation";
 
 const Investment = () => {
   const { t } = useTranslation();
@@ -31,38 +34,73 @@ const Investment = () => {
   const { investments, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.investment
   );
-  
+
   const [openModal, setOpenModal] = useState(false);
+  const [openConfModal, setOpenConfModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [toEdit, setToEdit] = useState(null);
+  const [toDelete, setToDelete] = useState(null);
 
   const handleCreateInvestment = () => {
+    setIsEdit(false);
+    setToEdit(null);
     setOpenModal(true);
+  };
+
+  const handleOnEdit = (data) => {
+    setIsEdit(true);
+    setToEdit(data);
+    setOpenModal(true);
+  };
+
+  const handleOnDelete = (data) => {
+    setToDelete(data._id);
+    setOpenConfModal(true);
   };
 
   const onCloseModal = () => {
     setOpenModal(false);
   };
 
+  const onCloseConfModal = () => {
+    setOpenConfModal(false);
+  };
+
   const submitModal = (data) => {
-    dispatch(createInvestment(data))
-    if (isSuccess && !isError) {
-      toast.success(t('investmentCreated'));
+    if (isEdit) {
+      dispatch(updateInvestment(data));
+      if (isSuccess && !isError) {
+        toast.success(t("investmentUpdated"));
+      }
+    } else {
+      dispatch(createInvestment(data));
+      if (isSuccess && !isError) {
+        toast.success(t("investmentCreated"));
+      }
     }
     setOpenModal(false);
   };
 
+  const onDeleteModal = () => {
+    setOpenConfModal(false)
+    dispatch(deleteInvestment(toDelete));
+      if (isSuccess && !isError) {
+        toast.success(t("investmentDeleted"));
+      }
+  }
+ 
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
     dispatch(getInvestments());
     return () => {
-      dispatch(reset())
-    }
-    
+      dispatch(reset());
+    };
   }, [isError, message, navigate, dispatch]);
 
-  if(isLoading){
-    return <Loading/>
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (
@@ -71,16 +109,23 @@ const Investment = () => {
       <Container>
         <Paper elevation={3}>
           <Header title="Investments" onClickHandler={handleCreateInvestment} />
-          <CardList list={investments} titleKey='name' descKey='description'/>
+          <CardList
+            list={investments}
+            onEditHandler={handleOnEdit}
+            onDeleteHandler={handleOnDelete}
+            titleKey="name"
+            descKey="description"
+          />
         </Paper>
       </Container>
       <AddLine />
       <DialogForm
-        title="CreateInvestment"
-        submitText="Save"
+        title={isEdit ? "EditInvestment" : "CreateInvestment"}
+        submitText={isEdit ? "Edit" : "Save"}
         openModal={openModal}
         onCloseModal={onCloseModal}
         onSubmitModal={submitModal}
+        data={toEdit}
       >
         <TextField
           field="name"
@@ -94,6 +139,14 @@ const Investment = () => {
           validate={composeValidators(required)}
         />
       </DialogForm>
+      <DialogConfirmation
+        title="DeleteInvestment"
+        confirmationText="deleteInvestmentConfirmation"
+        valueToShow={toDelete?.name ? toDelete.name : ""}
+        openModal={openConfModal}
+        onCloseModal={onCloseConfModal}
+        onSubmitModal={onDeleteModal}
+      />
     </>
   );
 };

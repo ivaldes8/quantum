@@ -8,7 +8,6 @@ import {
   DialogTitle,
   DialogActions,
   DialogContent,
-  DialogContentText,
   Button,
   IconButton,
   Container,
@@ -20,6 +19,7 @@ const DialogForm = ({
   closeIcon = true,
   showActions = true,
   disableSubmit = false,
+  data,
   submitText = "Save",
   title = "Title",
   openModal,
@@ -38,7 +38,8 @@ const DialogForm = ({
     >
       <Form
         onSubmit={onSubmitModal}
-        render={({ handleSubmit }) => (
+        initialValues={data}
+        render={({ handleSubmit}) => (
           <>
             <form onSubmit={handleSubmit} noValidate>
               <DialogTitle id="scroll-dialog-title">
@@ -62,7 +63,7 @@ const DialogForm = ({
               </DialogContent>
               {showActions && (
                 <DialogActions>
-                  <Button onClick={onCloseModal}>Cancel</Button>
+                  <Button onClick={onCloseModal}>{t('Cancel')}</Button>
                   <Button disabled={disableSubmit} type="submit">
                     {t(submitText)}
                   </Button>

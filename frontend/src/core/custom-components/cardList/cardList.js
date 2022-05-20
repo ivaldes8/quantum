@@ -2,7 +2,8 @@ import React from "react";
 import { Container, Box, Paper, Grid } from "@mui/material";
 import CardComponent from "../card/card";
 
-const CardList = ({ list, titleKey, descKey }) => {
+const CardList = ({ list, titleKey, descKey, onEditHandler, onDeleteHandler }) => {
+
   return (
     <>
       <Container>
@@ -22,6 +23,9 @@ const CardList = ({ list, titleKey, descKey }) => {
                 marginTop={2}
               >
                 <CardComponent
+                  element={item}
+                  onEdit={onEditHandler}
+                  onDelete={onDeleteHandler}
                   title={item[`${titleKey}`]}
                   description={item[`${descKey}`]}
                   clickeable

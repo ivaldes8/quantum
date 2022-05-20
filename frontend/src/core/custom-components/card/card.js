@@ -17,7 +17,7 @@ import cardImage from "./istockphoto-840202842-170667a.jpg";
 const CardComponent = (props) => {
   const { t } = useTranslation();
 
-  const { title, description, editable, deleteable, clickeable } = props;
+  const { title, description, editable, deleteable, clickeable, element, onEdit, onDelete } = props;
 
   return (
     <Card sx={{ maxWidth: 250 }}>
@@ -48,14 +48,14 @@ const CardComponent = (props) => {
               <Divider />
               <CardActions >
                 {editable && (
-                  <Button size="small" sx={{ flexGrow: 1 }} color="primary">
+                  <Button size="small" onClick={() => onEdit(element)} sx={{ flexGrow: 1 }} color="primary">
                     {t("Edit")}
                     <Edit />
                   </Button>
                 )}
 
                 {deleteable && (
-                  <Button size="small" sx={{ flexGrow: 1 }} color="error">
+                  <Button size="small" onClick={() => onDelete(element)} sx={{ flexGrow: 1 }} color="error">
                     {t("Delete")}
                     <Delete />
                   </Button>
@@ -87,14 +87,14 @@ const CardComponent = (props) => {
           {(editable || deleteable) && (
             <CardActions>
               {editable && (
-                <Button size="small" color="primary">
+                <Button size="small" onClick={() => onEdit(element)} color="primary">
                   {t("Edit")}
                   <Edit />
                 </Button>
               )}
 
               {deleteable && (
-                <Button size="small" color="danger">
+                <Button size="small" onClick={() => onDelete(element)} color="danger">
                   {t("Delete")}
                   <Delete />
                 </Button>

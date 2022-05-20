@@ -14,6 +14,18 @@ const createInvestment = async (investmentData, token) => {
     return response.data
 }
 
+const updateInvestment = async (investmentData, token, id) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.put(`${API_URL}/${id}`, investmentData, config)
+
+    return response.data
+}
+
 const getInvestments = async (token) => {
     const config = {
         headers: {
@@ -40,6 +52,7 @@ const deleteInvestment = async (id, token) => {
 
 const investmentService = {
     createInvestment,
+    updateInvestment,
     getInvestments,
     deleteInvestment
 }
