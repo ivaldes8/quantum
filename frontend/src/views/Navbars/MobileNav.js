@@ -16,7 +16,7 @@ import {
   Typography,
   Fab,
   Menu,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
 import {
   Logout,
@@ -26,7 +26,7 @@ import {
   TableChart,
   AccountBalanceWallet,
   Login,
-  Person
+  Person,
 } from "@mui/icons-material";
 
 const StyledFab = styled(Fab)({
@@ -107,7 +107,9 @@ const MobileNav = () => {
                 component={Link}
                 to="/dashboard"
                 color={
-                  location.pathname === "/dashboard" ? "secondary" : "inherit"
+                  location.pathname.includes("/dashboard")
+                    ? "secondary"
+                    : "inherit"
                 }
               >
                 <TableChart fontSize="large" />
@@ -116,13 +118,15 @@ const MobileNav = () => {
           )}
 
           {user && (
-            <Tooltip title={t("InvestmentIdeas")} >
+            <Tooltip title={t("InvestmentIdeas")}>
               <IconButton
                 aria-label="open drawer"
                 component={Link}
                 to="/recomended"
                 color={
-                  location.pathname === "/recomended" ? "secondary" : "inherit"
+                  location.pathname.includes("/recomended")
+                    ? "secondary"
+                    : "inherit"
                 }
               >
                 <CurrencyExchange fontSize="large" />
@@ -130,12 +134,16 @@ const MobileNav = () => {
             </Tooltip>
           )}
 
-          <Tooltip title={t("Home")} >
+          <Tooltip title={t("Home")}>
             <IconButton
               aria-label="open drawer"
               component={Link}
-              to="/"
-              color={location.pathname === "/" ? "secondary" : "inherit"}
+              to="/home"
+              color={
+                location.pathname.includes("/home") || location.pathname === "/"
+                  ? "secondary"
+                  : "inherit"
+              }
             >
               <PieChart fontSize="large" />
             </IconButton>
@@ -143,7 +151,9 @@ const MobileNav = () => {
 
           <Tooltip title={t(user ? "Investments" : "Login")}>
             <StyledFab
-              color={location.pathname === "/investment" ? "secondary" : "info"}
+              color={
+                location.pathname.includes("/investment") ? "secondary" : "info"
+              }
               aria-label="add"
               component={Link}
               to={user ? "/investment" : "Login"}
@@ -157,18 +167,23 @@ const MobileNav = () => {
               )}
             </StyledFab>
           </Tooltip>
-          <Box sx={{ flexGrow: 1}} />
+          <Box sx={{ flexGrow: 1 }} />
           {user && (
             <>
               <Tooltip title={t("Profile")}>
-                <IconButton color="inherit">
-                  <Person fontSize="large"/>
+                <IconButton
+                  color={
+                    location.pathname.includes("/profile")
+                      ? "secondary"
+                      : "inherit"
+                  }
+                  component={Link}
+                  to="/profile"
+                >
+                  <Person fontSize="large" />
                 </IconButton>
               </Tooltip>
-              <Tooltip
-                title={t("Logout")}
-                onClick={onLogout}
-              >
+              <Tooltip title={t("Logout")} onClick={onLogout}>
                 <IconButton color="inherit" aria-label="open drawer">
                   <Logout fontSize="large" />
                 </IconButton>

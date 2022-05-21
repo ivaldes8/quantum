@@ -58,6 +58,10 @@ const Investment = () => {
     setOpenConfModal(true);
   };
 
+  const handleOnSelect = (data) => {
+    navigate(`/investment/${data.name}`)
+  }
+
   const onCloseModal = () => {
     setOpenModal(false);
   };
@@ -113,6 +117,7 @@ const Investment = () => {
             list={investments}
             onEditHandler={handleOnEdit}
             onDeleteHandler={handleOnDelete}
+            onSelectHandler={handleOnSelect}
             titleKey="name"
             descKey="description"
           />

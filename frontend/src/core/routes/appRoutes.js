@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import routeNames from "./routeNames";
 import ProtectedRoute from "./protectedRoute";
 
@@ -8,12 +8,13 @@ import Register from "../../views/Auth/Register";
 import Home from "../../views/Home/Home";
 import Investment from "../../views/Investment/Investment";
 import Action from "../../views/Action/Action";
-import ActionEdit from "../../views/Action/ActionEdit";
+import { Dashboard } from "@mui/icons-material";
 
 
 const appRoutes = () => {
   return (
     <Routes>
+      <Route index exact element={<Home />} />
       <Route path={routeNames.home} exact element={<Home />} />
       <Route path={routeNames.login} exact element={<Auth />} />
       <Route path={routeNames.register} exact element={<Register />} />
@@ -22,7 +23,7 @@ const appRoutes = () => {
         exact
         element={
           <ProtectedRoute>
-            <Investment />
+            <Dashboard />
           </ProtectedRoute>
         }
       />
@@ -44,15 +45,7 @@ const appRoutes = () => {
           </ProtectedRoute>
         }
       />
-      <Route
-        path={routeNames.actionEdit}
-        exact
-        element={
-          <ProtectedRoute>
-            <ActionEdit />
-          </ProtectedRoute>
-        }
-      />
+     <Route path="*" element={<Investment />} />
     </Routes>
   );
 };

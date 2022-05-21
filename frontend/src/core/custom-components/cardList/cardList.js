@@ -1,9 +1,8 @@
 import React from "react";
-import { Container, Box, Paper, Grid } from "@mui/material";
+import { Container, Box, Grid } from "@mui/material";
 import CardComponent from "../card/card";
 
-const CardList = ({ list, titleKey, descKey, onEditHandler, onDeleteHandler }) => {
-
+const CardList = ({ list, titleKey, descKey, onEditHandler, onDeleteHandler, onSelectHandler }) => {
   return (
     <>
       <Container>
@@ -26,6 +25,7 @@ const CardList = ({ list, titleKey, descKey, onEditHandler, onDeleteHandler }) =
                   element={item}
                   onEdit={onEditHandler}
                   onDelete={onDeleteHandler}
+                  onSelect={onSelectHandler}
                   title={item[`${titleKey}`]}
                   description={item[`${descKey}`]}
                   clickeable

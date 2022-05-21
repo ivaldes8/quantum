@@ -1,8 +1,8 @@
-import { cloneElement, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import decode from "jwt-decode";
 
-import { logout, reset } from '../core/redux/features/auth/authSlice'
+import { logout } from '../core/redux/features/auth/authSlice'
 
 import MobileNav from "./Navbars/MobileNav";
 import DesktopNav from "./Navbars/DesktopNav";

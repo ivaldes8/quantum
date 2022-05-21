@@ -37,7 +37,7 @@ const DesktopNav = () => {
   const pages = [
     { name: "Dashboard", route: "/dashboard" },
     { name: "InvestmentIdeas", route: "/recomended" },
-    { name: "Home", route: "/" },
+    { name: "Home", route: "/home" },
     { name: "Investments", route: "/investment" },
   ];
   const settings = ["Profile", "Logout"];
@@ -143,7 +143,7 @@ const DesktopNav = () => {
                     onClick={handleCloseNavMenu}
                   >
                     <Typography
-                      variant={location.pathname === page.route ? "h5" : "p"}
+                      variant={location.pathname.includes(page.route) ? "h5" : "p"}
                       textAlign="center"
                     >
                       {t(page.name)}
@@ -185,7 +185,7 @@ const DesktopNav = () => {
                     onClick={handleCloseNavMenu}
                   >
                     <Typography
-                      variant={location.pathname === page.route ? "h5" : "p"}
+                      variant={ location.pathname.includes(page.route) ? "h5" : "p"}
                       textAlign="center"
                     >
                       {t(page.name)}

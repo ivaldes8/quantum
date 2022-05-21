@@ -32,6 +32,7 @@
   "DeleteInvestment": "Eliminar inversión",
   "deleteElement": "Eliminar elemento",
   "investmentDeleted": "Inversión eliminada",
+  "actionsOf": "Acciones de inversión en: ",
   "Description": "Descripción",
   "fieldError.email": "El email no es válido",
   "fieldError.required": "Este campo es obligatorio"

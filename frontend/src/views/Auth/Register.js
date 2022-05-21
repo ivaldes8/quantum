@@ -7,8 +7,6 @@ import { toast } from "react-toastify";
 import { register, reset } from "../../core/redux/features/auth/authSlice";
 
 import {
-  CircularProgress,
-  Box,
   Avatar,
   Button,
   CssBaseline,

@@ -1,11 +1,11 @@
 const RoutesName = {
-    home: '/',
+    home: '/home',
     login: '/login',
     register: '/register',
     dashboard: '/dashboard',
     investment: '/investment',
-    action: '/investment/action/:id',
-    actionEdit: '/action/:id'
+    action: '/investment/:name',
+    rest: '*'
 }
 
 export default RoutesName

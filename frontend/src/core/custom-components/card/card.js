@@ -17,13 +17,13 @@ import cardImage from "./istockphoto-840202842-170667a.jpg";
 const CardComponent = (props) => {
   const { t } = useTranslation();
 
-  const { title, description, editable, deleteable, clickeable, element, onEdit, onDelete } = props;
+  const { title, description, editable, deleteable, clickeable, element, onEdit, onDelete, onSelect } = props;
 
   return (
     <Card sx={{ maxWidth: 250 }}>
       {clickeable ? (
         <>
-          <CardActionArea>
+          <CardActionArea onClick={() => onSelect(element)}>
             <CardMedia
               component="img"
               height="140"

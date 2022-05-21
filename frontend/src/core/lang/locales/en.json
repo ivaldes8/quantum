@@ -33,6 +33,7 @@
   "deleteElement": "Delete element",
   "investmentDeleted": "Investment deleted",
   "Description": "Description",
+  "actionsOf": "Investment actions in: ",
   "fieldError.email": "This is not a valid email",
   "fieldError.required": "This field es required"
 }

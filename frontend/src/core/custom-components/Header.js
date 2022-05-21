@@ -4,14 +4,14 @@ import { useTranslation } from "react-i18next";
 import { Button, Divider, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
-const Header = ({ create = true, title, onClickHandler }) => {
+const Header = ({ create = true, title, valueTitle = '', onClickHandler }) => {
   const { t } = useTranslation();
 
   return (
     <>
       <div style={{ display: "flex" }}>
         <Typography variant="h5" sx={{ flexGrow: 20, margin: 1 }}>
-          {t(title)}
+          {t(title)} {valueTitle}
         </Typography>
         {create && (
           <Button
