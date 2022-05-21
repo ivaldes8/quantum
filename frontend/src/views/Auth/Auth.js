@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, reset } from "../../core/redux/features/auth/authSlice";
 
+import AddLine from "../../core/custom-components/AddLine";
 import {CircularProgress, Box, Avatar, Button, CssBaseline, Typography, Container, Paper}from "@mui/material";
 import {LockOutlined, Login, PersonAdd} from "@mui/icons-material";
 
@@ -51,6 +52,7 @@ const Auth = () => {
 
   return (
     <Container component="main" maxWidth="xs">
+       <AddLine />
       <CssBaseline />
       <Paper
         sx={{

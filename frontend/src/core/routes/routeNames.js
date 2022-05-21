@@ -4,7 +4,6 @@ const RoutesName = {
     register: '/register',
     dashboard: '/dashboard',
     investment: '/investment',
-    investmentEdit: '/investment/:id',
     action: '/investment/action/:id',
     actionEdit: '/action/:id'
 }

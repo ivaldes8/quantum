@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import decode from 'jwt-decode'
 import authService from '../../../services/authService'
 
+
 const user = JSON.parse(localStorage.getItem('user'))
 
 const initialState = {
@@ -32,7 +33,7 @@ export const login = createAsyncThunk('auth/login', async ( user, thunkAPI )=> {
 
 export const logout = createAsyncThunk('auth/logout', 
 async () => {
-    await authService.logout()
+    localStorage.removeItem('user')
 })
 
 export const authSlice = createSlice({
@@ -78,6 +79,7 @@ export const authSlice = createSlice({
             state.user = null
         })
         .addCase(logout.fulfilled, (state) => {
+            localStorage.removeItem('user')
             state.user = null
         })
     }

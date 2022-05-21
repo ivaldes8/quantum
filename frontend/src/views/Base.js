@@ -1,15 +1,29 @@
-import { useEffect, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import decode from "jwt-decode";
+
+import { logout, reset } from '../core/redux/features/auth/authSlice'
 
 import MobileNav from "./Navbars/MobileNav";
 import DesktopNav from "./Navbars/DesktopNav";
 
 const Base = () => {
-
   const [width, setWidth] = useState(window.innerWidth);
+  const dispatch = useDispatch();
 
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth);
   };
+
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  if(currentUser){
+    console.log(decode(currentUser?.token).exp * 1000 > new Date().getTime(), 'TIME')
+  }
+  if (currentUser && decode(currentUser?.token).exp * 1000 < new Date().getTime()) {
+    dispatch(logout)
+    localStorage.removeItem('user')
+  }
+
 
   useEffect(() => {
     window.addEventListener("resize", handleWindowSizeChange);
