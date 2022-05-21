@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { login, reset } from "../../core/redux/features/auth/authSlice";
 
 import AddLine from "../../core/custom-components/AddLine";
-import {CircularProgress, Box, Avatar, Button, CssBaseline, Typography, Container, Paper}from "@mui/material";
+import { Avatar, Button, CssBaseline, Typography, Container, Paper }from "@mui/material";
 import {LockOutlined, Login, PersonAdd} from "@mui/icons-material";
 
 import {
@@ -90,12 +90,12 @@ const Auth = () => {
               <div className="forms-button-container">
                 <div className="form-button-left">
                   <Button variant="text" component={Link} to='/register' color="primary" size="small">
-                    {t("dontHaveAccount")}
+                    <p style={{fontSize: '70%', fontWeight: 'bold'}}>{t("dontHaveAccount")}</p>
                     <PersonAdd />
                   </Button>
                 </div>
                 <div className="form-button-right">
-                  <Button variant="contained" color="primary" type="submit">
+                  <Button variant="contained" style={{height: 50}} color="primary" type="submit">
                     {t("Login")}
                     <Login />
                   </Button>

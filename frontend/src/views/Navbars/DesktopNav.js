@@ -3,12 +3,23 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 
-import { logout, reset } from '../../core/redux/features/auth/authSlice'
+import { logout, reset } from "../../core/redux/features/auth/authSlice";
 
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Avatar, Tooltip, MenuItem, Divider, Container } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Tooltip,
+  MenuItem,
+  Divider,
+  Container,
+} from "@mui/material";
 
-import { Login, AccountBalanceWallet, Translate } from "@mui/icons-material";
-import MenuIcon from '@mui/icons-material/Menu'
+import { Login, AccountBalanceWallet, Translate, Person } from "@mui/icons-material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const DesktopNav = () => {
   const { t, i18n } = useTranslation();
@@ -79,7 +90,7 @@ const DesktopNav = () => {
             variant="h6"
             noWrap
             component={Link}
-            to='/'
+            to="/"
             sx={{
               mr: 2,
               flexGrow: 1,
@@ -149,7 +160,7 @@ const DesktopNav = () => {
             variant="h5"
             noWrap
             component={Link}
-            to='/'
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -187,12 +198,10 @@ const DesktopNav = () => {
                 <Tooltip title={t("Actions")}>
                   <IconButton
                     onClick={handleOpenUserMenu}
+                    color="inherit"
                     sx={{ marginRight: 2 }}
                   >
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/2.jpg"
-                    />
+                    <Person fontSize="large" />
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -212,7 +221,12 @@ const DesktopNav = () => {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={setting === 'Logout' ? onLogout : handleCloseUserMenu}>
+                    <MenuItem
+                      key={setting}
+                      onClick={
+                        setting === "Logout" ? onLogout : handleCloseUserMenu
+                      }
+                    >
                       <Typography textAlign="center">{t(setting)}</Typography>
                     </MenuItem>
                   ))}
@@ -223,7 +237,7 @@ const DesktopNav = () => {
           {!user && (
             <Box sx={{ flexGrow: 0 }}>
               <MenuItem component={Link} to="login">
-                <Login sx={{ marginRight: 1 }}/>
+                <Login sx={{ marginRight: 1 }} />
                 <Typography
                   variant={location.pathname === "login" ? "h5" : "h6"}
                   textAlign="center"

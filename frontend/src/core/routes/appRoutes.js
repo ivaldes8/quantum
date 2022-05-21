@@ -7,7 +7,6 @@ import Auth from "../../views/Auth/Auth";
 import Register from "../../views/Auth/Register";
 import Home from "../../views/Home/Home";
 import Investment from "../../views/Investment/Investment";
-// import InvestmentEdit from "../../views/Investment/InvestmenEdit";
 import Action from "../../views/Action/Action";
 import ActionEdit from "../../views/Action/ActionEdit";
 
@@ -36,15 +35,6 @@ const appRoutes = () => {
           </ProtectedRoute>
         }
       />
-      {/* <Route
-        path={routeNames.investmentEdit}
-        exact
-        element={
-          <ProtectedRoute>
-            <InvestmentEdit />
-          </ProtectedRoute>
-        }
-      /> */}
       <Route
         path={routeNames.action}
         exact
