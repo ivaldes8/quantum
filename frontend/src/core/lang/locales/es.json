@@ -34,6 +34,18 @@
   "investmentDeleted": "Inversión eliminada",
   "actionsOf": "Acciones de inversión en: ",
   "Description": "Descripción",
+  "actions": "Acciones",
+  "deposit": "Depositado",
+  "return": "Retorno",
+  "date": "Fecha",
+  "actionCreated": "Acción creada satisfactoriamente",
+  "actionUpdated": "Acción editada satisfactoriamente",
+  "actionDeleted": "Acción eliminada",
+  "CreateAction": "Crear acción",
+  "EditAction": "Editar acción",
+  "DeleteAction": "Eliminar acción",
+  "totals": "Totales",
+  "deleteActionConfirmation": "Seguro que desea eliminar esta acción?",
   "fieldError.email": "El email no es válido",
   "fieldError.required": "Este campo es obligatorio"
 }

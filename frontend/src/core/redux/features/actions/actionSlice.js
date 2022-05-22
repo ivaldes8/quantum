@@ -1,21 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import investmentService from "../../../services/investmentService";
+import actionService from "../../../services/actionService";
 
 const initialState = {
-  investments: [],
+  actions: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: "",
 };
 
-//Get user investments
-export const getInvestments = createAsyncThunk(
-  "investments/getAll",
-  async (_, thunkAPI) => {
+//Get user actions
+export const getActions = createAsyncThunk(
+  "actions/getAll",
+  async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await investmentService.getInvestments(token);
+      return await actionService.getActions(id, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -28,13 +28,19 @@ export const getInvestments = createAsyncThunk(
   }
 );
 
-//Create new investment
-export const createInvestment = createAsyncThunk(
-  "/investments/create",
-  async (investmentData, thunkAPI) => {
+//Create new action
+export const createAction = createAsyncThunk(
+  "/actions/create",
+  async (actionData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await investmentService.createInvestment(investmentData, token);
+      const toSend = {
+        amount: actionData.amount,
+        feedback: actionData.feedback,
+        date: actionData.date
+      }
+      const id = actionData.id;
+      return await actionService.createAction(toSend, id, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -47,17 +53,17 @@ export const createInvestment = createAsyncThunk(
   }
 );
 
-//Update a investment
-export const updateInvestment = createAsyncThunk(
-  "/investments/update",
-  async (investmentData, thunkAPI) => {
+//Update a action
+export const updateAction = createAsyncThunk(
+  "/actions/update",
+  async (actionData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      const investmentId = investmentData._id;
-      return await investmentService.updateInvestment(
-        investmentData,
+      const actionId = actionData._id;
+      return await actionService.updateAction(
+        actionData,
         token,
-        investmentId
+        actionId
       );
     } catch (error) {
       const message =
@@ -71,13 +77,13 @@ export const updateInvestment = createAsyncThunk(
   }
 );
 
-//Delete user investment
-export const deleteInvestment = createAsyncThunk(
-  "/investments/delete",
+//Delete user action
+export const deleteAction = createAsyncThunk(
+  "/actions/delete",
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await investmentService.deleteInvestment(id, token);
+      return await actionService.deleteAction(id, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -90,74 +96,75 @@ export const deleteInvestment = createAsyncThunk(
   }
 );
 
-export const investmentSlice = createSlice({
-  name: "investment",
+export const actionSlice = createSlice({
+  name: "action",
   initialState,
   reducers: {
     reset: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createInvestment.pending, (state) => {
+      .addCase(createAction.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createInvestment.fulfilled, (state, action) => {
+      .addCase(createAction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.investments.push(action.payload.investment);
+        state.actions.push(action.payload.action);
       })
-      .addCase(createInvestment.rejected, (state, action) => {
+      .addCase(createAction.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(updateInvestment.pending, (state) => {
+      .addCase(updateAction.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateInvestment.fulfilled, (state, action) => {
+      .addCase(updateAction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         let aux = [];
         // eslint-disable-next-line array-callback-return
-        state.investments.map((investment) => {
-          if (investment._id === action.payload._id) {
+        state.actions.map((a) => {
+          console.log(action.payload)
+          if (a._id === action.payload._id) {
             aux.push(action.payload);
           } else {
-            aux.push(investment);
+            aux.push(a);
           }
         });
-        state.investments = aux
+        state.actions = aux
       })
-      .addCase(updateInvestment.rejected, (state, action) => {
+      .addCase(updateAction.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(getInvestments.pending, (state) => {
+      .addCase(getActions.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getInvestments.fulfilled, (state, action) => {
+      .addCase(getActions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.investments = action.payload.investments;
+        state.actions = action.payload.actions;
       })
-      .addCase(getInvestments.rejected, (state, action) => {
+      .addCase(getActions.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
 
-      .addCase(deleteInvestment.pending, (state) => {
+      .addCase(deleteAction.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteInvestment.fulfilled, (state, action) => {
+      .addCase(deleteAction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.investments = state.investments.filter(
+        state.actions = state.actions.filter(
           (i) => i._id !== action.payload.id
         );
       })
-      .addCase(deleteInvestment.rejected, (state, action) => {
+      .addCase(deleteAction.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -165,5 +172,5 @@ export const investmentSlice = createSlice({
   },
 });
 
-export const { reset } = investmentSlice.actions;
-export default investmentSlice.reducer;
+export const { reset } = actionSlice.actions;
+export default actionSlice.reducer;

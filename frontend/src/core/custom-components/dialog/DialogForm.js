@@ -64,7 +64,7 @@ const DialogForm = ({
               {showActions && (
                 <DialogActions>
                   <Button onClick={onCloseModal}>{t('Cancel')}</Button>
-                  <Button disabled={disableSubmit} type="submit">
+                  <Button disabled={disableSubmit} variant="contained" type="submit">
                     {t(submitText)}
                   </Button>
                 </DialogActions>

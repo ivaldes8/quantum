@@ -59,7 +59,7 @@ const Investment = () => {
   };
 
   const handleOnSelect = (data) => {
-    navigate(`/investment/${data.name}`)
+    navigate(`/investment/${data.name}/${data._id}`)
   }
 
   const onCloseModal = () => {
