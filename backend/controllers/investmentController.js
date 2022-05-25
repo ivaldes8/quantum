@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 
 const Investment = require("../models/investmentModel");
+const Action = require("../models/actionModel")
 const User = require("../models/userModel");
 
 const getInvestments = asyncHandler(async (req, res) => {
@@ -61,6 +62,7 @@ const deleteInvestment = asyncHandler(async (req, res) => {
       res.status(401)
       throw new Error('User not authorized')
   }
+  await Action.deleteMany({investment: req.params.id})
 
   await investment.remove();
   res.status(200).json({ id: req.params.id });

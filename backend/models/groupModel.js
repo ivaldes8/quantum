@@ -7,11 +7,13 @@ const investmentSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
-    group: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "Group",
-    },
+    investments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Investment",
+      },
+    ],
     name: {
       type: String,
       unique: true,
@@ -20,13 +22,10 @@ const investmentSchema = mongoose.Schema(
     description: {
       type: String,
     },
-    refs: {
-      type: Number,
-    },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("Investment", investmentSchema);
+module.exports = mongoose.model("Group", investmentSchema);
