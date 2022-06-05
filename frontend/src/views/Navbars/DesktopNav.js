@@ -35,9 +35,9 @@ const DesktopNav = () => {
   const [anchorElLanguage, setAnchorElLanguage] = useState(null);
 
   const pages = [
-    { name: "Dashboard", route: "/dashboard" },
-    { name: "InvestmentIdeas", route: "/recomended" },
     { name: "Home", route: "/home" },
+    { name: "Dashboard", route: "/dashboard" }, 
+    { name: "InvestmentGroups", route: "/group" },
     { name: "Investments", route: "/investment" },
   ];
   const settings = ["Profile", "Logout"];

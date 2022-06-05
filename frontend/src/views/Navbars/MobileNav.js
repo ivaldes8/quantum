@@ -22,11 +22,11 @@ import {
   Logout,
   PieChart,
   Translate,
-  CurrencyExchange,
   TableChart,
   AccountBalanceWallet,
   Login,
   Person,
+  Home,
 } from "@mui/icons-material";
 
 const StyledFab = styled(Fab)({
@@ -100,8 +100,25 @@ const MobileNav = () => {
 
       <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }}>
         <Toolbar>
+
+          <Tooltip title={t("Home")} sx={{ marginLeft: -2 }}>
+            <IconButton
+              aria-label="open drawer"
+              component={Link}
+              to="/home"
+              color={
+                location.pathname.includes("/home") || location.pathname === "/"
+                  ? "secondary"
+                  : "inherit"
+              }
+            >
+              <Home fontSize="large" />
+            </IconButton>
+          </Tooltip>
+
+
           {user && (
-            <Tooltip title={t("Dashboard")} sx={{ marginLeft: -2 }}>
+            <Tooltip title={t("Dashboard")}>
               <IconButton
                 aria-label="open drawer"
                 component={Link}
@@ -118,36 +135,23 @@ const MobileNav = () => {
           )}
 
           {user && (
-            <Tooltip title={t("InvestmentIdeas")}>
+            <Tooltip title={t("InvestmentGroups")}>
               <IconButton
                 aria-label="open drawer"
                 component={Link}
-                to="/recomended"
+                to="/group"
                 color={
-                  location.pathname.includes("/recomended")
+                  location.pathname.includes("/group")
                     ? "secondary"
                     : "inherit"
                 }
               >
-                <CurrencyExchange fontSize="large" />
+                <PieChart fontSize="large" />
               </IconButton>
             </Tooltip>
           )}
 
-          <Tooltip title={t("Home")}>
-            <IconButton
-              aria-label="open drawer"
-              component={Link}
-              to="/home"
-              color={
-                location.pathname.includes("/home") || location.pathname === "/"
-                  ? "secondary"
-                  : "inherit"
-              }
-            >
-              <PieChart fontSize="large" />
-            </IconButton>
-          </Tooltip>
+
 
           <Tooltip title={t(user ? "Investments" : "Login")}>
             <StyledFab
