@@ -9,6 +9,16 @@ const getGroups = asyncHandler(async (req, res) => {
   res.status(200).json({ groups });
 });
 
+const getGroupById = asyncHandler(async (req, res) => {
+  const group = await Group.find({ user: req.user.id, _id: req.params.id }).populate({
+    path: 'investments',
+    populate: {
+      path: 'actions'
+    }
+  });
+  res.status(200).json({ group });
+});
+
 const createGroup = asyncHandler(async (req, res) => {
   const group = await Group.create({
     user: req.user.id,
@@ -69,6 +79,7 @@ const deleteGroup = asyncHandler(async (req, res) => {
 
 module.exports = {
   getGroups,
+  getGroupById,
   createGroup,
   updateGroup,
   deleteGroup,

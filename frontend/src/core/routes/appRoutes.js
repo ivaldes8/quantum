@@ -6,9 +6,13 @@ import ProtectedRoute from "./protectedRoute";
 import Auth from "../../views/Auth/Auth";
 import Register from "../../views/Auth/Register";
 import Home from "../../views/Home/Home";
+import Dashboard from "../../views/Dashboard/Dashboard"
+import NotFound from "../../views/404/404";
+import Group from "../../views/Group/Group"
 import Investment from "../../views/Investment/Investment";
-import Action from "../../views/Action/Action";
-import { Dashboard } from "@mui/icons-material";
+import InvestmentActions from "../../views/Investment/InvestmentActions";
+import GroupInvestments from "../../views/Group/GroupInvestments";
+
 
 
 const appRoutes = () => {
@@ -27,6 +31,24 @@ const appRoutes = () => {
           </ProtectedRoute>
         }
       />
+       <Route
+        path={routeNames.group}
+        exact
+        element={
+          <ProtectedRoute>
+            <Group />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routeNames.groupInvestmens}
+        exact
+        element={
+          <ProtectedRoute>
+            <GroupInvestments />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path={routeNames.investment}
         exact
@@ -41,11 +63,11 @@ const appRoutes = () => {
         exact
         element={
           <ProtectedRoute>
-            <Action />
+            <InvestmentActions />
           </ProtectedRoute>
         }
       />
-     <Route path="*" element={<Investment />} />
+     <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

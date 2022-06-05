@@ -5,12 +5,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import {
-  getInvestments,
+  getGroups,
   reset,
-  createInvestment,
-  updateInvestment,
-  deleteInvestment
-} from "../../core/redux/features/investments/investmentSlice";
+  createGroup,
+  updateGroup,
+  deleteGroup
+} from "../../core/redux/features/groups/groupSlice";
+
 import {
   composeValidators,
   required,
@@ -26,13 +27,16 @@ import DialogForm from "../../core/custom-components/dialog/DialogForm";
 import Loading from "../../core/custom-components/Loading";
 import DialogConfirmation from "../../core/custom-components/dialog/DialogConfirmation";
 
-const Investment = () => {
+
+
+const Group = () => {
+
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { investments, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.investment
+  const { groups, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.group
   );
 
   const [openModal, setOpenModal] = useState(false);
@@ -41,7 +45,7 @@ const Investment = () => {
   const [toEdit, setToEdit] = useState(null);
   const [toDelete, setToDelete] = useState(null);
 
-  const handleCreateInvestment = () => {
+  const handleCreateGroup = () => {
     setIsEdit(false);
     setToEdit(null);
     setOpenModal(true);
@@ -59,7 +63,8 @@ const Investment = () => {
   };
 
   const handleOnSelect = (data) => {
-    navigate(`/investment/${data.name}/${data._id}`)
+    console.log(data, 'data')
+    navigate(`/group/${data.name}/${data._id}`)
   }
 
   const onCloseModal = () => {
@@ -72,14 +77,14 @@ const Investment = () => {
 
   const submitModal = (data) => {
     if (isEdit) {
-      dispatch(updateInvestment(data));
+      dispatch(updateGroup(data));
       if (isSuccess && !isError) {
-        toast.success(t("investmentUpdated"));
+        toast.success(t("groupUpdated"));
       }
     } else {
-      dispatch(createInvestment(data));
+      dispatch(createGroup(data));
       if (isSuccess && !isError) {
-        toast.success(t("investmentCreated"));
+        toast.success(t("groupCreated"));
       }
     }
     setOpenModal(false);
@@ -87,14 +92,14 @@ const Investment = () => {
 
   const onDeleteModal = () => {
     setOpenConfModal(false)
-    dispatch(deleteInvestment(toDelete));
+    dispatch(deleteGroup(toDelete));
       if (isSuccess && !isError) {
-        toast.success(t("investmentDeleted"));
+        toast.success(t("groupDeleted"));
       }
   }
  
   useEffect(() => {
-    dispatch(getInvestments());
+    dispatch(getGroups());
     return () => {
       dispatch(reset());
     };
@@ -115,9 +120,9 @@ const Investment = () => {
       <AddLine />
       <Container>
         <Paper elevation={3}>
-          <Header title="Investments" onClickHandler={handleCreateInvestment} />
+          <Header title="investmentGroups" onClickHandler={handleCreateGroup} />
           <CardList
-            list={investments}
+            list={groups}
             onEditHandler={handleOnEdit}
             onDeleteHandler={handleOnDelete}
             onSelectHandler={handleOnSelect}
@@ -128,7 +133,7 @@ const Investment = () => {
       </Container>
       <AddLine />
       <DialogForm
-        title={isEdit ? "EditInvestment" : "CreateInvestment"}
+        title={isEdit ? "EditGroup" : "CreateGroup"}
         submitText={isEdit ? "Edit" : "Save"}
         openModal={openModal}
         onCloseModal={onCloseModal}
@@ -148,8 +153,8 @@ const Investment = () => {
         />
       </DialogForm>
       <DialogConfirmation
-        title="DeleteInvestment"
-        confirmationText="deleteInvestmentConfirmation"
+        title="DeleteGroup"
+        confirmationText="deleteGroupConfirmation"
         valueToShow={toDelete?.name ? toDelete.name : ""}
         openModal={openConfModal}
         onCloseModal={onCloseConfModal}
@@ -157,6 +162,6 @@ const Investment = () => {
       />
     </>
   );
-};
+}
 
-export default Investment;
+export default Group

@@ -5,7 +5,7 @@ const Action = require("../models/actionModel")
 const User = require("../models/userModel");
 
 const getInvestments = asyncHandler(async (req, res) => {
-  const investments = await Investment.find({ user: req.user.id });
+  const investments = await Investment.find({ user: req.user.id }).populate("actions");
   res.status(200).json({ investments });
 });
 
@@ -14,7 +14,8 @@ const createInvestment = asyncHandler(async (req, res) => {
     user: req.user.id,
     name: req.body.name,
     description: req.body.description,
-    ref: req.body.ref
+    ref: req.body.ref,
+    actions: req.body.actions,
   });
   if (!req.body.name) {
     res.status(400);

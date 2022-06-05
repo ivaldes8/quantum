@@ -10,7 +10,7 @@ const investmentSchema = mongoose.Schema(
     investments: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        required: false,
         ref: "Investment",
       },
     ],

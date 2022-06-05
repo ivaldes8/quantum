@@ -145,20 +145,22 @@ export default function EnhancedTable({
                         <TableCell key={cell} align="center">
                           {cell === "date"
                             ? moment(row[cell]).utc().format("DD-MM-YYYY")
-                            : cell === "feedback" || cell === "amount"
+                            : cell === "feedback" || cell === "amount" || cell === "deposit"
                             ? Format.formatCurrency(row[cell])
                             : row[cell]}
                         </TableCell>
                       );
                     })}
-                    <TableCell align="center">
-                      <IconButton color="primary" onClick={() => handleEdit(row)}>
-                        <Edit />
-                      </IconButton>
-                      <IconButton sx={{ ml: 1 }} color="error" onClick={() => handleDelete(row)}>
-                        <Delete />
-                      </IconButton>
-                    </TableCell>
+                    { actions && 
+                      <TableCell align="center">
+                       <IconButton color="primary" onClick={() => handleEdit(row)}>
+                         <Edit />
+                       </IconButton>
+                       <IconButton sx={{ ml: 1 }} color="error" onClick={() => handleDelete(row)}>
+                         <Delete />
+                       </IconButton>
+                     </TableCell>
+                    }
                   </TableRow>
                 );
               })}

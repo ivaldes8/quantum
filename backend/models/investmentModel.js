@@ -9,7 +9,7 @@ const investmentSchema = mongoose.Schema(
     },
     group: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: false,
       ref: "Group",
     },
     name: {
@@ -20,6 +20,13 @@ const investmentSchema = mongoose.Schema(
     description: {
       type: String,
     },
+    actions: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        ref: "Action",
+      },
+    ],
     refs: {
       type: Number,
     },

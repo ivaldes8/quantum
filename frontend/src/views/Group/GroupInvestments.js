@@ -5,13 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 
-import {
-  getActions,
-  reset,
-  createAction,
-  updateAction,
-  deleteAction,
-} from "../../core/redux/features/actions/actionSlice";
+import { getGroup, reset, updateGroup } from "../../core/redux/features/groups/groupSlice";
 
 import Format from "../../core/formats/Format";
 import DialogForm from "../../core/custom-components/dialog/DialogForm";
@@ -28,28 +22,41 @@ import { Container, Divider, Paper, Typography } from "@mui/material";
 import TextDatePicker from "../../core/custom-components/form-elements/TextDatePicker/index";
 import DialogConfirmation from "../../core/custom-components/dialog/DialogConfirmation";
 
-const Action = () => {
+const GroupInvestments = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { actions, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.action
+  const { currentGroup, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.group
   );
 
   const { id, name } = useParams();
 
+  // const [investments, setInvestments] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [openConfModal, setOpenConfModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [toEdit, setToEdit] = useState(null);
   const [toDelete, setToDelete] = useState(null);
 
-  const actionTableColumns = [
+  const investmentTableColumns = [
     {
-      id: "amount",
-      numeric: true,
+      id: "name",
+      numeric: false,
       disablePadding: true,
+      label: "name",
+    },
+    {
+      id: "description",
+      numeric: false,
+      disablePadding: false,
+      label: "Description",
+    },
+    {
+      id: "deposit",
+      numeric: true,
+      disablePadding: false,
       label: "deposit",
     },
     {
@@ -58,15 +65,9 @@ const Action = () => {
       disablePadding: false,
       label: "return",
     },
-    {
-      id: "date",
-      numeric: true,
-      disablePadding: false,
-      label: "date",
-    },
   ];
 
-  const actionCells = ["amount", "feedback", "date"];
+  const investmentCells = ["name", "description", "deposit", "feedback"];
 
   const handleCreateAction = () => {
     setIsEdit(false);
@@ -99,13 +100,13 @@ const Action = () => {
 
   const submitModal = (data) => {
     if (isEdit) {
-      dispatch(updateAction(data));
+      //   dispatch(updateAction(data));
       if (isSuccess && !isError) {
         toast.success(t("actionUpdated"));
       }
     } else {
       const toSend = { ...data, id };
-      dispatch(createAction(toSend));
+      //   dispatch(createAction(toSend));
       if (isSuccess && !isError) {
         toast.success(t("actionCreated"));
       }
@@ -115,18 +116,37 @@ const Action = () => {
 
   const onDeleteModal = () => {
     setOpenConfModal(false);
-    dispatch(deleteAction(toDelete));
+    // dispatch(deleteAction(toDelete));
     if (isSuccess && !isError) {
       toast.success(t("actionDeleted"));
     }
   };
 
+  const getDeposit = (actions) => {
+    let amount = 0;
+    actions.map((a) => {
+        amount += a.amount;
+      })
+    return amount;
+  };
+
+  const getFeedBack = (actions) => {
+    let feedBack = 0;
+    actions.map((a) => {
+        feedBack += a.feedback;
+      })
+    return feedBack;
+  };
+
   const calculateTotals = (list) => {
     let amount = 0;
     let feedBack = 0;
-    list.map((list) => {
-      amount += list.amount;
-      feedBack += list.feedback;
+    list.map((i) => {
+      i.actions.map((a) => {
+        amount += a.amount;
+        feedBack += a.feedback;
+      })
+      
     });
     return ` ${t("totals")}: ${Format.formatCurrency(
       amount
@@ -134,16 +154,35 @@ const Action = () => {
   };
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    dispatch(getActions(id));
+    dispatch(getGroup(id));
+    console.log(currentGroup, 'CG')
     return () => {
       dispatch(reset());
     };
-  }, [isError, message, navigate, dispatch]);
+  }, [navigate, dispatch, id]);
 
-  if (isLoading) {
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+  }, [isError, message])
+
+  // useEffect(() => {
+  //   if(currentGroup.length > 0){
+  //     let auxArr = []
+
+  //     currentGroup[0].investments.map((i, index) => {
+  //       i = { ...i, deposit: getDeposit(i.actions), feedback: getFeedBack(i.actions) }
+  //       auxArr.push(i)
+  //     })
+
+  //     setInvestments(auxArr)
+  //     console.log(auxArr, investments, 'Investments5847')
+  //   }
+  // }, currentGroup)
+
+
+  if (isLoading || currentGroup.length === 0) {
     return <Loading />;
   }
 
@@ -152,20 +191,19 @@ const Action = () => {
       <AddLine />
       <Container>
         <Paper elevation={3}>
-          <Header title={name} onClickHandler={handleCreateAction} goBack={true}/>
-
+          <Header title={name} create={false} goBack={true} />
           <Typography variant="h6" sx={{ width: "100%", mb: 1, pl: 5 }}>
-            {calculateTotals(actions)}
+            {calculateTotals(currentGroup)}
             <Divider />
           </Typography>
-
-          <Table
-            columns={actionTableColumns}
-            rows={actions}
-            cells={actionCells}
-            handleEdit={handleOnEdit}
-            handleDelete={handleOnDelete}
-          />
+          {currentGroup.length > 0 &&
+            <Table
+              columns={investmentTableColumns}
+              rows={currentGroup}
+              cells={investmentCells}
+              actions={false}
+            />
+          }
         </Paper>
       </Container>
       <AddLine />
@@ -208,4 +246,4 @@ const Action = () => {
   );
 };
 
-export default Action;
+export default GroupInvestments;

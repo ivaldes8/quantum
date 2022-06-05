@@ -47,5 +47,13 @@
   "totals": "Totals",
   "deleteActionConfirmation": "Are you should that you want to delete this action?",
   "fieldError.email": "This is not a valid email",
-  "fieldError.required": "This field es required"
+  "fieldError.required": "This field es required",
+  "groupUpdated": "Group updated succefully",
+  "groupCreated": "Group created succefully",
+  "groupDeleted": "Group deleted",
+  "investmentGroups": "Investment groups",
+  "EditGroup": "Edit group",
+  "CreateGroup": "Create group",
+  "deleteGroupConfirmation": "Are you should that you want to delete this group?",
+  "DeleteGroup": "Delete group"
 }
