@@ -49,7 +49,6 @@ export const getGroups = createAsyncThunk(
 export const getGroup = createAsyncThunk(
   "groups/get",
   async (id, thunkAPI ) => {
-    console.log(id, 'LOL')
     try {
       const token = thunkAPI.getState().auth.user.token;
       return await groupService.getGroup(token, id);

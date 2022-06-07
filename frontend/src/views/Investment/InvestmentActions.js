@@ -122,11 +122,9 @@ const InvestmentActions = () => {
   };
 
   const calculateTotals = (list) => {
-    console.log(list, "LIST")
     let amount = 0;
     let feedBack = 0;
     list.map((l) => {
-      console.log(l, 'L')
       amount += l.amount;
       feedBack += l.feedback;
     });

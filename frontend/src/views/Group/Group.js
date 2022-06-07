@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
+import _ from 'lodash';
+
 import {
   getGroups,
   reset,
@@ -12,14 +14,15 @@ import {
   deleteGroup
 } from "../../core/redux/features/groups/groupSlice";
 
+import { getInvestments } from "../../core/redux/features/investments/investmentSlice";
+
 import {
   composeValidators,
   required,
 } from "../../core/custom-components/validations/InputErrors";
 
 import TextField from "../../core/custom-components/form-elements/TextField";
-
-import { Container, Paper } from "@mui/material";
+import Select from "../../core/custom-components/form-elements/SelectMulti/index"
 import AddLine from "../../core/custom-components/AddLine";
 import CardList from "../../core/custom-components/cardList/cardList";
 import Header from "../../core/custom-components/Header";
@@ -27,6 +30,7 @@ import DialogForm from "../../core/custom-components/dialog/DialogForm";
 import Loading from "../../core/custom-components/Loading";
 import DialogConfirmation from "../../core/custom-components/dialog/DialogConfirmation";
 
+import { Container, Paper } from "@mui/material";
 
 
 const Group = () => {
@@ -37,6 +41,10 @@ const Group = () => {
 
   const { groups, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.group
+  );
+
+  const { investments } = useSelector(
+    (state) => state.investment
   );
 
   const [openModal, setOpenModal] = useState(false);
@@ -63,7 +71,6 @@ const Group = () => {
   };
 
   const handleOnSelect = (data) => {
-    console.log(data, 'data')
     navigate(`/group/${data.name}/${data._id}`)
   }
 
@@ -76,13 +83,21 @@ const Group = () => {
   };
 
   const submitModal = (data) => {
+
+    const toSend = {
+      _id: data._id,
+      name: data.name,
+      description: data.description,
+      investments: data.investments.map((i) => i._id)
+    }
+
     if (isEdit) {
-      dispatch(updateGroup(data));
+      dispatch(updateGroup(toSend));
       if (isSuccess && !isError) {
         toast.success(t("groupUpdated"));
       }
     } else {
-      dispatch(createGroup(data));
+      dispatch(createGroup(toSend));
       if (isSuccess && !isError) {
         toast.success(t("groupCreated"));
       }
@@ -93,12 +108,13 @@ const Group = () => {
   const onDeleteModal = () => {
     setOpenConfModal(false)
     dispatch(deleteGroup(toDelete));
-      if (isSuccess && !isError) {
-        toast.success(t("groupDeleted"));
-      }
+    if (isSuccess && !isError) {
+      toast.success(t("groupDeleted"));
+    }
   }
- 
+
   useEffect(() => {
+    dispatch(getInvestments());
     dispatch(getGroups());
     return () => {
       dispatch(reset());
@@ -114,6 +130,8 @@ const Group = () => {
   if (isLoading) {
     return <Loading />;
   }
+
+
 
   return (
     <>
@@ -151,6 +169,13 @@ const Group = () => {
           multiline
           validate={composeValidators(required)}
         />
+
+        <Select
+          field="investments"
+          label="Investments"
+          options={investments}
+        />
+
       </DialogForm>
       <DialogConfirmation
         title="DeleteGroup"

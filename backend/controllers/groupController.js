@@ -25,6 +25,11 @@ const createGroup = asyncHandler(async (req, res) => {
     investments: req.body.investments,
     name: req.body.name,
     description: req.body.description
+  }).populate({
+    path: 'investments',
+    populate: {
+      path: 'actions'
+    }
   });
   if (!req.body.name) {
     res.status(400);
@@ -40,18 +45,23 @@ const updateGroup = asyncHandler(async (req, res) => {
     throw new Error("Group not found");
   }
 
-  if(!req.user){
-      res.status(401)
-      throw new Error('User not found')
+  if (!req.user) {
+    res.status(401)
+    throw new Error('User not found')
   }
 
-  if(group.user.toString() !== req.user.id){
-      res.status(401)
-      throw new Error('User not authorized')
+  if (group.user.toString() !== req.user.id) {
+    res.status(401)
+    throw new Error('User not authorized')
   }
 
   const updatedGroup = await Group.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
+  }).populate({
+    path: 'investments',
+    populate: {
+      path: 'actions'
+    }
   });
   res.status(200).json(updatedGroup);
 });
@@ -63,14 +73,14 @@ const deleteGroup = asyncHandler(async (req, res) => {
     throw new Error("Group not found");
   }
 
-  if(!req.user){
-      res.status(401)
-      throw new Error('User not found')
+  if (!req.user) {
+    res.status(401)
+    throw new Error('User not found')
   }
 
-  if(group.user.toString() !== req.user.id){
-      res.status(401)
-      throw new Error('User not authorized')
+  if (group.user.toString() !== req.user.id) {
+    res.status(401)
+    throw new Error('User not authorized')
   }
 
   await group.remove();
