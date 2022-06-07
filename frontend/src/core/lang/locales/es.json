@@ -55,5 +55,7 @@
   "EditGroup": "Editar grupo",
   "CreateGroup": "Crear grupo",
   "deleteGroupConfirmation": "Seguro que desea eliminar este grupo?",
-  "DeleteGroup": "Eliminar grupo"
+  "DeleteGroup": "Eliminar grupo",
+  "noGroup": "No se encontraron Grupos de inversión",
+  "noData": "No se encontraron datos"
 }

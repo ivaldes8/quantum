@@ -146,6 +146,7 @@ const Group = () => {
             onSelectHandler={handleOnSelect}
             titleKey="name"
             descKey="description"
+            noDataText="noGroup"
           />
         </Paper>
       </Container>
