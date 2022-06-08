@@ -1,8 +1,8 @@
 import React from 'react'
 
-const AddLine = () => {
+const AddLine = ({color='transparent'}) => {
   return (
-    <div>
+    <div style={{background: color}}>
         <br/>
         <br/>
         <br/>

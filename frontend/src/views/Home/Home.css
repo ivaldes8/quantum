@@ -1,0 +1,41 @@
+body {
+    background-color: transparent;
+}
+
+.white {
+    background: #fafafa;
+}
+
+.whiteBlue {
+    background: #c9dfff;
+}
+
+.midBlue {
+    background: #85b3f8;
+}
+
+.blue {
+    background: #2464c7;
+}
+
+.spacer {
+    aspect-ratio: 960/300;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin:0;
+    padding-top:0;
+}
+
+.layer2 {
+    background-image: url('./wave-haikei3.svg');
+}
+
+.layer1 {
+    background-image: url('./layered-waves-haikei.svg');
+}
+
+.layer0 {
+    background-image: url('./wave-haikei2.svg');
+}

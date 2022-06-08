@@ -6,8 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, reset } from "../../core/redux/features/auth/authSlice";
 
+import './Auth.css';
+
 import AddLine from "../../core/custom-components/AddLine";
-import { Avatar, Button, CssBaseline, Typography, Container, Paper }from "@mui/material";
+import { Avatar, Button, Typography, Container, Paper }from "@mui/material";
 import {LockOutlined, Login, PersonAdd} from "@mui/icons-material";
 
 import {
@@ -51,15 +53,15 @@ const Auth = () => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container className="spacer layer" component="main" maxWidth="xs">
        <AddLine />
-      <CssBaseline />
       <Paper
         sx={{
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          backgroundColor: 'rgba(252, 252, 252, 0.4)'
         }}
         elevation={3}
       >

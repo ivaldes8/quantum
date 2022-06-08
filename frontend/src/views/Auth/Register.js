@@ -6,16 +6,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { register, reset } from "../../core/redux/features/auth/authSlice";
 
+import "./Auth.css";
+
 import {
   Avatar,
   Button,
-  CssBaseline,
   Typography,
   Container,
   Paper,
 } from "@mui/material";
 import { LockOutlined, Login, PersonAdd } from "@mui/icons-material";
 
+import AddLine from "../../core/custom-components/AddLine";
 import {
   composeValidators,
   email,
@@ -53,14 +55,15 @@ const Register = () => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
+    <Container className="spacer layer" component="main" maxWidth="xs">
+      <AddLine />
       <Paper
         sx={{
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          backgroundColor: 'rgba(252, 252, 252, 0.4)'
         }}
         elevation={3}
       >
@@ -124,6 +127,7 @@ const Register = () => {
           )}
         />
       </Paper>
+      <AddLine />
     </Container>
   );
 };
