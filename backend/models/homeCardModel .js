@@ -4,14 +4,14 @@ const homeCardSchema = mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, "Please add a title"],
     },
     description: {
       type: String,
     },
     img: {
       type: String,
-      required: true,
+      required: false,
     }
   },
   {

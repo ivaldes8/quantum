@@ -1,5 +1,6 @@
 const path = require('path')
 const express = require('express')
+const bodyParser = require('body-parser')
 const dotenv = require('dotenv').config()
 const {errorHandler} = require('./middlewares/errorMiddleware')
 const connectDB = require('./config/db')
@@ -9,10 +10,12 @@ connectDB()
 
 const app = express()
 
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.json({limit: "5mb", extended: true}))
+app.use(express.urlencoded({limit: "5mb", extended: true}))
 
 app.use('/api/users', require('./routes/userRoutes'))
+app.use('/api/home', require('./routes/homeRoutes'))
+app.use('/api/homeCards', require('./routes/homeCardRoutes'))
 app.use('/api/groups', require('./routes/groupRoutes'))
 app.use('/api/investments', require('./routes/investmentRoutes'))
 app.use('/api/actions', require('./routes/actionRoutes'))

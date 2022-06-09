@@ -4,12 +4,12 @@ const actionSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: [true, "Please add a user"],
       ref: "User",
     },
     investment: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: [true, "Please add a investment"],
       ref: "Investment",
     },
     amount: {

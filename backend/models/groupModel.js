@@ -4,7 +4,7 @@ const investmentSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: [true, "Please add a user"],
       ref: "User",
     },
     investments: [

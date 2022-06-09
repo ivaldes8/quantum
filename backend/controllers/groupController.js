@@ -20,21 +20,25 @@ const getGroupById = asyncHandler(async (req, res) => {
 });
 
 const createGroup = asyncHandler(async (req, res) => {
-  const group = await Group.create({
+  if (!req.body.name) {
+    res.status(400);
+    throw new Error("Please add a name at lease");
+  }
+
+  const storageGroup = await Group.create({
     user: req.user.id,
     investments: req.body.investments,
     name: req.body.name,
     description: req.body.description
-  }).populate({
+  });
+
+  const group = await Group.findById(storageGroup._id).populate({
     path: 'investments',
     populate: {
       path: 'actions'
     }
   });
-  if (!req.body.name) {
-    res.status(400);
-    throw new Error("Please add a name at lease");
-  }
+
   res.status(200).json({ group });
 });
 

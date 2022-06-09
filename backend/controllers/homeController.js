@@ -1,11 +1,11 @@
 const asyncHandler = require("express-async-handler");
 
 const User = require("../models/userModel");
-const Home = require("../models/homeModel");
+const Home = require("../models/homeModel ");
 
 const getHome = asyncHandler(async (req, res) => {
   
-  const home = await Home.find({}).populate("homeCards")
+  const home = await Home.find({}).populate("cards")
 
   res.status(200).json({ home });
 });
@@ -56,9 +56,11 @@ const createHome = asyncHandler(async (req, res) => {
     portafolio: req.body.portafolio,
     email: req.body.email,
     cards: req.body.cards
-  }).populate("homeCards");
+  });
 
-  res.status(200).json({ home });
+  const resHome = await Home.findById(home._id).populate("cards");
+
+  res.status(200).json({ resHome });
 });
 
 const updateHome = asyncHandler(async (req, res) => {
@@ -80,7 +82,7 @@ const updateHome = asyncHandler(async (req, res) => {
 
   const updatedHome = await Home.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
-  });
+  }).populate("cards");
 
   res.status(200).json(updatedHome);
 });
