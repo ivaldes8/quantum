@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import routeNames from "./routeNames";
 import ProtectedRoute from "./protectedRoute";
+import ProtectedAdmin from "./protectedAdmin";
 
 import Auth from "../../views/Auth/Auth";
 import Register from "../../views/Auth/Register";
@@ -12,7 +13,8 @@ import Group from "../../views/Group/Group"
 import Investment from "../../views/Investment/Investment";
 import InvestmentActions from "../../views/Investment/InvestmentActions";
 import GroupInvestments from "../../views/Group/GroupInvestments";
-
+import UserManagement from "../../views/User/UserManagement";
+import HomeManagement from "../../views/HomeManagement/HomeManagement";
 
 
 const appRoutes = () => {
@@ -65,6 +67,24 @@ const appRoutes = () => {
           <ProtectedRoute>
             <InvestmentActions />
           </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routeNames.userAdmin}
+        exact
+        element={
+          <ProtectedAdmin>
+            <UserManagement />
+          </ProtectedAdmin>
+        }
+      />
+      <Route
+        path={routeNames.homeAdmin}
+        exact
+        element={
+          <ProtectedAdmin>
+            <HomeManagement />
+          </ProtectedAdmin>
         }
       />
      <Route path="*" element={<NotFound />} />

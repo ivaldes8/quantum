@@ -79,7 +79,7 @@ const Home = () => {
           },
         }}
       >
-        <Paper style={{backgroundColor: 'rgba(252, 252, 252, 0.1)'}} data-aos="fade-left" elevation={3}>
+        <Paper style={{backgroundColor: 'rgba(252, 252, 252, 0.1)'}} data-aos="fade-right" elevation={3}>
           <Typography variant="h6" opacity={1} >Section3</Typography>
         </Paper>
 

@@ -57,5 +57,7 @@
   "deleteGroupConfirmation": "Are you should that you want to delete this group?",
   "DeleteGroup": "Delete group",
   "noGroup": "No Investment groups was found",
-  "noData": "No data was found"
+  "noData": "No data was found",
+  "usersManagment": "Users management",
+  "homeManagment": "Home management"
 }
