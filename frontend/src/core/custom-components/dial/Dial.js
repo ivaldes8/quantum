@@ -20,13 +20,13 @@ const Dial = () => {
     ];
 
     return (
-        <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1, position: 'fixed', top: 80, right: 10 }}>
+        <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1, position: 'fixed', bottom: -55, right: 20 }}>
             {user && user.role === 'Admin' &&
                 <SpeedDial
                     ariaLabel="SpeedDial basic example"
                     sx={{ position: 'static', bottom: 16, right: 16 }}
                     icon={<Build />}
-                    direction="down"
+                    direction="up"
                 >
                     {actions.map((action) => (
                         <SpeedDialAction
