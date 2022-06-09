@@ -47,7 +47,7 @@ const createHome = asyncHandler(async (req, res) => {
     throw new Error('User not authorized')
   }
 
-  const home = await Home.create({
+  const storageHome = await Home.create({
     aboutTitle: req.body.aboutTitle,
     aboutDescription: req.body.aboutDescription,
     fraseTitle: req.body.fraseTitle,
@@ -58,9 +58,9 @@ const createHome = asyncHandler(async (req, res) => {
     cards: req.body.cards
   });
 
-  const resHome = await Home.findById(home._id).populate("cards");
+  const home = await Home.findById(storageHome._id).populate("cards");
 
-  res.status(200).json({ resHome });
+  res.status(200).json({ home });
 });
 
 const updateHome = asyncHandler(async (req, res) => {
