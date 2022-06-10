@@ -70,7 +70,7 @@ const Home = () => {
               '& > :not(style)': {
                 m: 1,
                 width: '90%',
-                height: 200,
+                height: '100%',
               },
             }}
           >
@@ -126,7 +126,7 @@ const Home = () => {
               '& > :not(style)': {
                 m: 1,
                 width: '90%',
-                height: 200,
+                height: '100%',
               },
             }}
           >
