@@ -20,7 +20,7 @@ const Dial = () => {
     ];
 
     return (
-        <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1, position: 'fixed', bottom: -55, right: 20 }}>
+        <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1, position: 'fixed', bottom: -55, right: 20, zIndex:1000 }}>
             {user && user.role === 'Admin' &&
                 <SpeedDial
                     ariaLabel="SpeedDial basic example"

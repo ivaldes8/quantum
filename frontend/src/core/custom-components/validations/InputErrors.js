@@ -45,6 +45,10 @@ const validUrl = ( val ) => {
   return null;
 };
 
+const fileSizeLess250 = ( val ) => {
+  return val && val.toString().length < 250000 ? null : 'fieldError.sizeLess250';
+};
+
 const validZip = val => ( val && /^\d{4,5}(?:-\d{4})?$/.test( val ) ? null : 'This is not a valid zip' );
 
 const composeValidators = ( ...validators ) => ( value, values ) => (
@@ -63,6 +67,7 @@ export {
   passwordWeakValidation,
   validUrl,
   validZip,
+  fileSizeLess250,
   greaterOrEqualValue,
   lessOrEqualValue,
   lessOrEqualThanValue,

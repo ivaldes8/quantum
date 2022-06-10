@@ -16,6 +16,7 @@ const index = ({ field,
     intl,
     marginContainer = true,
     options,
+    selectkey="name",
     ...rest }) => (
     <Field
         name={field}
@@ -23,6 +24,7 @@ const index = ({ field,
         validate={validate}
         styling="field"
         options = {options}
+        selectkey={selectkey}
         multiple={true}
         component={MultiSelect}
         

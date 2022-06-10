@@ -17,8 +17,7 @@ import cardImage from "./istockphoto-840202842-170667a.jpg";
 const CardComponent = (props) => {
   const { t } = useTranslation();
 
-  const { title, description, editable, deleteable, clickeable, element, onEdit, onDelete, onSelect } = props;
-
+  const { title, description, img, editable, deleteable, clickeable, element, onEdit, onDelete, onSelect } = props;
   return (
     <Card sx={{ maxWidth: 250 }}>
       {clickeable ? (
@@ -27,7 +26,7 @@ const CardComponent = (props) => {
             <CardMedia
               component="img"
               height="140"
-              image={cardImage}
+              image={img ? img : cardImage}
               alt="green iguana"
             />
             <CardContent>
@@ -69,7 +68,7 @@ const CardComponent = (props) => {
           <CardMedia
             component="img"
             height="140"
-            image={cardImage}
+            image={img ? img : cardImage}
             alt="green iguana"
           />
           <CardContent>
@@ -85,21 +84,24 @@ const CardComponent = (props) => {
             )}
           </CardContent>
           {(editable || deleteable) && (
-            <CardActions>
-              {editable && (
-                <Button size="small" onClick={() => onEdit(element)} color="primary">
-                  {t("Edit")}
-                  <Edit />
-                </Button>
-              )}
+            <>
+              <Divider />
+              <CardActions >
+                {editable && (
+                  <Button size="small" onClick={() => onEdit(element)} sx={{ flexGrow: 1 }} color="primary">
+                    {t("Edit")}
+                    <Edit />
+                  </Button>
+                )}
 
-              {deleteable && (
-                <Button size="small" onClick={() => onDelete(element)} color="danger">
-                  {t("Delete")}
-                  <Delete />
-                </Button>
-              )}
-            </CardActions>
+                {deleteable && (
+                  <Button size="small" onClick={() => onDelete(element)} sx={{ flexGrow: 1 }} color="error">
+                    {t("Delete")}
+                    <Delete />
+                  </Button>
+                )}
+              </CardActions>
+            </>
           )}
         </>
       )}

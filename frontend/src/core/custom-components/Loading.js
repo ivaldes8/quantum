@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from "@mui/material";
 import React from "react";
 
-const Loading = () => {
+const Loading = ({w="100%", h="100%"}) => {
   return (
     <Box
       sx={{
@@ -9,8 +9,8 @@ const Loading = () => {
         flexDirection: "column",
         alignItems: "center",
         position: "absolute",
-        width: "100%",
-        height: "100%",
+        width: w,
+        height: h,
         justifyContent: "center"
       }}
     >

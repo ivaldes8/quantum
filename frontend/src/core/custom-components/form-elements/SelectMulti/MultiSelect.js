@@ -1,6 +1,7 @@
 import React from "react";
 import _ from 'lodash';
-import { Checkbox, ListItemText, Box, InputLabel, MenuItem, FormControl, Select, Chip } from "@mui/material";
+import { Checkbox, ListItemText, Box, InputLabel, MenuItem, FormControl, Select, Chip, FormHelperText } from "@mui/material";
+import i18n from "../../../lang/i18nextConf";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -18,7 +19,7 @@ export default ({
   meta,
   ...rest
 }) => (
-  <FormControl sx={{ m: 1 }} fullWidth>
+  <FormControl sx={{ m: 1 }} error={meta.touched && !!meta.error} fullWidth>
     <InputLabel>{rest.label}</InputLabel>
     <Select
       MenuProps={MenuProps}
@@ -35,7 +36,7 @@ export default ({
           {selected.map((val) => (
             <Chip key={val._id}
               value={val}
-              label={val.name}
+              label={val[`${rest.selectkey}`]}
               className="multi-select-chip" />
           ))}
         </Box>
@@ -44,10 +45,12 @@ export default ({
       {_.uniqBy(_.concat(value, rest.options), '_id').map((v) => (
         <MenuItem key={v._id} value={v}>
           <Checkbox checked={_.find(value, { '_id': v._id }) ? true : false} />
-          <ListItemText primary={v.name} />
+          <ListItemText primary={v[`${rest.selectkey}`]} />
         </MenuItem>
       ))}
     </Select>
-
+    {meta.touched && meta.error && (
+      <FormHelperText>{i18n.t(meta.error)}</FormHelperText>
+    )}
   </FormControl>
 )
