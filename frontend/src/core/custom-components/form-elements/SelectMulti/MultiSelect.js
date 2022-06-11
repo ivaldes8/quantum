@@ -42,7 +42,7 @@ export default ({
         </Box>
       )}
     >
-      {_.uniqBy(_.concat(value, rest.options), '_id').map((v) => (
+      {rest.options && _.uniqBy(value === '' ? rest.options : _.concat(value, rest.options), '_id').map((v) => (
         <MenuItem key={v._id} value={v}>
           <Checkbox checked={_.find(value, { '_id': v._id }) ? true : false} />
           <ListItemText primary={v[`${rest.selectkey}`]} />

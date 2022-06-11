@@ -61,7 +61,7 @@ const GroupInvestments = () => {
         amount += a.amount;
         feedBack += a.feedback;
       })
-      
+
     });
     return ` ${t("totals")}: ${Format.formatCurrency(
       amount
@@ -81,7 +81,7 @@ const GroupInvestments = () => {
     }
   }, [isError, message])
 
-  if (isLoading || currentGroup.length === 0) {
+  if (isLoading) {
     return <Loading />;
   }
 
@@ -91,18 +91,26 @@ const GroupInvestments = () => {
       <Container>
         <Paper elevation={3}>
           <Header title={name} create={false} goBack={true} />
-          <Typography variant="h6" sx={{ width: "100%", mb: 1, pl: 5 }}>
-            {calculateTotals(currentGroup)}
-            <Divider />
-          </Typography>
-          {currentGroup.length > 0 &&
-            <Table
-              columns={investmentTableColumns}
-              rows={currentGroup}
-              cells={investmentCells}
-              actions={false}
-            />
-          }
+          {currentGroup.length > 0 ? (
+            <>
+              <Typography variant="h6" sx={{ width: "100%", mb: 1, pl: 5 }}>
+                {calculateTotals(currentGroup)}
+                <Divider />
+              </Typography>
+
+              <Table
+                columns={investmentTableColumns}
+                rows={currentGroup}
+                cells={investmentCells}
+                actions={false}
+              />
+            </>
+          ) : (
+            <Typography variant="h6" sx={{ width: "100%", mb: 1, pl: 5, textAlign: 'center' }}>
+              {t('noData')}
+              <Divider />
+            </Typography>
+          )}
         </Paper>
       </Container>
       <AddLine />

@@ -83,12 +83,12 @@ const Group = () => {
   };
 
   const submitModal = (data) => {
-
+    console.log(data, 'Data')
     const toSend = {
       _id: data._id,
       name: data.name,
       description: data.description,
-      investments: data.investments.map((i) => i._id)
+      investments: data.investments ? data.investments.map((i) => i._id) : []
     }
 
     if (isEdit) {
