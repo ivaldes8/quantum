@@ -139,13 +139,13 @@ const HomeCardManagement = () => {
                 <TextField
                     field="description"
                     label="Description"
+                    rows={5}
                     multiline
                     validate={composeValidators(required)}
                 />
                 <FileFieldInput
                     field="img"
                     label="Image"
-                    multiline
                     validate={composeValidators(fileSizeLess250)}
                 />
             </DialogForm>

@@ -232,6 +232,7 @@ const HomeManagement = () => {
         <TextField
           field="aboutDescription"
           label="aboutDescription"
+          rows={5}
           multiline
         />
         <TextField
@@ -242,6 +243,7 @@ const HomeManagement = () => {
         <TextField
           field="fraseDescription"
           label="fraseDescription"
+          rows={5}
           multiline
         />
         <TextField

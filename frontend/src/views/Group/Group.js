@@ -167,6 +167,7 @@ const Group = () => {
         <TextField
           field="description"
           label="Description"
+          rows={5}
           multiline
           validate={composeValidators(required)}
         />
