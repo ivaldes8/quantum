@@ -49,6 +49,7 @@
   "fieldError.email": "This is not a valid email",
   "fieldError.required": "This field es required",
   "fieldError.sizeLess250": "The file must be less than 250kb",
+  "fieldError.validRole": "Please fill a valid role: Admin/User",
   "groupUpdated": "Group updated succefully",
   "groupCreated": "Group created succefully",
   "groupDeleted": "Group deleted",
@@ -80,5 +81,12 @@
   "profileUpdated": "Profile updated succefully",
   "userProfile": "User profile",
   "EditProfile": "Edit profile",
-  "role": "Role"
+  "role": "Role",
+  "userUpdated": "User updated succefully",
+  "userCreated": "User created succefully",
+  "userDeleted": "User deleted succefully",
+  "EditUser": "Edit user",
+  "CreateUser": "Create User",
+  "DeleteUser": "Delete User",
+  "deleteUserConfirmation": "Are you should that you want to delete this user?"
 }

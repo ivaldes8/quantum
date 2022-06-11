@@ -13,6 +13,7 @@ import {
 import {
   composeValidators,
   required,
+  email
 } from "../../core/custom-components/validations/InputErrors";
 
 import TextField from "../../core/custom-components/form-elements/TextField";
@@ -162,7 +163,7 @@ const Profile = () => {
         <TextField
           field="email"
           label="email"
-          validate={composeValidators(required)}
+          validate={composeValidators(required, email)}
         />
       </DialogForm>
     </>

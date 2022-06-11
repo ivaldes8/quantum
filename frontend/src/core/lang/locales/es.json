@@ -49,6 +49,7 @@
   "fieldError.email": "El email no es válido",
   "fieldError.required": "Este campo es obligatorio",
   "fieldError.sizeLess250": "El archivo tiene que pesar menos de 250kb",
+  "fieldError.validRole": "Por favor introduzca un rol válido: Admin/User",
   "groupUpdated": "Grupo editado satisfactoriamente",
   "groupCreated": "Grupo creado satisfactoriamente",
   "groupDeleted": "Grupo eliminado",
@@ -76,5 +77,16 @@
   "deleteHomeCardConfirmation": "Seguro que desea eliminar esta card de la portada?",
   "homeCardUpdated": "Card de la portada editada satisfactoriamente",
   "homeCardCreated": "Card de la portada creada satisfactoriamente",
-  "homeCardDeleted": "Card de la portada eliminada satisfactoriamente"
+  "homeCardDeleted": "Card de la portada eliminada satisfactoriamente",
+  "profileUpdated": "Perfil editado satisfactoriamente",
+  "userProfile": "Perfil del usuario",
+  "EditProfile": "Editar perfil",
+  "role": "Rol",
+  "userUpdated": "Usuario editado satisfactoriamente",
+  "userCreated": "Usuario creado satisfactoriamente",
+  "userDeleted": "Usuario eliminado satisfactoriamente",
+  "EditUser": "Editar usuario",
+  "CreateUser": "Crear usuario",
+  "DeleteUser": "Eliminar usuario",
+  "deleteUserConfirmation": "Seguro que desea eliminar este usuario?"
 }
