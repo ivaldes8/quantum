@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { Link } from 'react-router-dom';
 import Aos from "aos";
 import "aos/dist/aos.css"
 import "./Home.css"
@@ -12,23 +11,13 @@ import { getHome, reset } from "../../core/redux/features/home/homeSlice";
 
 import AddLine from "../../core/custom-components/AddLine";
 import Loading from "../../core/custom-components/Loading";
-import { Paper, Box, Typography, CardActionArea, ListItem, ListItemAvatar, Avatar, List, ListItemText, Divider } from "@mui/material";
-
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import IconButton from '@mui/material/IconButton';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-
-import logo from './logo oficial.png'
+import { Paper, Box, Typography, ListItem, ListItemAvatar, Avatar, List, ListItemText } from "@mui/material";
 
 const Home = () => {
 
   const dispatch = useDispatch();
 
-  const { home, isLoading, isError, isSuccess, message } = useSelector(
+  const { home, isLoading, isError, message } = useSelector(
     (state) => state.home
   );
 
@@ -155,16 +144,19 @@ const Home = () => {
               },
             }}
           >
+            <Paper sx={{ mb: 2 }} style={{ backgroundColor: 'rgba(252, 252, 252, 0.2)' }} data-aos="fade-up" elevation={3}>
+              <ListItemText style={{ marginLeft: 20, textAlign: 'center' }} primary="Created by:" />
+              <ListItemText style={{ marginLeft: 20, textAlign: 'center' }} primary={home[0].name} secondary={home[0].email} />
+            </Paper>
+
             <List sx={{ mb: 2 }} data-aos="fade-right">
               <ListItem button component={Paper} elevation={3} style={{ backgroundColor: 'rgba(252, 252, 252, 0.4)', marginBottom: 10 }}>
-  
-                <LinkPreview style={{marginLeft:40}} url={home[0].portafolio} width='100%' backgroundColor='rgba(252, 252, 252, 0.4)'/>
-         
+
+                <LinkPreview style={{ marginLeft: 40 }} url={home[0].portafolio} width='100%' height={250} backgroundColor='rgba(252, 252, 252, 0.4)' />
+
               </ListItem>
             </List>
-            <Paper style={{ backgroundColor: 'rgba(252, 252, 252, 0.2)' }} data-aos="fade-up" elevation={3}>
-              <ListItemText style={{ marginLeft: 20, textAlign:'center' }} primary={home[0].name} secondary={home[0].email} />
-            </Paper>
+
           </Box>
 
           <AddLine color='#2464c7' />

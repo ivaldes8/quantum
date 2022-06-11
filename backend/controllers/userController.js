@@ -87,13 +87,18 @@ const updateCurrentUser = asyncHandler(async (req, res) => {
         throw new Error('User not found')
     }
 
-    if(req.body.password){
+    if (req.body.role) {
+        res.status(400)
+        throw new Error('Users can not change the roles')
+    }
+
+    if (req.body.password) {
         const { password } = req.body
         const salt = await bcrypt.genSalt(10)
         hashedPassword = await bcrypt.hash(password, salt)
     }
 
-    const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body.password ? {...req.body, password: hashedPassword} : req.body, {
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body.password ? { ...req.body, password: hashedPassword } : req.body, {
         new: true,
     });
 
@@ -199,27 +204,27 @@ const updateUser = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     if (!user) {
-      res.status(400);
-      throw new Error("home not found");
-    }
-  
-    if (!req.user) {
-      res.status(401)
-      throw new Error('User not found')
-    }
-  
-    if (req.user.role !== 'Admin') {
-      res.status(401)
-      throw new Error('User not authorized')
+        res.status(400);
+        throw new Error("home not found");
     }
 
-    await Action.deleteMany({user: req.params.id})
-    await Investment.deleteMany({user: req.params.id})
-    await Group.deleteMany({user: req.params.id})
-  
+    if (!req.user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    if (req.user.role !== 'Admin') {
+        res.status(401)
+        throw new Error('User not authorized')
+    }
+
+    await Action.deleteMany({ user: req.params.id })
+    await Investment.deleteMany({ user: req.params.id })
+    await Group.deleteMany({ user: req.params.id })
+
     await user.remove();
     res.status(200).json({ id: req.params.id });
-  });
+});
 
 
 const generateToken = (id) => {

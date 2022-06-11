@@ -2,6 +2,7 @@ const RoutesName = {
     home: '/home',
     login: '/login',
     register: '/register',
+    profile: '/profile',
     dashboard: '/dashboard',
     userAdmin: '/userAdmin',
     homeAdmin: '/homeAdmin',

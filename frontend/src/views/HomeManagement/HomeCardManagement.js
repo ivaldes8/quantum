@@ -18,14 +18,14 @@ import {
 } from "../../core/custom-components/validations/InputErrors";
 
 import TextField from "../../core/custom-components/form-elements/TextField";
-
-import { Paper } from "@mui/material";
 import CardList from "../../core/custom-components/cardList/cardList";
 import Header from "../../core/custom-components/Header";
 import DialogForm from "../../core/custom-components/dialog/DialogForm";
 import Loading from "../../core/custom-components/Loading";
 import DialogConfirmation from "../../core/custom-components/dialog/DialogConfirmation";
 import FileFieldInput from "../../core/custom-components/form-elements/FileField";
+
+import { Paper } from "@mui/material";
 
 const HomeCardManagement = () => {
 

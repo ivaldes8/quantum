@@ -99,119 +99,122 @@ const HomeManagement = () => {
   return (
     <>
       <AddLine />
-      {home && home.length && home.length > 0 &&
-        <Container>
-          <Paper elevation={3} style={{marginBottom:20}}>
-            <Header title="homeManagment" create={false} edit={true} onClickHandler={handleOnEdit} />
 
+      <Container>
+        <Paper elevation={3} style={{ marginBottom: 20 }}>
+          <Header title="homeManagment" create={false} edit={true} onClickHandler={handleOnEdit} />
 
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography>{t('aboutTitle')}:</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="p">{home[0].aboutTitle}</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-              >
-                <Typography>{t('aboutDescription')}:</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="p">{home[0].aboutDescription}</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel3a-content"
-                id="panel3a-header"
-              >
-                <Typography>{t('fraseTitle')}:</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="p">{home[0].fraseTitle}</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel4a-content"
-                id="panel4a-header"
-              >
-                <Typography>{t('fraseDescription')}:</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="p">{home[0].fraseDescription}</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel5a-content"
-                id="panel5a-header"
-              >
-                <Typography>{t('name')}:</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="p">{home[0].name}</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel6a-content"
-                id="panel6a-header"
-              >
-                <Typography>{t('email')}:</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="p">{home[0].email}</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel7a-content"
-                id="panel7a-header"
-              >
-                <Typography>{t('portafolio')}:</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="p">{home[0].portafolio}</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel8a-content"
-                id="panel8a-header"
-              >
-                <Typography>Cards:</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <CardList
-                  list={home[0].cards}
-                  clickeable={false}
-                  editable={false}
-                  deleteable={false}
-                  titleKey="title"
-                  descKey="description"
-                />
-              </AccordionDetails>
-            </Accordion>
-          </Paper>
-          <HomeCardManagement/>
-        </Container>
-      }
+          {home && home.length && home.length > 0 &&
+            <>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography>{t('aboutTitle')}:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="p">{home[0].aboutTitle}</Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel2a-content"
+                  id="panel2a-header"
+                >
+                  <Typography>{t('aboutDescription')}:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="p">{home[0].aboutDescription}</Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel3a-content"
+                  id="panel3a-header"
+                >
+                  <Typography>{t('fraseTitle')}:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="p">{home[0].fraseTitle}</Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel4a-content"
+                  id="panel4a-header"
+                >
+                  <Typography>{t('fraseDescription')}:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="p">{home[0].fraseDescription}</Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel5a-content"
+                  id="panel5a-header"
+                >
+                  <Typography>{t('name')}:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="p">{home[0].name}</Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel6a-content"
+                  id="panel6a-header"
+                >
+                  <Typography>{t('email')}:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="p">{home[0].email}</Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel7a-content"
+                  id="panel7a-header"
+                >
+                  <Typography>{t('portafolio')}:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="p">{home[0].portafolio}</Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel8a-content"
+                  id="panel8a-header"
+                >
+                  <Typography>Cards:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <CardList
+                    list={home[0].cards}
+                    clickeable={false}
+                    editable={false}
+                    deleteable={false}
+                    titleKey="title"
+                    descKey="description"
+                  />
+                </AccordionDetails>
+              </Accordion>
+            </>
+          }
+        </Paper>
+        <HomeCardManagement />
+      </Container>
+
       <AddLine />
       <DialogForm
         title="EditHome"

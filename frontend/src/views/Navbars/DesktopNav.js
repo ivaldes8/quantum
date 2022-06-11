@@ -36,11 +36,11 @@ const DesktopNav = () => {
 
   const pages = [
     { name: "Home", route: "/home" },
-    { name: "Dashboard", route: "/dashboard" }, 
+    { name: "Dashboard", route: "/dashboard" },
     { name: "InvestmentGroups", route: "/group" },
     { name: "Investments", route: "/investment" },
   ];
-  const settings = ["Profile", "Logout"];
+  const settings = [{name: "Profile", route: "/profile"}, {name: "Logout", route: "/"}];
   const languages = ["Español", "English"];
 
   const handleOpenNavMenu = (event) => {
@@ -185,7 +185,7 @@ const DesktopNav = () => {
                     onClick={handleCloseNavMenu}
                   >
                     <Typography
-                      variant={ location.pathname.includes(page.route) ? "h5" : "p"}
+                      variant={location.pathname.includes(page.route) ? "h5" : "p"}
                       textAlign="center"
                     >
                       {t(page.name)}
@@ -221,14 +221,30 @@ const DesktopNav = () => {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <MenuItem
-                      key={setting}
-                      onClick={
-                        setting === "Logout" ? onLogout : handleCloseUserMenu
-                      }
+                    // <MenuItem
+                    //   key={setting}
+                    //   onClick={
+                    //     setting === "Logout" ? onLogout : handleCloseUserMenu
+                    //   }
+                    // >
+                    //   <Typography textAlign="center">{t(setting)}</Typography>
+                    // </MenuItem>
+
+
+
+                  <MenuItem
+                    key={setting.name}
+                    component={Link}
+                    to={setting.route}
+                    onClick={setting.name === "Logout" ? onLogout : handleCloseUserMenu}
+                  >
+                    <Typography
+                      variant={setting.name !== "Logout" && location.pathname.includes(setting.route) ? "h5" : "p"}
+                      textAlign="center"
                     >
-                      <Typography textAlign="center">{t(setting)}</Typography>
-                    </MenuItem>
+                      {t(setting.name)}
+                    </Typography>
+                  </MenuItem>
                   ))}
                 </Menu>
               </Box>

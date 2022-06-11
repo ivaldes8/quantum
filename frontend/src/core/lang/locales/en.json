@@ -76,5 +76,9 @@
   "deleteHomeCardConfirmation": "Are you should that you want to delete this home card?",
   "homeCardUpdated": "Home card updated",
   "homeCardCreated": "Home card created",
-  "homeCardDeleted": "Home card deleted"
+  "homeCardDeleted": "Home card deleted",
+  "profileUpdated": "Profile updated succefully",
+  "userProfile": "User profile",
+  "EditProfile": "Edit profile",
+  "role": "Role"
 }

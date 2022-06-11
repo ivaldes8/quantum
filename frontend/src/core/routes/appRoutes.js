@@ -1,11 +1,12 @@
 import React from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import routeNames from "./routeNames";
 import ProtectedRoute from "./protectedRoute";
 import ProtectedAdmin from "./protectedAdmin";
 
 import Auth from "../../views/Auth/Auth";
 import Register from "../../views/Auth/Register";
+import Profile from "../../views/User/Profile";
 import Home from "../../views/Home/Home";
 import Dashboard from "../../views/Dashboard/Dashboard"
 import NotFound from "../../views/404/404";
@@ -24,6 +25,15 @@ const appRoutes = () => {
       <Route path={routeNames.home} exact element={<Home />} />
       <Route path={routeNames.login} exact element={<Auth />} />
       <Route path={routeNames.register} exact element={<Register />} />
+      <Route
+        path={routeNames.profile}
+        exact
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path={routeNames.dashboard}
         exact
