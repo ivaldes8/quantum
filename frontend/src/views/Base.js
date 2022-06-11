@@ -16,12 +16,11 @@ const Base = () => {
   };
 
   const currentUser = JSON.parse(localStorage.getItem("user"));
-  if(currentUser){
-    console.log(decode(currentUser?.token).exp * 1000 > new Date().getTime(), 'TIME')
-  }
+  // if(currentUser){
+  //   console.log(decode(currentUser?.token).exp * 1000 > new Date().getTime(), 'TIME')
+  // }
   if (currentUser && decode(currentUser?.token).exp * 1000 < new Date().getTime()) {
     dispatch(logout)
-    localStorage.removeItem('user')
   }
 
 

@@ -152,6 +152,10 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
 
       .addCase(updateUser.pending, (state) => {
@@ -175,6 +179,10 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
 
       .addCase(getUsers.pending, (state) => {
@@ -189,6 +197,10 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
 
       .addCase(deleteUser.pending, (state) => {
@@ -205,6 +217,10 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
 
       .addCase(getCurrentUser.pending, (state) => {
@@ -219,6 +235,10 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
 
       .addCase(updateCurrentUser.pending, (state) => {
@@ -233,6 +253,10 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       });
   },
 });

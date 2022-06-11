@@ -110,6 +110,10 @@ export const investmentSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
       .addCase(updateInvestment.pending, (state) => {
         state.isLoading = true;
@@ -132,6 +136,10 @@ export const investmentSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
       .addCase(getInvestments.pending, (state) => {
         state.isLoading = true;
@@ -145,6 +153,10 @@ export const investmentSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
 
       .addCase(deleteInvestment.pending, (state) => {
@@ -161,6 +173,10 @@ export const investmentSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       });
   },
 });

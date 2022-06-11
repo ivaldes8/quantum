@@ -83,7 +83,6 @@ const Group = () => {
   };
 
   const submitModal = (data) => {
-    console.log(data, 'Data')
     const toSend = {
       _id: data._id,
       name: data.name,

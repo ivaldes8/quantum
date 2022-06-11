@@ -116,6 +116,10 @@ export const actionSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
       .addCase(updateAction.pending, (state) => {
         state.isLoading = true;
@@ -126,7 +130,6 @@ export const actionSlice = createSlice({
         let aux = [];
         // eslint-disable-next-line array-callback-return
         state.actions.map((a) => {
-          console.log(action.payload)
           if (a._id === action.payload._id) {
             aux.push(action.payload);
           } else {
@@ -139,6 +142,10 @@ export const actionSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
       .addCase(getActions.pending, (state) => {
         state.isLoading = true;
@@ -152,6 +159,10 @@ export const actionSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
 
       .addCase(deleteAction.pending, (state) => {
@@ -168,6 +179,10 @@ export const actionSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       });
   },
 });

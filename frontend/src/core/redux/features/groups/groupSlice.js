@@ -13,16 +13,16 @@ const initialState = {
 const getDeposit = (actions) => {
   let amount = 0;
   actions.map((a) => {
-      amount += a.amount;
-    })
+    amount += a.amount;
+  })
   return amount;
 };
 
 const getFeedBack = (actions) => {
   let feedBack = 0;
   actions.map((a) => {
-      feedBack += a.feedback;
-    })
+    feedBack += a.feedback;
+  })
   return feedBack;
 };
 
@@ -48,7 +48,7 @@ export const getGroups = createAsyncThunk(
 //Get user group
 export const getGroup = createAsyncThunk(
   "groups/get",
-  async (id, thunkAPI ) => {
+  async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
       return await groupService.getGroup(token, id);
@@ -148,6 +148,10 @@ export const groupSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
       .addCase(updateGroup.pending, (state) => {
         state.isLoading = true;
@@ -170,6 +174,10 @@ export const groupSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
       .addCase(getGroups.pending, (state) => {
         state.isLoading = true;
@@ -183,6 +191,10 @@ export const groupSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
 
       .addCase(getGroup.pending, (state) => {
@@ -191,7 +203,7 @@ export const groupSlice = createSlice({
       .addCase(getGroup.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-       
+
         let auxArr = []
         action.payload.group[0].investments.map((i) => {
           i = { ...i, deposit: getDeposit(i.actions), feedback: getFeedBack(i.actions) }
@@ -203,6 +215,10 @@ export const groupSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
 
       .addCase(deleteGroup.pending, (state) => {
@@ -219,6 +235,10 @@ export const groupSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       });
   },
 });

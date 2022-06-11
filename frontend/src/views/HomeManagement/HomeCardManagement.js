@@ -69,7 +69,6 @@ const HomeCardManagement = () => {
     };
 
     const submitModal = (data) => {
-        console.log(data, 'DATA')
         if (isEdit) {
             dispatch(updateHomeCard(data));
             if (isSuccess && !isError) {

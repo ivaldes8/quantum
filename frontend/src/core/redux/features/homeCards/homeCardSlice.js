@@ -110,6 +110,10 @@ export const homeCardSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
       .addCase(updateHomeCard.pending, (state) => {
         state.isLoading = true;
@@ -132,6 +136,10 @@ export const homeCardSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
       .addCase(getHomeCards.pending, (state) => {
         state.isLoading = true;
@@ -145,6 +153,10 @@ export const homeCardSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       })
 
       .addCase(deleteHomeCard.pending, (state) => {
@@ -161,6 +173,10 @@ export const homeCardSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
       });
   },
 });
