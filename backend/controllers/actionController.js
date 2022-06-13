@@ -42,6 +42,7 @@ const createAction = asyncHandler(async (req, res) => {
     user: req.user.id,
     amount: req.body.amount,
     feedback: req.body.feedback,
+    reason: req.body.reason,
     date: req.body.date
   });
 

@@ -88,5 +88,6 @@
   "EditUser": "Editar usuario",
   "CreateUser": "Crear usuario",
   "DeleteUser": "Eliminar usuario",
-  "deleteUserConfirmation": "Seguro que desea eliminar este usuario?"
+  "deleteUserConfirmation": "Seguro que desea eliminar este usuario?",
+  "reason": "Motivo"
 }

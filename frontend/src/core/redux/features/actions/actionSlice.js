@@ -37,6 +37,7 @@ export const createAction = createAsyncThunk(
       const toSend = {
         amount: actionData.amount,
         feedback: actionData.feedback,
+        reason: actionData.reason,
         date: actionData.date
       }
       const id = actionData.id;

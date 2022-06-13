@@ -22,6 +22,9 @@ const actionSchema = mongoose.Schema(
       type: Date,
       required: [true, "Please add a date"]
     },
+    reason: {
+      type: String,
+    },
   },
   {
     timestamps: true,

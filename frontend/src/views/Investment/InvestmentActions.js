@@ -59,6 +59,12 @@ const InvestmentActions = () => {
       label: "return",
     },
     {
+      id: "reason",
+      numeric: false,
+      disablePadding: false,
+      label: "reason",
+    },
+    {
       id: "date",
       numeric: true,
       disablePadding: false,
@@ -66,7 +72,7 @@ const InvestmentActions = () => {
     },
   ];
 
-  const actionCells = ["amount", "feedback", "date"];
+  const actionCells = ["amount", "feedback", "reason", "date"];
 
   const handleCreateAction = () => {
     setIsEdit(false);
@@ -78,7 +84,7 @@ const InvestmentActions = () => {
     setIsEdit(true);
     const ToEdit = {
       ...data,
-      date: moment(data.date).format("yyyy-MM-DD"),
+      date: moment(data.date).utc().format("yyyy-MM-DD"), 
     };
     setToEdit(ToEdit);
     setOpenModal(true);
@@ -130,7 +136,7 @@ const InvestmentActions = () => {
     });
     return ` ${t("totals")}: ${Format.formatCurrency(
       amount
-    )} - ${Format.formatCurrency(feedBack)}`;
+    )} / ${Format.formatCurrency(feedBack)} = ${Format.formatCurrency(amount+feedBack)}`;
   };
 
   useEffect(() => {
@@ -155,9 +161,9 @@ const InvestmentActions = () => {
       <AddLine />
       <Container>
         <Paper elevation={3}>
-          <Header title={name} onClickHandler={handleCreateAction} goBack={true}/>
+          <Header title={name} onClickHandler={handleCreateAction} goBack={true} />
 
-          <Typography variant="h6" sx={{ width: "100%", mb: 1, pl: 5 }}>
+          <Typography variant="p" sx={{ width: "100%", mb: 1, pl: 5 }}>
             {calculateTotals(actions)}
             <Divider />
           </Typography>
@@ -191,6 +197,12 @@ const InvestmentActions = () => {
           label="return"
           type="number"
           validate={composeValidators(required)}
+        />
+        <TextField
+          field="reason"
+          label="reason"
+          rows={5}
+          multiline
         />
         <TextDatePicker
           field="date"

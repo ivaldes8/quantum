@@ -65,7 +65,7 @@ const GroupInvestments = () => {
     });
     return ` ${t("totals")}: ${Format.formatCurrency(
       amount
-    )} - ${Format.formatCurrency(feedBack)}`;
+    )} / ${Format.formatCurrency(feedBack)} = ${Format.formatCurrency(amount + feedBack)}`;
   };
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const GroupInvestments = () => {
           <Header title={name} create={false} goBack={true} />
           {currentGroup.length > 0 ? (
             <>
-              <Typography variant="h6" sx={{ width: "100%", mb: 1, pl: 5 }}>
+              <Typography variant="p" sx={{ width: "100%", mb: 1, pl: 5 }}>
                 {calculateTotals(currentGroup)}
                 <Divider />
               </Typography>
