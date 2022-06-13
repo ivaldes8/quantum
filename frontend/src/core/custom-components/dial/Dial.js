@@ -8,7 +8,7 @@ import {
     SpeedDialAction
 } from "@mui/material";
 
-import { Build, Group, Home } from "@mui/icons-material";
+import { Build, Group, Home, CurrencyExchange } from "@mui/icons-material";
 
 const Dial = () => {
     const { t } = useTranslation();
@@ -16,11 +16,12 @@ const Dial = () => {
 
     const actions = [
         { icon: <Group />, name: 'usersManagment', route: "/userAdmin" },
-        { icon: <Home />, name: 'homeManagment', route: "/homeAdmin" }
+        { icon: <Home />, name: 'homeManagment', route: "/homeAdmin" },
+        { icon: <CurrencyExchange />, name: 'currenciesManagment', route: "/currencyAdmin" }
     ];
 
     return (
-        <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1, position: 'fixed', bottom: -55, right: 20, zIndex:1000 }}>
+        <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1, position: 'fixed', bottom: 0, right: 20, zIndex:1000 }}>
             {user && user.role === 'Admin' &&
                 <SpeedDial
                     ariaLabel="SpeedDial basic example"

@@ -16,6 +16,7 @@ import InvestmentActions from "../../views/Investment/InvestmentActions";
 import GroupInvestments from "../../views/Group/GroupInvestments";
 import UserManagement from "../../views/User/UserManagement";
 import HomeManagement from "../../views/HomeManagement/HomeManagement";
+import CurrencyManagement from "../../views/Currency/CurrencyManagement";
 
 
 const appRoutes = () => {
@@ -94,6 +95,15 @@ const appRoutes = () => {
         element={
           <ProtectedAdmin>
             <HomeManagement />
+          </ProtectedAdmin>
+        }
+      />
+      <Route
+        path={routeNames.currencyAdmin}
+        exact
+        element={
+          <ProtectedAdmin>
+            <CurrencyManagement />
           </ProtectedAdmin>
         }
       />

@@ -6,6 +6,7 @@ const RoutesName = {
     dashboard: '/dashboard',
     userAdmin: '/userAdmin',
     homeAdmin: '/homeAdmin',
+    currencyAdmin: '/currencyAdmin',
     group: '/group',
     groupInvestmens: '/group/:name/:id',
     investment: '/investment',

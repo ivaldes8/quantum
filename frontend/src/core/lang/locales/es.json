@@ -89,5 +89,13 @@
   "CreateUser": "Crear usuario",
   "DeleteUser": "Eliminar usuario",
   "deleteUserConfirmation": "Seguro que desea eliminar este usuario?",
-  "reason": "Motivo"
+  "reason": "Motivo",
+  "currenciesManagment": "Gestionar monedas",
+  "currencyUpdated": "Moneda editada satisfactoriamente",
+  "currencyCreated": "Moneda creada satisfactoriamente",
+  "currencyDeleted": "Moneda eliminada satisfactoriamente",
+  "EditCurrency": "Editar moneda",
+  "CreateCurrency": "Crear moneda",
+  "DeleteCurrency": "Eliminar moneda",
+  "deleteCurrencyConfirmation": "Seguro que desea eliminar esta moneda?"
 }
