@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 
-const HomeCard = require("../models/homeCardModel ");
+const HomeCard = require("../models/homeCardModel");
 const User = require("../models/userModel");
 
 const getHomeCards = asyncHandler(async (req, res) => {

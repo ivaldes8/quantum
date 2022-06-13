@@ -12,6 +12,11 @@ const investmentSchema = mongoose.Schema(
       required: false,
       ref: "Group",
     },
+    currency: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Currency",
+    },
     name: {
       type: String,
       unique: true,

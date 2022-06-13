@@ -14,6 +14,7 @@ app.use(express.json({limit: "5mb", extended: true}))
 app.use(express.urlencoded({limit: "5mb", extended: true}))
 
 app.use('/api/users', require('./routes/userRoutes'))
+app.use('/api/currency', require('./routes/currencyRoutes'))
 app.use('/api/home', require('./routes/homeRoutes'))
 app.use('/api/homeCards', require('./routes/homeCardRoutes'))
 app.use('/api/groups', require('./routes/groupRoutes'))

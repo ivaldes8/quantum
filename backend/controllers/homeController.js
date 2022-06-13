@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 
 const User = require("../models/userModel");
-const Home = require("../models/homeModel ");
+const Home = require("../models/homeModel");
 
 const getHome = asyncHandler(async (req, res) => {
   

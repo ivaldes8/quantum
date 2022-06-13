@@ -4,6 +4,11 @@ const Action = require("../models/actionModel");
 const Investment = require("../models/investmentModel");
 const User = require("../models/userModel");
 
+const getAllActions = asyncHandler(async (req, res) => {
+  const actions = await Action.find({ user: req.user.id });
+  res.status(200).json({ actions });
+});
+
 const getActions = asyncHandler(async (req, res) => {
   const actions = await Action.find({ investment: req.params.id, user: req.user.id }).populate("investment");
   res.status(200).json({ actions });
@@ -125,6 +130,7 @@ const deleteAction = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getAllActions,
   getActions,
   createAction,
   updateAction,
