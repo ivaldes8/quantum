@@ -97,5 +97,6 @@
   "EditCurrency": "Edit currency",
   "CreateCurrency": "Create currency",
   "DeleteCurrency": "Delete currency",
-  "deleteCurrencyConfirmation": "Are you should that you want to delete this currency?"
+  "deleteCurrencyConfirmation": "Are you should that you want to delete this currency?",
+  "currency": "Currency"
 }

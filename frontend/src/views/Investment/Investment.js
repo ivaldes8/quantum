@@ -11,20 +11,24 @@ import {
   updateInvestment,
   deleteInvestment
 } from "../../core/redux/features/investments/investmentSlice";
+
+import { getCurrencies } from "../../core/redux/features/currency/currencySlice";
+
 import {
   composeValidators,
   required,
 } from "../../core/custom-components/validations/InputErrors";
 
 import TextField from "../../core/custom-components/form-elements/TextField";
-
-import { Container, Paper } from "@mui/material";
+import SimpleSelect from "../../core/custom-components/form-elements/SelectSimple/index";
 import AddLine from "../../core/custom-components/AddLine";
 import CardList from "../../core/custom-components/cardList/cardList";
 import Header from "../../core/custom-components/Header";
 import DialogForm from "../../core/custom-components/dialog/DialogForm";
 import Loading from "../../core/custom-components/Loading";
 import DialogConfirmation from "../../core/custom-components/dialog/DialogConfirmation";
+
+import { Container, Paper } from "@mui/material";
 
 const Investment = () => {
   const { t } = useTranslation();
@@ -33,6 +37,10 @@ const Investment = () => {
 
   const { investments, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.investment
+  );
+
+  const { currencies } = useSelector(
+    (state) => state.currency
   );
 
   const [openModal, setOpenModal] = useState(false);
@@ -88,12 +96,13 @@ const Investment = () => {
   const onDeleteModal = () => {
     setOpenConfModal(false)
     dispatch(deleteInvestment(toDelete));
-      if (isSuccess && !isError) {
-        toast.success(t("investmentDeleted"));
-      }
+    if (isSuccess && !isError) {
+      toast.success(t("investmentDeleted"));
+    }
   }
- 
+
   useEffect(() => {
+    dispatch(getCurrencies());
     dispatch(getInvestments());
     return () => {
       dispatch(reset());
@@ -145,6 +154,12 @@ const Investment = () => {
           label="Description"
           rows={5}
           multiline
+          validate={composeValidators(required)}
+        />
+         <SimpleSelect
+          field="currency"
+          label="currency"
+          options={currencies}
           validate={composeValidators(required)}
         />
       </DialogForm>

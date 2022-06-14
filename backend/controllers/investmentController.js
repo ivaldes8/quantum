@@ -6,7 +6,7 @@ const Currency = require("../models/currencyModel");
 const User = require("../models/userModel");
 
 const getInvestments = asyncHandler(async (req, res) => {
-  const investments = await Investment.find({ user: req.user.id }).populate("actions");
+  const investments = await Investment.find({ user: req.user.id }).populate("actions").populate("currency");
   res.status(200).json({ investments });
 });
 
@@ -30,7 +30,7 @@ const createInvestment = asyncHandler(async (req, res) => {
   }
 
 
-  const investment = await Investment.create({
+  const sotageInvestment = await Investment.create({
     user: req.user.id,
     currency: req.body.currency,
     name: req.body.name,
@@ -38,6 +38,8 @@ const createInvestment = asyncHandler(async (req, res) => {
     ref: req.body.ref,
     actions: req.body.actions,
   });
+
+  const investment = await Investment.findById(sotageInvestment._id).populate("currency");
 
   const currencyInvestments = currency.investments
 
@@ -74,7 +76,7 @@ const updateInvestment = asyncHandler(async (req, res) => {
 
   const updatedInvestment = await Investment.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
-  });
+  }).populate("currency");
   res.status(200).json(updatedInvestment);
 });
 

@@ -26,6 +26,8 @@ import {
 } from "../../core/custom-components/validations/InputErrors";
 import { Container, Divider, Paper, Typography } from "@mui/material";
 import DialogConfirmation from "../../core/custom-components/dialog/DialogConfirmation";
+import SimpleSelect from "../../core/custom-components/form-elements/SelectSimple/index";
+
 
 const UserManagement = () => {
 
@@ -72,7 +74,7 @@ const UserManagement = () => {
 
   const userCells = ["name", "lastName", "email", "role"];
 
-  const roles = [{_id: 'Admin', name: 'Admin'}, {_id: 'User', name: 'User'}]
+  const roles = ['Admin', 'User'];
 
   const handleCreateUser = () => {
     setIsEdit(false);
@@ -112,7 +114,7 @@ const UserManagement = () => {
         toast.success(t("userUpdated"));
       }
     } else {
-      dispatch(createUser({...toSend, password: data.password}));
+      dispatch(createUser({ ...toSend, password: data.password }));
       if (isSuccess && !isError) {
         toast.success(t("userCreated"));
       }
@@ -184,9 +186,11 @@ const UserManagement = () => {
           label="email"
           validate={composeValidators(required, email)}
         />
-        <TextField
+        <SimpleSelect
           field="role"
           label="role"
+          simple={true}
+          options={roles}
           validate={composeValidators(required, validRole)}
         />
         {!isEdit &&
