@@ -5,13 +5,19 @@ const User = require('../models/userModel')
 const Action = require('../models/actionModel')
 const Investment = require('../models/investmentModel')
 const Group = require('../models/groupModel')
+const Exchange = require('../models/exchangeModel')
 
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, lastName, email, password, role } = req.body
+    const { name, lastName, email, password, role, currency } = req.body
 
-    if (!name || !lastName || !email || !password || !role) {
+    if (!name || !email || !password || !role || !lastName || !currency) {
         res.status(400)
         throw new Error('Please add all fields')
+    }
+
+    if (role === 'Admin') {
+        res.status(400)
+        throw new Error('Users can create accounts with role User only')
     }
 
     const userExist = await User.findOne({ email })
@@ -24,21 +30,24 @@ const registerUser = asyncHandler(async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    const user = await User.create({
+    const storeduser = await User.create({
         name,
         lastName,
         email,
         role,
+        currency,
         password: hashedPassword
     })
+
+    const user = await User.findById(storeduser._id).populate("currency");
 
     if (user) {
         res.status(201).json({
             _id: user.id,
             name: user.name,
-            lastName: user.lastName,
             email: user.email,
             role: user.role,
+            currency: user.currency,
             token: generateToken(user._id)
         })
     } else {
@@ -51,13 +60,14 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
 
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email }).populate("currency")
     if (user && (await bcrypt.compare(password, user.password))) {
         res.json({
             _id: user.id,
             name: user.name,
             email: user.email,
             role: user.role,
+            currency: user.currency,
             token: generateToken(user._id)
         })
     } else {
@@ -68,7 +78,13 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 const getMe = asyncHandler(async (req, res) => {
-    res.status(200).json(req.user)
+    const email = req.user.email
+    const user = await User.findOne({ email }).populate("currency")
+    if (!user) {
+        res.status(400)
+        throw new Error('User not found')
+    }
+    res.status(200).json(user)
 })
 
 const updateCurrentUser = asyncHandler(async (req, res) => {
@@ -100,7 +116,7 @@ const updateCurrentUser = asyncHandler(async (req, res) => {
 
     const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body.password ? { ...req.body, password: hashedPassword } : req.body, {
         new: true,
-    });
+    }).populate("currency");
 
     res.status(200).json(updatedUser);
 })
@@ -120,7 +136,7 @@ const getUsers = asyncHandler(async (req, res) => {
         throw new Error('User not authorized')
     }
 
-    const user = await User.find({})
+    const user = await User.find({}).populate("currency")
 
     res.status(200).json({ user });
 
@@ -138,9 +154,9 @@ const createUser = asyncHandler(async (req, res) => {
         throw new Error('User not authorized')
     }
 
-    const { name, lastName, email, password, role } = req.body
+    const { name, lastName, email, password, role, currency } = req.body
 
-    if (!name || !lastName || !email || !password || !role) {
+    if (!name || !lastName || !email || !password || !role || !currency) {
         res.status(400)
         throw new Error('Please add all fields')
     }
@@ -155,13 +171,17 @@ const createUser = asyncHandler(async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    const user = await User.create({
+    const storedUser = await User.create({
         name,
         lastName,
+        currency,
         email,
         role,
+        currency,
         password: hashedPassword
     })
+
+    const user = await User.findById(storedUser._id).populate("currency");
 
     if (user) {
         res.status(201).json({ user })
@@ -196,7 +216,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
-    });
+    }).populate("currency");
 
     res.status(200).json(updatedUser);
 });
@@ -221,6 +241,7 @@ const deleteUser = asyncHandler(async (req, res) => {
     await Action.deleteMany({ user: req.params.id })
     await Investment.deleteMany({ user: req.params.id })
     await Group.deleteMany({ user: req.params.id })
+    await Exchange.deleteMany({ user: req.params.id })
 
     await user.remove();
     res.status(200).json({ id: req.params.id });

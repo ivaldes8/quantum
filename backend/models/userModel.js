@@ -22,7 +22,12 @@ const userSchema = mongoose.Schema(
     role: {
         type: String,
         required: [true, "Please add a role"]
-    }
+    },
+    currency: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Currency",
+    },
   },
   {
     timestamps: true,
