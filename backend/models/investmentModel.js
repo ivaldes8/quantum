@@ -14,7 +14,7 @@ const investmentSchema = mongoose.Schema(
     },
     currency: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: [true, "Please add a currency"],
       ref: "Currency",
     },
     name: {

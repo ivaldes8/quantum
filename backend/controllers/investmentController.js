@@ -41,14 +41,6 @@ const createInvestment = asyncHandler(async (req, res) => {
 
   const investment = await Investment.findById(sotageInvestment._id).populate("currency");
 
-  const currencyInvestments = currency.investments
-
-  currencyInvestments.push(investment._id)
-  
-  await Currency.findByIdAndUpdate(currency._id, {investments: currencyInvestments}, {
-    new: true,
-  });
-
   res.status(200).json({ investment });
 });
 
@@ -96,19 +88,6 @@ const deleteInvestment = asyncHandler(async (req, res) => {
     res.status(401)
     throw new Error('User not authorized')
   }
-
-  const currency = await Currency.findById(investment.currency);
-
-  if (!currency) {
-    res.status(400);
-    throw new Error("Currency not found");
-  }
-
-  const currencyInvestments = currency.investments.filter((i) => i.toString() !== investment._id.toString())
-  
-  await Currency.findByIdAndUpdate(currency._id, {investments: currencyInvestments}, {
-    new: true,
-  });
 
   await Action.deleteMany({ investment: req.params.id })
 
