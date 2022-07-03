@@ -108,6 +108,13 @@ const updateCurrentUser = asyncHandler(async (req, res) => {
         throw new Error('Users can not change the roles')
     }
 
+    if (req.body.currency) {
+        const exchange = await Exchange.find({ user: req.user._id, currency: req.body.currency })
+        if (exchange.length > 0 && req.body.currency === exchange[0].currency.toString()) {
+            const updatedExchange = await Exchange.findByIdAndUpdate(exchange[0]._id, { currency: req.user.currency })
+        }
+    }
+
     if (req.body.password) {
         const { password } = req.body
         const salt = await bcrypt.genSalt(10)
