@@ -39,3 +39,43 @@ body {
 .layer0 {
     background-image: url('./wave-haikei2.svg');
 }
+
+.cardList {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.cardListItem {
+    background-color: rgba(252, 252, 252, 0.4);
+    margin-bottom: 10px;
+    width: 100%;
+    /* media queries */   
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+@media (min-width: 800px) {
+    .cardListItem {
+        width: 50%;
+    }
+
+    .container {
+        width: 70%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 50%;
+    }
+
+    .cardListItem {
+        width: 40%;
+    }
+}

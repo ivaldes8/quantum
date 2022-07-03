@@ -11,7 +11,8 @@ import { getHome, reset } from "../../core/redux/features/home/homeSlice";
 
 import AddLine from "../../core/custom-components/AddLine";
 import Loading from "../../core/custom-components/Loading";
-import { Paper, Box, Typography, ListItem, ListItemAvatar, Avatar, List, ListItemText } from "@mui/material";
+import { Paper, Box, Typography, ListItem, ListItemAvatar, Avatar, List, ListItemText, Divider } from "@mui/material";
+
 
 const Home = () => {
 
@@ -58,16 +59,18 @@ const Home = () => {
               flexWrap: 'wrap',
               '& > :not(style)': {
                 m: 1,
-                width: '90%',
                 height: '100%',
               },
             }}
           >
+            <div className="container" >
+              <Paper style={{ backgroundColor: 'rgba(252, 252, 252, 0.1)', fontFamily: 'Monospace', textAlign: 'center' }} data-aos="fade-down" elevation={3}>
+                <Typography variant="h4" style={{ marginTop: 10 }}>{home[0].aboutTitle}</Typography>
+                <Divider/>
+                <Typography style={{margin: 10}} variant="h6" >{home[0].aboutDescription}</Typography>
+              </Paper>
+            </div>
 
-            <Paper style={{ backgroundColor: 'rgba(252, 252, 252, 0.1)', fontFamily: 'Monospace', textAlign: 'center' }} data-aos="fade-down" elevation={3}>
-              <Typography variant="h4" style={{ marginTop: 10 }}>{home[0].aboutTitle}</Typography>
-              <Typography variant="h6" >{home[0].aboutDescription}</Typography>
-            </Paper>
 
           </Box>
           <div className="spacer layer0" />
@@ -89,8 +92,22 @@ const Home = () => {
           >
             <List sx={{ mb: 2 }} data-aos="fade-right">
               {home[0].cards.map((c) => (
-                <div key={c._id}>
-                  <ListItem button component={Paper} elevation={3} style={{ backgroundColor: 'rgba(252, 252, 252, 0.4)', marginBottom: 10 }}>
+                <div key={c._id} className="cardList">
+                  <div className="cardListItem">
+                    <ListItem button component={Paper} elevation={3} >
+                      <ListItemAvatar>
+                        <Avatar variant="rounded" sx={{ height: '80px', width: '80px' }} alt="Profile Picture" src={c.img} />
+                      </ListItemAvatar>
+                      <ListItemText style={{ marginLeft: 20 }} primary={c.title} secondary={c.description} />
+                    </ListItem>
+                  </div>
+                </div>
+              ))}
+            </List>
+            {/* <List sx={{ mb: 2 }} data-aos="fade-right">
+              {home[0].cards.map((c) => (
+                <div key={c._id} style={{display: "flex", flexDirection: 'row', justifyContent: 'center' }}>
+                  <ListItem button component={Paper} elevation={3} style={{ backgroundColor: 'rgba(252, 252, 252, 0.4)', marginBottom: 10, width: '50%' }}>
                     <ListItemAvatar>
                       <Avatar variant="rounded" sx={{ height: '80px', width: '80px' }} alt="Profile Picture" src={c.img} />
                     </ListItemAvatar>
@@ -98,7 +115,7 @@ const Home = () => {
                   </ListItem>
                 </div>
               ))}
-            </List>
+            </List> */}
           </Box>
           <div className="spacer layer2" />
           <Box
@@ -114,15 +131,18 @@ const Home = () => {
               zIndex: -10000,
               '& > :not(style)': {
                 m: 1,
-                width: '90%',
                 height: '100%',
               },
             }}
           >
-            <Paper style={{ backgroundColor: 'rgba(252, 252, 252, 0.1)', fontFamily: 'Monospace', textAlign: 'center' }} data-aos="fade-down" elevation={3}>
-              <Typography variant="h4" style={{ marginTop: 10 }}>{home[0].fraseTitle}</Typography>
-              <Typography variant="h6" >{home[0].fraseDescription}</Typography>
-            </Paper>
+            <div className="container">
+              <Paper style={{ backgroundColor: 'rgba(252, 252, 252, 0.1)', fontFamily: 'Monospace', textAlign: 'center' }} data-aos="fade-down" elevation={3}>
+                <Typography variant="h4" style={{ marginTop: 10 }}>{home[0].fraseTitle}</Typography>
+                <Divider/>
+                <Typography style={{margin: 10}} variant="h6" >{home[0].fraseDescription}</Typography>
+              </Paper>
+            </div>
+
 
           </Box>
           <div className="spacer layer1" />
