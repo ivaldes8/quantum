@@ -42,7 +42,7 @@ const createAction = asyncHandler(async (req, res) => {
     throw new Error('User not authorized')
   }
 
-  const action = await Action.create({
+  const storedAction = await Action.create({
     investment: req.params.id,
     user: req.user.id,
     amount: req.body.amount,
@@ -50,6 +50,8 @@ const createAction = asyncHandler(async (req, res) => {
     reason: req.body.reason,
     date: req.body.date
   });
+
+  const action = await Action.findById(storedAction._id).populate("investment");
 
   const investmentActions = investment.actions
 
@@ -80,7 +82,7 @@ const updateAction = asyncHandler(async (req, res) => {
 
   const updatedAction = await Action.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
-  });
+  }).populate("investment");
 
   res.status(200).json(updatedAction);
 });
