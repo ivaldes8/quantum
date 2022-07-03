@@ -1,9 +1,11 @@
 const asyncHandler = require("express-async-handler");
 
 const Currency = require("../models/currencyModel");
+const User = require("../models/userModel");
+const Investment = require("../models/investmentModel");
 
 const getCurrencies = asyncHandler(async (req, res) => {
-  const currencies = await Currency.find({}).populate("investments");
+  const currencies = await Currency.find({});
   res.status(200).json({ currencies });
 });
 
@@ -18,11 +20,6 @@ const createCurrency = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Please add a name at lease");
   }
-
-  if (req.body.investments) {
-    res.status(400);
-    throw new Error("Cannot change the investments asociated to a currency");
-  }
   
   const currency = await Currency.create({
     name: req.body.name,
@@ -35,11 +32,6 @@ const updateCurrency = asyncHandler(async (req, res) => {
   if (req.user.role !== 'Admin') {
     res.status(401)
     throw new Error('User not authorized')
-  }
-
-  if (req.body.investments) {
-    res.status(400);
-    throw new Error("Cannot change the investments asociated to a currency");
   }
 
   const currency = await Currency.findById(req.params.id);
@@ -68,9 +60,18 @@ const deleteCurrency = asyncHandler(async (req, res) => {
     throw new Error("currency not found");
   }
 
-  if (currency.investments && currency.investments.length > 0) {
+  const investment = await Investment.find({currency: currency._id})
+
+  if (investment.length > 0) {
     res.status(400);
-    throw new Error("Cannot delete a currency with connected investments");
+    throw new Error("You cannot delete a currency with investments");
+  }
+
+  const user = await User.find({currency: currency._id})
+
+  if (user.length > 0) {
+    res.status(400);
+    throw new Error("You cannot delete a currency with users");
   }
 
   await currency.remove();

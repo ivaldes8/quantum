@@ -2,13 +2,6 @@ const mongoose = require("mongoose");
 
 const currencySchema = mongoose.Schema(
   {
-    investments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        required: false,
-        ref: "Investment",
-      },
-    ],
     name: {
       type: String,
       required: true

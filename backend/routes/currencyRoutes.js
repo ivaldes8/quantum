@@ -5,7 +5,7 @@ const {getCurrencies, createCurrency, updateCurrency, deleteCurrency} = require(
 
 const { protect } = require('../middlewares/authMiddleware')
 
-router.route('/').get(protect,getCurrencies).post(protect,createCurrency)
+router.route('/').get(getCurrencies).post(protect,createCurrency)
 router.route('/:id').put(protect,updateCurrency).delete(protect,deleteCurrency)
 
 module.exports = router
