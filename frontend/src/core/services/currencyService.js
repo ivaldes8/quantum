@@ -27,13 +27,8 @@ const updateCurrency = async (data, token, id) => {
 }
 
 const getCurrencies = async (token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
 
-    const response = await axios.get(API_URL, config)
+    const response = await axios.get(API_URL)
 
     return response.data
 }

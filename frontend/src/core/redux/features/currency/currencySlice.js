@@ -14,8 +14,7 @@ export const getCurrencies = createAsyncThunk(
   "currency/getAll",
   async (_, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await currencyService.getCurrencies(token);
+      return await currencyService.getCurrencies();
     } catch (error) {
       const message =
         (error.response &&

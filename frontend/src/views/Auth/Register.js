@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { register, reset } from "../../core/redux/features/auth/authSlice";
+import { getCurrencies } from "../../core/redux/features/currency/currencySlice";
 
 import "./Auth.css";
 
@@ -24,6 +25,7 @@ import {
   required,
 } from "../../core/custom-components/validations/InputErrors";
 import TextField from "../../core/custom-components/form-elements/TextField";
+import SimpleSelect from "../../core/custom-components/form-elements/SelectSimple/index";
 import Loading from "../../core/custom-components/Loading";
 
 const Register = () => {
@@ -34,6 +36,14 @@ const Register = () => {
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
+
+  const { currencies } = useSelector((state) => state.currency);
+
+  useEffect(() => {
+    console.log('Here')
+    dispatch(getCurrencies());
+    console.log(currencies, 'JAAJ')
+  }, []);
 
   useEffect(() => {
     if (isError) {
@@ -51,7 +61,7 @@ const Register = () => {
   };
 
   if (isLoading) {
-    return <Loading/>
+    return <Loading />
   }
 
   return (
@@ -87,6 +97,14 @@ const Register = () => {
                 className="form-control"
                 field="lastName"
                 label="lastName"
+                validate={composeValidators(required)}
+              />
+              <SimpleSelect style={{width: '95%'}}
+                field="currency"
+                label="currency"
+                selectkey="name"
+                simple={false}
+                options={currencies}
                 validate={composeValidators(required)}
               />
               <TextField

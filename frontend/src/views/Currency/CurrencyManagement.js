@@ -154,7 +154,7 @@ const CurrencyManagement = () => {
         />
       </DialogForm>
       <DialogConfirmation
-        title="DeleteUser"
+        title="DeleteCurrency"
         confirmationText="deleteCurrencyConfirmation"
         valueToShow={toDelete?.name ? toDelete.name : ""}
         openModal={openConfModal}
