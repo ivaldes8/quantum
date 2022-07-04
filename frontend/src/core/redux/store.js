@@ -7,6 +7,7 @@ import actionReducer from './features/actions/actionSlice'
 import homeReducer from './features/home/homeSlice'
 import homeCardReducer from './features/homeCards/homeCardSlice'
 import currencyReducer from './features/currency/currencySlice'
+import exchangeReducer from './features/exchange/exchangeSlice'
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     action: actionReducer,
     home: homeReducer,
     homeCard: homeCardReducer,
-    currency: currencyReducer
+    currency: currencyReducer,
+    exchange: exchangeReducer
   },
 });

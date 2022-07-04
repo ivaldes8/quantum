@@ -9,6 +9,7 @@ import {
   updateCurrentUser,
   reset
 } from "../../core/redux/features/user/userSlice";
+import { getCurrencies } from "../../core/redux/features/currency/currencySlice";
 
 import {
   composeValidators,
@@ -16,7 +17,10 @@ import {
   email
 } from "../../core/custom-components/validations/InputErrors";
 
+import ProfileExchangeManagement from "./ProfileExchangeManagement";
+
 import TextField from "../../core/custom-components/form-elements/TextField";
+import SimpleSelect from "../../core/custom-components/form-elements/SelectSimple/index";
 import AddLine from "../../core/custom-components/AddLine";
 import Header from "../../core/custom-components/Header";
 import DialogForm from "../../core/custom-components/dialog/DialogForm";
@@ -34,6 +38,8 @@ const Profile = () => {
   const { currentUser, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.user
   );
+
+  const { currencies } = useSelector((state) => state.currency);
 
   const [openModal, setOpenModal] = useState(false);
   const [toEdit, setToEdit] = useState(null);
@@ -60,6 +66,10 @@ const Profile = () => {
     }
     setOpenModal(false);
   };
+
+  useEffect(() => {
+    dispatch(getCurrencies());
+  }, []);
 
   useEffect(() => {
     dispatch(getCurrentUser());
@@ -94,7 +104,7 @@ const Profile = () => {
                   aria-controls="panel4a-content"
                   id="panel4a-header"
                 >
-                  <Typography>{t('name')}:</Typography>
+                  <Typography style={{ fontWeight: 600 }}>{t('name')}:</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography variant="p">{currentUser.name}</Typography>
@@ -106,7 +116,7 @@ const Profile = () => {
                   aria-controls="panel5a-content"
                   id="panel5a-header"
                 >
-                  <Typography>{t('lastName')}:</Typography>
+                  <Typography style={{ fontWeight: 600 }}>{t('lastName')}:</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography variant="p">{currentUser.lastName}</Typography>
@@ -118,7 +128,7 @@ const Profile = () => {
                   aria-controls="panel6a-content"
                   id="panel6a-header"
                 >
-                  <Typography>{t('email')}:</Typography>
+                  <Typography style={{ fontWeight: 600 }}>{t('email')}:</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography variant="p">{currentUser.email}</Typography>
@@ -130,7 +140,19 @@ const Profile = () => {
                   aria-controls="panel7a-content"
                   id="panel7a-header"
                 >
-                  <Typography>{t('role')}:</Typography>
+                  <Typography style={{ fontWeight: 600 }}>{t('currency')}:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="p">{currentUser.currency ? currentUser.currency.name : ''}</Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel8a-content"
+                  id="panel8a-header"
+                >
+                  <Typography style={{ fontWeight: 600 }}>{t('role')}:</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography variant="p">{currentUser.role}</Typography>
@@ -139,6 +161,7 @@ const Profile = () => {
             </>
           }
         </Paper>
+        <ProfileExchangeManagement userCurrency={currentUser.currency ? currentUser.currency.name : ''}/>
       </Container>
 
       <AddLine />
@@ -164,6 +187,14 @@ const Profile = () => {
           field="email"
           label="email"
           validate={composeValidators(required, email)}
+        />
+        <SimpleSelect
+          field="currency"
+          label="currency"
+          selectkey="name"
+          simple={false}
+          options={currencies}
+          validate={composeValidators(required)}
         />
       </DialogForm>
     </>

@@ -65,13 +65,6 @@ const updateExchange = asyncHandler(async (req, res) => {
     throw new Error("Cannot specify an exchange for your default currency");
   }
 
-  const checkRepeatedExchange = await Exchange.find({ currency: req.body.currency })
-
-  if (checkRepeatedExchange.length > 0) {
-    res.status(400);
-    throw new Error("Only is allowed one exchange per currency");
-  }
-
   const updatedExchange = await Exchange.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   }).populate("currency");

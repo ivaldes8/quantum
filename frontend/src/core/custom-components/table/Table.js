@@ -7,6 +7,7 @@ import Format from "../../formats/Format";
 import {IconButton, Paper, TableSortLabel, TableRow, TablePagination, TableHead, TableContainer, TableCell, TableBody, Table, Box }from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { Delete, Edit } from "@mui/icons-material";
+import currencyService from "../../services/currencyService";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -145,8 +146,10 @@ export default function EnhancedTable({
                         <TableCell key={cell} align="center">
                           {cell === "date"
                             ? moment(row[cell]).utc().format("DD-MM-YYYY")
-                            : cell === "feedback" || cell === "amount" || cell === "deposit"
+                            : cell === "feedback" || cell === "amount" || cell === "deposit" || cell === "change"
                             ? Format.formatCurrency(row[cell])
+                            : cell === "currencyM" 
+                            ? row.currency.name
                             : row[cell]}
                         </TableCell>
                       );

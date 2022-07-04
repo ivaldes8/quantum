@@ -98,5 +98,10 @@
   "CreateCurrency": "Crear moneda",
   "DeleteCurrency": "Eliminar moneda",
   "deleteCurrencyConfirmation": "Seguro que desea eliminar esta moneda?",
-  "currency": "Moneda"
+  "currency": "Moneda",
+  "exchange": "Cambio",
+  "DeleteExchange": "Eliminar cambio",
+  "deleteExchangeConfirmation": "Seguro que desea eliminar este cambio?",
+  "EditExchange": "Editar cambio",
+  "CreateExchange": "Crear cambio"
 }
