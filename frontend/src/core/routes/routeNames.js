@@ -10,7 +10,7 @@ const RoutesName = {
     group: '/group',
     groupInvestmens: '/group/:name/:id',
     investment: '/investment',
-    action: '/investment/:name/:id',
+    action: '/investment/:name/:id/:currency',
     rest: '*'
 }
 

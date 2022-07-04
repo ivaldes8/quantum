@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const Investment = require("../models/investmentModel");
 const Action = require("../models/actionModel");
 const Currency = require("../models/currencyModel");
+const Exchange = require("../models/exchangeModel")
 const User = require("../models/userModel");
 
 const getInvestments = asyncHandler(async (req, res) => {
@@ -29,6 +30,15 @@ const createInvestment = asyncHandler(async (req, res) => {
     throw new Error("Currency not found");
   }
 
+
+  if (req.body.currency && req.body.currency._id.toString() !== req.user.currency.toString()) {
+    const exchange = await Exchange.find({ user: req.user.id })
+
+    if (!exchange.find((e) => { return e.currency._id.toString() === req.body.currency._id.toString() })) {
+      res.status(400);
+      throw new Error("Cannot create a investment with out a currency with exchange");
+    }
+  }
 
   const sotageInvestment = await Investment.create({
     user: req.user.id,

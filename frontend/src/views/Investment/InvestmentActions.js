@@ -37,7 +37,7 @@ const InvestmentActions = () => {
     (state) => state.action
   );
 
-  const { id, name } = useParams();
+  const { id, name, currency } = useParams();
 
   const [openModal, setOpenModal] = useState(false);
   const [openConfModal, setOpenConfModal] = useState(false);
@@ -136,7 +136,7 @@ const InvestmentActions = () => {
     });
     return ` ${t("totals")}: ${Format.formatCurrency(
       amount
-    )} / ${Format.formatCurrency(feedBack)} = ${Format.formatCurrency(amount+feedBack)}`;
+    )} / ${Format.formatCurrency(feedBack)} = ${Format.formatCurrency(amount+feedBack)} - ${currency}`;
   };
 
   useEffect(() => {

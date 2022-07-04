@@ -67,7 +67,7 @@ const Investment = () => {
   };
 
   const handleOnSelect = (data) => {
-    navigate(`/investment/${data.name}/${data._id}`)
+    navigate(`/investment/${data.name}/${data._id}/${data.currency.name}`)
   }
 
   const onCloseModal = () => {
@@ -132,6 +132,7 @@ const Investment = () => {
             onSelectHandler={handleOnSelect}
             titleKey="name"
             descKey="description"
+            currency={true}
           />
         </Paper>
       </Container>

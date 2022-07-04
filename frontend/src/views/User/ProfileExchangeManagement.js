@@ -14,11 +14,7 @@ import {
 
 import { getCurrencies } from "../../core/redux/features/currency/currencySlice";
 
-import {
-    composeValidators,
-    required,
-    fileSizeLess250
-} from "../../core/custom-components/validations/InputErrors";
+import { composeValidators, required } from "../../core/custom-components/validations/InputErrors";
 
 import TextField from "../../core/custom-components/form-elements/TextField";
 import SimpleSelect from "../../core/custom-components/form-elements/SelectSimple/index";
@@ -27,7 +23,6 @@ import Header from "../../core/custom-components/Header";
 import DialogForm from "../../core/custom-components/dialog/DialogForm";
 import Loading from "../../core/custom-components/Loading";
 import DialogConfirmation from "../../core/custom-components/dialog/DialogConfirmation";
-import FileFieldInput from "../../core/custom-components/form-elements/FileField";
 
 import { Paper } from "@mui/material";
 
@@ -97,7 +92,7 @@ const ProfileExchangeManagement = ({ userCurrency = '' }) => {
             change: data.change
         }
         if (isEdit) {
-            dispatch(updateExchange({...toSend, _id: data._id}));
+            dispatch(updateExchange({ ...toSend, _id: data._id }));
             if (isSuccess && !isError) {
                 toast.success(t("homeCardUpdated"));
             }

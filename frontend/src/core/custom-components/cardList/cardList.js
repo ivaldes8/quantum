@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import CardComponent from "../card/card";
 
-const CardList = ({ list, titleKey, descKey, onEditHandler, onDeleteHandler, onSelectHandler, noDataText = "noData", clickeable = true, deleteable = true, editable = true }) => {
+const CardList = ({ list, titleKey, descKey, currency, onEditHandler, onDeleteHandler, onSelectHandler, noDataText = "noData", clickeable = true, deleteable = true, editable = true }) => {
 
   const { t } = useTranslation();
 
@@ -36,6 +36,7 @@ const CardList = ({ list, titleKey, descKey, onEditHandler, onDeleteHandler, onS
                       img={item.img}
                       title={item[`${titleKey}`]}
                       description={item[`${descKey}`]}
+                      currency={currency}
                       clickeable={clickeable}
                       deleteable={deleteable}
                       editable={editable}
