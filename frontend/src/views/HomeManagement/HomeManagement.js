@@ -92,7 +92,7 @@ const HomeManagement = () => {
   }, [isError, message])
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading/>;
   }
 
 

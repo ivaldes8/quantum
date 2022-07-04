@@ -105,7 +105,7 @@ const HomeCardManagement = () => {
     }, [isError, message])
 
     if (isLoading) {
-        return <Loading w="90%" h="50%" />;
+        return <Loading w="80%" h="50%" z={100} />;
     }
 
     return (

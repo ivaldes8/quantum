@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from "@mui/material";
 import React from "react";
 
-const Loading = ({w="100%", h="100%"}) => {
+const Loading = ({w="100%", h="100%", z=150}) => {
   return (
     <Box
       sx={{
@@ -14,7 +14,7 @@ const Loading = ({w="100%", h="100%"}) => {
         justifyContent: "center"
       }}
     >
-      <CircularProgress style={{ alignSelf: "center" }} size={150} />
+      <CircularProgress style={{ alignSelf: "center" }} size={z} />
     </Box>
   );
 };

@@ -40,9 +40,7 @@ const Register = () => {
   const { currencies } = useSelector((state) => state.currency);
 
   useEffect(() => {
-    console.log('Here')
     dispatch(getCurrencies());
-    console.log(currencies, 'JAAJ')
   }, []);
 
   useEffect(() => {
@@ -99,7 +97,7 @@ const Register = () => {
                 label="lastName"
                 validate={composeValidators(required)}
               />
-              <SimpleSelect style={{width: '95%'}}
+              <SimpleSelect style={{ width: '95%' }}
                 field="currency"
                 label="currency"
                 selectkey="name"
