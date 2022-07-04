@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { getGroup, reset } from "../../core/redux/features/groups/groupSlice";
+import { getCurrentUser } from "../../core/redux/features/user/userSlice";
+import { getExchanges } from "../../core/redux/features/exchange/exchangeSlice";
 
 import Format from "../../core/formats/Format";
 import Header from "../../core/custom-components/Header";
@@ -22,6 +24,14 @@ const GroupInvestments = () => {
     (state) => state.group
   );
 
+  const { currentUser } = useSelector(
+    (state) => state.user
+  );
+
+  const { exchanges } = useSelector(
+    (state) => state.exchange
+  );
+
   const { id, name } = useParams();
 
   const investmentTableColumns = [
@@ -30,6 +40,12 @@ const GroupInvestments = () => {
       numeric: false,
       disablePadding: true,
       label: "name",
+    },
+    {
+      id: "change",
+      numeric: true,
+      disablePadding: false,
+      label: "exchange",
     },
     {
       id: "description",
@@ -51,24 +67,28 @@ const GroupInvestments = () => {
     },
   ];
 
-  const investmentCells = ["name", "description", "deposit", "feedback"];
+  const investmentCells = ["name", "currencyM", "description", "deposit", "feedback"];
 
   const calculateTotals = (list) => {
     let amount = 0;
     let feedBack = 0;
     list.map((i) => {
       i.actions.map((a) => {
-        amount += a.amount;
-        feedBack += a.feedback;
+        let exchange = exchanges.find((e) => {return e.currency.name === i.currency.name})
+        console.log(exchange, 'Ex')
+        amount += currentUser.currency.name === i.currency.name ? a.amount : exchange ?  a.amount/exchange.change : 0;
+        feedBack += currentUser.currency.name === i.currency.name ? a.feedback : exchange ?  a.feedback/exchange.change : 0;
       })
 
     });
     return ` ${t("totals")}: ${Format.formatCurrency(
       amount
-    )} / ${Format.formatCurrency(feedBack)} = ${Format.formatCurrency(amount + feedBack)}`;
+    )} / ${Format.formatCurrency(feedBack)} = ${Format.formatCurrency(-amount + feedBack)} - ${currentUser.currency.name}`;
   };
 
   useEffect(() => {
+    dispatch(getCurrentUser());
+    dispatch(getExchanges());
     dispatch(getGroup(id));
     return () => {
       dispatch(reset());

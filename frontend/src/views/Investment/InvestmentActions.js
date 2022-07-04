@@ -136,7 +136,7 @@ const InvestmentActions = () => {
     });
     return ` ${t("totals")}: ${Format.formatCurrency(
       amount
-    )} / ${Format.formatCurrency(feedBack)} = ${Format.formatCurrency(amount+feedBack)} - ${currency}`;
+    )} / ${Format.formatCurrency(feedBack)} = ${Format.formatCurrency(-amount+feedBack)} - ${currency}`;
   };
 
   useEffect(() => {

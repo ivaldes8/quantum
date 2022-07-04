@@ -8,9 +8,9 @@ export default {
     if ( number === 0 ) return '$0';
     if ( !number ) return number;
 
-    let format = '$0,0.[00]';
+    let format = '$0,0.[000]';
     if ( currency === 'EUR' ) {
-      format = '0,0.[00] EUR';
+      format = '0,0.[000] EUR';
     }
 
     return numeral( number ).format( format );

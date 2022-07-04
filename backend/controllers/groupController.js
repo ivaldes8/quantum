@@ -12,9 +12,10 @@ const getGroups = asyncHandler(async (req, res) => {
 const getGroupById = asyncHandler(async (req, res) => {
   const group = await Group.find({ user: req.user.id, _id: req.params.id }).populate({
     path: 'investments',
-    populate: {
-      path: 'actions'
-    }
+    populate: [
+      { path: 'actions' },
+      { path: 'currency' }
+    ]
   });
   res.status(200).json({ group });
 });
