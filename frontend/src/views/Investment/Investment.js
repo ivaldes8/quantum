@@ -79,7 +79,16 @@ const Investment = () => {
   };
 
   const submitModal = (data) => {
+    console.log(data, 'DATA')
     if (isEdit) {
+      // const toSend = {
+      //   name: data.name,
+      //   description: data.description,
+      //   user: data.user,
+      //   _id: data._id,
+      //   actions: data.actions,
+      //   currency: data.currency
+      // }
       dispatch(updateInvestment(data));
       if (isSuccess && !isError) {
         toast.success(t("investmentUpdated"));

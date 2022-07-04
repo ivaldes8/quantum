@@ -61,9 +61,9 @@ const updateInvestment = asyncHandler(async (req, res) => {
     throw new Error('User not authorized')
   }
 
-  if(req.body.currency){
+  if(req.body.currency && investment.actions.length > 0){
     res.status(400);
-    throw new Error("Cannot change the currency of this investment once created");
+    throw new Error("Cannot change the currency of a investment with actions");
   }
 
   const updatedInvestment = await Investment.findByIdAndUpdate(req.params.id, req.body, {
