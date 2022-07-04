@@ -20,7 +20,7 @@ export default ({
   ...rest
 }) => (
   <FormControl sx={{ m: 1 }} error={meta.touched && !!meta.error} fullWidth>
-    <InputLabel>{rest.label}</InputLabel>
+    <InputLabel>{rest.label ? i18n.t(rest.label) : null}</InputLabel>
     <Select
       MenuProps={MenuProps}
       displayEmpty
@@ -42,11 +42,12 @@ export default ({
         </Box>
       ) : (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-          {console.log(selected, value,'SElected')}
-          <Chip
-            value={selected}
-            label={selected[`${rest.selectkey}`]}
-            className="multi-select-chip" />
+          {value !== '' &&
+            <Chip
+              value={selected}
+              label={selected[`${rest.selectkey}`]}
+              className="multi-select-chip" />
+          }
         </Box>
       ))
       }

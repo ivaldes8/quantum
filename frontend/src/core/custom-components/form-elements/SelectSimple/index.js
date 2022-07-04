@@ -29,6 +29,7 @@ const index = ({ field,
         selectkey={selectkey}
         component={SimpleSelect}
         simple={simple}
+        {...rest}
 
     />
 )

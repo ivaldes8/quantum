@@ -27,7 +27,7 @@ const index = ({ field,
         selectkey={selectkey}
         multiple={true}
         component={MultiSelect}
-        
+        {...rest}   
     />
 )
 
