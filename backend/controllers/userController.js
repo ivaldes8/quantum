@@ -113,6 +113,11 @@ const updateCurrentUser = asyncHandler(async (req, res) => {
         if (exchange.length > 0 && req.body.currency === exchange[0].currency.toString()) {
             const updatedExchange = await Exchange.findByIdAndUpdate(exchange[0]._id, { currency: req.user.currency })
         }
+
+        if (exchange.length === 0) {
+            res.status(400)
+            throw new Error('You must to specify an exchange for your new default currency first')
+        }
     }
 
     if (req.body.password) {

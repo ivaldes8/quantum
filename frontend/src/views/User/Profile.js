@@ -57,7 +57,8 @@ const Profile = () => {
     const toSend = {
       name: data.name,
       email: data.email,
-      lastName: data.lastName
+      lastName: data.lastName,
+      currency: data.currency._id
     }
     dispatch(updateCurrentUser(toSend));
 
