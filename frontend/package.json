@@ -17,6 +17,8 @@
     "@testing-library/user-event": "^14.2.0",
     "aos": "^2.3.4",
     "axios": "^0.27.2",
+    "echarts": "^5.3.3",
+    "echarts-for-react": "^3.0.2",
     "final-form": "^4.20.7",
     "i18next-browser-languagedetector": "^6.1.4",
     "i18next-http-backend": "^1.4.0",

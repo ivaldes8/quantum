@@ -103,5 +103,12 @@
   "DeleteExchange": "Eliminar cambio",
   "deleteExchangeConfirmation": "Seguro que desea eliminar este cambio?",
   "EditExchange": "Editar cambio",
-  "CreateExchange": "Crear cambio"
+  "CreateExchange": "Crear cambio",
+  "totalDeposit": "Total depositado",
+  "totalReturn": "Total de retorno",
+  "depositByGroup": "Depositado por grupos",
+  "returnByGroup": "Retorno por grupos",
+  "depositByInvestment": "Depositado por inversiones",
+  "returnByInvestment": "Retorno por inversiones",
+  "investmentBehavior": "Comportamiento de inversiones"
 }

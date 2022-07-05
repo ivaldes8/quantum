@@ -103,5 +103,12 @@
   "DeleteExchange": "Delete exchange",
   "deleteExchangeConfirmation": "Are you should that you want to delete this exchange?",
   "EditExchange": "Edit exchange",
-  "CreateExchange": "Create exchange"
+  "CreateExchange": "Create exchange",
+  "totalDeposit": "Total deposit",
+  "totalReturn": "Total return",
+  "depositByGroup": "Deposited by groups",
+  "returnByGroup": "Returned by groups",
+  "depositByInvestment": "Deposited by investments",
+  "returnByInvestment": "Returned by investments",
+  "investmentBehavior": "Investment behavior"
 }
