@@ -259,12 +259,44 @@ const deleteUser = asyncHandler(async (req, res) => {
     res.status(200).json({ id: req.params.id });
 });
 
-
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: '12h'
     })
 }
+
+//----------------------------------------------------------------------------------------
+
+const getDashboard = asyncHandler(async (req, res) => {
+
+    const investment = await Investment.find({ user: req.user.id }).populate("actions")
+
+
+    let deposit = 0
+    let feedback = 0
+
+    for (let i = 0; i < investment.length; i++) {
+        if (investment[i].currency.toString() === req.user.currency.toString()) {
+            deposit += investment[i].actions.map((a) => { return a.amount }).reduce((a, b) => a + b, 0)
+            feedback += investment[i].actions.map((a) => { return a.feedback }).reduce((a, b) => a + b, 0)
+        } else {
+            const exchange = await Exchange.find({ user: req.user.id, currency: investment[i].currency })
+            deposit += investment[i].actions.map((a) => { return a.amount / exchange[0].change }).reduce((a, b) => a + b, 0)
+            feedback += investment[i].actions.map((a) => { return a.feedback / exchange[0].change }).reduce((a, b) => a + b, 0)
+
+        }
+    }
+
+    const dashboard = {
+        deposit: deposit,
+        feedback: feedback,
+        ganancy: -deposit + feedback
+    }
+
+    res.status(200).json({ dashboard });
+
+})
+
 
 
 module.exports = {
@@ -275,5 +307,6 @@ module.exports = {
     getUsers,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getDashboard
 }
