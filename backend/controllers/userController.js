@@ -283,7 +283,6 @@ const getDashboard = asyncHandler(async (req, res) => {
             const exchange = await Exchange.find({ user: req.user.id, currency: investment[i].currency })
             deposit += investment[i].actions.map((a) => { return a.amount / exchange[0].change }).reduce((a, b) => a + b, 0)
             feedback += investment[i].actions.map((a) => { return a.feedback / exchange[0].change }).reduce((a, b) => a + b, 0)
-
         }
     }
 

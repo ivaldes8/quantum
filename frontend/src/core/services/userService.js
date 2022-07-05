@@ -74,13 +74,26 @@ const updateCurrentUser = async (data, token) => {
     return response.data
 }
 
+const getDashboard = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.get(`${API_URL}/dashboard`, config)
+
+    return response.data
+}
+
 const userService = {
     createUser,
     updateUser,
     deleteUser,
     getUsers,
     getCurrentUser,
-    updateCurrentUser 
+    updateCurrentUser,
+    getDashboard
 }
 
 export default userService

@@ -4,11 +4,31 @@ import userService from "../../../services/userService";
 const initialState = {
   users: [],
   currentUser: [],
+  dashBoard: {},
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: "",
 };
+
+//Get dashboard
+export const getDashboard = createAsyncThunk(
+  "users/getDashboard",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await userService.getDashboard(token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 //Get users
 export const getUsers = createAsyncThunk(
@@ -194,6 +214,24 @@ export const userSlice = createSlice({
         state.users = action.payload.user;
       })
       .addCase(getUsers.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
+      })
+
+      .addCase(getDashboard.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getDashboard.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.dashBoard = action.payload.dashboard;
+      })
+      .addCase(getDashboard.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

@@ -110,5 +110,6 @@
   "returnByGroup": "Retorno por grupos",
   "depositByInvestment": "Depositado por inversiones",
   "returnByInvestment": "Retorno por inversiones",
-  "investmentBehavior": "Comportamiento de inversiones"
+  "investmentBehavior": "Comportamiento de inversiones",
+  "balance": "Balance"
 }

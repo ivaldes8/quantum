@@ -4,12 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 
+import { getDashboard, reset } from "../../core/redux/features/user/userSlice";
+
 
 import AddLine from "../../core/custom-components/AddLine";
 import Format from "../../core/formats/Format";
 import Loading from "../../core/custom-components/Loading";
 import { Container, Divider, Paper, Typography, IconButton, Card, Grid } from "@mui/material";
-import { TrendingDown, TrendingUp } from '@mui/icons-material';
+import { TrendingDown, TrendingUp, AttachMoney } from '@mui/icons-material';
 
 import ReactEcharts from "echarts-for-react";
 
@@ -18,6 +20,12 @@ import './dashboard.css'
 const Dashboard = () => {
 
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { dashBoard, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.user
+  );
 
   const depositByGroupData = [
     {
@@ -190,7 +198,7 @@ const Dashboard = () => {
       type: 'line',
       name: 'Investment2',
       data: [
-    
+
         ['2019-10-5', 700],
         ['2019-10-12', 750],
         ['2019-10-13', 580],
@@ -238,18 +246,48 @@ const Dashboard = () => {
     series: investmentBehaviorSeries
   }
 
+  useEffect(() => {
+    dispatch(getDashboard());
+    return () => {
+      dispatch(reset());
+    };
+  }, []);
 
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+  }, [isError, message])
 
-  return(
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  return (
     <>
       <AddLine />
       <br />
       <Container>
         <Grid container >
-          <Grid item xs={12} sm={12} md={6} style={{ display: 'flex', alignContent: 'center' }}>
+          <Grid item xs={12} sm={12} md={4} style={{ display: 'flex', alignContent: 'center' }}>
             <Card sx={{ minWidth: 200, width: '100%', margin: 1 }}>
               <div className="box-top">
-                {Format.formatCurrency(5847)}
+                {Format.formatCurrency(dashBoard.ganancy)}
+              </div>
+              <div className="box">
+                <IconButton aria-label="add an alarm" size="large" color="primary" style={{ zIndex: 1000, backgroundColor: '#d9dbdd' }}>
+                  <AttachMoney />
+                </IconButton>
+              </div>
+              <div className="box-bottom">
+                <Typography variant='h5'>{t('balance')}</Typography>
+              </div>
+            </Card>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4} style={{ display: 'flex', alignContent: 'center' }}>
+            <Card sx={{ minWidth: 200, width: '100%', margin: 1 }}>
+              <div className="box-top">
+                {Format.formatCurrency(dashBoard.deposit)}
               </div>
               <div className="box">
                 <IconButton aria-label="add an alarm" size="large" color="primary" style={{ zIndex: 1000, backgroundColor: '#d9dbdd' }}>
@@ -261,10 +299,10 @@ const Dashboard = () => {
               </div>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} style={{ display: 'flex', alignContent: 'center' }}>
+          <Grid item xs={12} sm={12} md={4} style={{ display: 'flex', alignContent: 'center' }}>
             <Card sx={{ minWidth: 200, width: '100%', margin: 1 }}>
               <div className="box-top">
-                {Format.formatCurrency(5847)}
+                {Format.formatCurrency(dashBoard.feedback)}
               </div>
               <div className="box">
                 <IconButton aria-label="add an alarm" size="large" color="primary" style={{ zIndex: 1000, backgroundColor: '#d9dbdd' }}>
@@ -278,37 +316,37 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={12} sm={12} md={6} style={{ display: 'flex', alignContent: 'center' }}>
             <Card sx={{ minWidth: 200, width: '100%', margin: 1, textAlign: 'center' }}>
-              <Typography variant="h5" style={{margin: 10}}>{t('depositByGroup')}</Typography>
-              <Divider/>
+              <Typography variant="h5" style={{ margin: 10 }}>{t('depositByGroup')}</Typography>
+              <Divider />
               <ReactEcharts option={depositByGroupOption} />
             </Card>
           </Grid>
           <Grid item xs={12} sm={12} md={6} style={{ display: 'flex', alignContent: 'center' }}>
             <Card sx={{ minWidth: 200, width: '100%', margin: 1, textAlign: 'center' }}>
-              <Typography variant="h5" style={{margin: 10}}>{t('returnByGroup')}</Typography>
-              <Divider/>
+              <Typography variant="h5" style={{ margin: 10 }}>{t('returnByGroup')}</Typography>
+              <Divider />
               <ReactEcharts option={depositByGroupOption} />
             </Card>
           </Grid>
           <Grid item xs={12} sm={12} md={6} style={{ display: 'flex', alignContent: 'center' }}>
             <Card sx={{ minWidth: 200, width: '100%', margin: 1, textAlign: 'center' }}>
-              <Typography variant="h5" style={{margin: 10}}>{t('depositByInvestment')}</Typography>
-              <Divider/>
+              <Typography variant="h5" style={{ margin: 10 }}>{t('depositByInvestment')}</Typography>
+              <Divider />
               <ReactEcharts option={depositByInvestmentOption} />
             </Card>
           </Grid>
           <Grid item xs={12} sm={12} md={6} style={{ display: 'flex', alignContent: 'center' }}>
             <Card sx={{ minWidth: 200, width: '100%', margin: 1, textAlign: 'center' }}>
-              <Typography variant="h5" style={{margin: 10}}>{t('returnByInvestment')}</Typography>
-              <Divider/>
+              <Typography variant="h5" style={{ margin: 10 }}>{t('returnByInvestment')}</Typography>
+              <Divider />
               <ReactEcharts option={depositByInvestmentOption} />
             </Card>
           </Grid>
           <Grid item xs={12} sm={12} md={12} style={{ display: 'flex', alignContent: 'center' }}>
             <Card sx={{ minWidth: 200, width: '100%', margin: 1, textAlign: 'center' }}>
-              <Typography variant="h5" style={{margin: 10}}>{t('investmentBehavior')}</Typography>
-              <Divider/>
-              <ReactEcharts style={{height: '400px'}} option={investmentBehaviorOption} />
+              <Typography variant="h5" style={{ margin: 10 }}>{t('investmentBehavior')}</Typography>
+              <Divider />
+              <ReactEcharts style={{ height: '400px' }} option={investmentBehaviorOption} />
             </Card>
           </Grid>
         </Grid>
