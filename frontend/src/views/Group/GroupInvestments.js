@@ -75,7 +75,6 @@ const GroupInvestments = () => {
     list.map((i) => {
       i.actions.map((a) => {
         let exchange = exchanges.find((e) => {return e.currency.name === i.currency.name})
-        console.log(exchange, 'Ex')
         amount += currentUser.currency.name === i.currency.name ? a.amount : exchange ?  a.amount/exchange.change : 0;
         feedBack += currentUser.currency.name === i.currency.name ? a.feedback : exchange ?  a.feedback/exchange.change : 0;
       })

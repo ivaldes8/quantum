@@ -26,6 +26,12 @@ const createGroup = asyncHandler(async (req, res) => {
     throw new Error("Please add a name at lease");
   }
 
+  const validInvestment = await Group.find({ investments: { "$in": req.body.investments } })
+  if (validInvestment.length > 0) {
+    res.status(400);
+    throw new Error("One or more investments already belongs to another group");
+  }
+
   const storageGroup = await Group.create({
     user: req.user.id,
     investments: req.body.investments,
@@ -58,6 +64,12 @@ const updateGroup = asyncHandler(async (req, res) => {
   if (group.user.toString() !== req.user.id) {
     res.status(401)
     throw new Error('User not authorized')
+  }
+
+  const validInvestment = await Group.find({ investments: { "$in": req.body.investments } })
+  if (validInvestment.length > 1) {
+    res.status(400);
+    throw new Error("One or more investments already belongs to another group");
   }
 
   const updatedGroup = await Group.findByIdAndUpdate(req.params.id, req.body, {
