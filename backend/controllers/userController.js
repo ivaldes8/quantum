@@ -269,6 +269,10 @@ const generateToken = (id) => {
 const resumeInvestment = async (investment, userCurrency, userId) => {
     let deposit = 0
     let feedback = 0
+
+    if (investment.length === 0) {
+        return [deposit, feedback]
+    }
     const exchange = await Exchange.find({ user: userId, currency: investment.currency })
 
     if (investment.length) {
