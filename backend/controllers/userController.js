@@ -266,30 +266,57 @@ const generateToken = (id) => {
 }
 
 //----------------------------------------------------------------------------------------
+const resumeInvestment = async (investment, userCurrency, userId) => {
+    let deposit = 0
+    let feedback = 0
+    const exchange = await Exchange.find({ user: userId, currency: investment.currency })
+
+    if (investment.length) {
+        for (let i = 0; i < investment.length; i++) {
+            if (investment[i].currency.toString() === userCurrency.toString()) {
+                deposit += investment[i].actions.map((a) => { return a.amount }).reduce((a, b) => a + b, 0)
+                feedback += investment[i].actions.map((a) => { return a.feedback }).reduce((a, b) => a + b, 0)
+            } else {
+                const exchange = await Exchange.find({ user: userId, currency: investment[i].currency })
+                deposit += investment[i].actions.map((a) => { return a.amount / exchange[0].change }).reduce((a, b) => a + b, 0)
+                feedback += investment[i].actions.map((a) => { return a.feedback / exchange[0].change }).reduce((a, b) => a + b, 0)
+            }
+        }
+    } else {
+        if (investment.currency._id.toString() === userCurrency.toString()) {
+            deposit += investment.actions.map((a) => { return a.amount }).reduce((a, b) => a + b, 0)
+            feedback += investment.actions.map((a) => { return a.feedback }).reduce((a, b) => a + b, 0)
+        } else {
+            deposit += investment.actions.map((a) => { return a.amount / exchange[0].change }).reduce((a, b) => a + b, 0)
+            feedback += investment.actions.map((a) => { return a.feedback / exchange[0].change }).reduce((a, b) => a + b, 0)
+        }
+    }
+
+
+    return [deposit, feedback]
+}
 
 const getDashboard = asyncHandler(async (req, res) => {
 
     const investment = await Investment.find({ user: req.user.id }).populate("actions")
+    const exchange = await Exchange.find({ user: req.user.id })
+    const group = await Group.find({ user: req.user.id }).populate({
+        path: 'investments',
+        populate: [
+            { path: 'actions' },
+            { path: 'currency' }
+        ]
+    });
 
-
-    let deposit = 0
-    let feedback = 0
-
-    for (let i = 0; i < investment.length; i++) {
-        if (investment[i].currency.toString() === req.user.currency.toString()) {
-            deposit += investment[i].actions.map((a) => { return a.amount }).reduce((a, b) => a + b, 0)
-            feedback += investment[i].actions.map((a) => { return a.feedback }).reduce((a, b) => a + b, 0)
-        } else {
-            const exchange = await Exchange.find({ user: req.user.id, currency: investment[i].currency })
-            deposit += investment[i].actions.map((a) => { return a.amount / exchange[0].change }).reduce((a, b) => a + b, 0)
-            feedback += investment[i].actions.map((a) => { return a.feedback / exchange[0].change }).reduce((a, b) => a + b, 0)
-        }
-    }
+    let auxDepositFeedBack = await resumeInvestment(investment, req.user.currency, req.user.id)
 
     const dashboard = {
-        deposit: deposit,
-        feedback: feedback,
-        ganancy: -deposit + feedback
+        deposit: auxDepositFeedBack[0],
+        feedback: auxDepositFeedBack[1],
+        ganancy: -auxDepositFeedBack[0] + auxDepositFeedBack[1],
+        groups: group,
+        exchanges: exchange,
+        userCurrency: req.user.currency
     }
 
     res.status(200).json({ dashboard });

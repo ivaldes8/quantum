@@ -2,6 +2,9 @@
   "name": "frontend",
   "version": "0.1.0",
   "proxy": "http://127.0.0.1:5000",
+  "allowedHosts": [
+    "127.0.0.1"
+  ],
   "private": true,
   "dependencies": {
     "@date-io/moment": "^2.14.0",

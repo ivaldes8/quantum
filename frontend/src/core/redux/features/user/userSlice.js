@@ -4,7 +4,7 @@ import userService from "../../../services/userService";
 const initialState = {
   users: [],
   currentUser: [],
-  dashBoard: {},
+  dashBoard: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
