@@ -10,8 +10,8 @@ import { getDashboard, reset } from "../../core/redux/features/user/userSlice";
 import AddLine from "../../core/custom-components/AddLine";
 import Format from "../../core/formats/Format";
 import Loading from "../../core/custom-components/Loading";
-import { Container, Divider, Paper, Typography, IconButton, Card, Grid } from "@mui/material";
-import { TrendingDown, TrendingUp, AttachMoney, CurrencyExchangeRounded } from '@mui/icons-material';
+import { Container, Divider, Typography, IconButton, Card, Grid } from "@mui/material";
+import { TrendingDown, TrendingUp, AttachMoney } from '@mui/icons-material';
 
 import ReactEcharts from "echarts-for-react";
 
@@ -22,29 +22,49 @@ const Dashboard = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { dashBoard, isLoading, isError, isSuccess, message } = useSelector(
+  const { dashBoard, isLoading, isError, message } = useSelector(
     (state) => state.user
   );
 
   const [depositPerGroup, setDepositPerGroup] = useState({});
   const [feedbackPerGroup, setFeedbackPerGroup] = useState({});
   const [balancePerGroup, setBalancePerGroup] = useState({});
+  const [depositPerInvestment, setDepositPerInvestment] = useState(null);
+  const [feedbackPerInvestment, setFeedbackPerInvestment] = useState(null);
+  const [balancePerInvestment, setBalancePerInvestment] = useState(null);
+  const [investmentBehavior, setInvestmentBehavior] = useState(null);
 
-  const refineInvestment = (investment) => {
-    let deposit = 0
-    let feedback = 0
+  const refineInvestment = (investment, behave) => {
     const exchange = _.find(dashBoard.exchanges, { currency: investment.currency._id })
-    // console.log(dashBoard.exchanges, investment.currency._id, exchange, 'LOL')
-    // console.log(exchange, investment.currency._id, dashBoard.userCurrency, 'LOL')
-    if (investment.currency._id === dashBoard.userCurrency) {
-      deposit += investment.actions.map((a) => { return a.amount }).reduce((a, b) => a + b, 0)
-      feedback += investment.actions.map((a) => { return a.feedback }).reduce((a, b) => a + b, 0)
+    if (!behave) {
+      let deposit = 0
+      let feedback = 0
+      if (investment.currency._id === dashBoard.userCurrency) {
+        deposit += investment.actions.map((a) => { return a.amount }).reduce((a, b) => a + b, 0)
+        feedback += investment.actions.map((a) => { return a.feedback }).reduce((a, b) => a + b, 0)
+      } else {
+        deposit += investment.actions.map((a) => { return a.amount / exchange.change }).reduce((a, b) => a + b, 0)
+        feedback += investment.actions.map((a) => { return a.feedback / exchange.change }).reduce((a, b) => a + b, 0)
+      }
+
+      return [deposit, feedback]
     } else {
-      deposit += investment.actions.map((a) => { return a.amount / exchange.change }).reduce((a, b) => a + b, 0)
-      feedback += investment.actions.map((a) => { return a.feedback / exchange.change }).reduce((a, b) => a + b, 0)
+      let actions = []
+      let amount = 0
+      if (investment.currency._id === dashBoard.userCurrency) {
+        actions = _.map(investment.actions, (a) => {
+          amount += -a.amount + a.feedback
+          return [a.date, amount]
+        })
+      } else {
+        actions = _.map(investment.actions, (a) => {
+          amount += -a.amount / exchange.change + a.feedback / exchange.change
+          return [a.date, amount]
+        })
+      }
+      return actions
     }
 
-    return [deposit, feedback]
   }
 
   const groupData = (dashboard) => {
@@ -73,15 +93,42 @@ const Dashboard = () => {
       return { name: g.name, children: inv }
     })
 
-
-
     setDepositPerGroup(depositPerGroup)
     setFeedbackPerGroup(feedBackPerGroup)
     setBalancePerGroup(balancePerGroup)
   }
 
+  const investmentData = (dashboard) => {
+    let depositInvestment = _.map(dashboard.investments, (i) => {
+      let refineInv = refineInvestment(i)
+      return { name: i.name, value: refineInv[0] }
+    })
+
+    let feedBackInvestment = _.map(dashboard.investments, (i) => {
+      let refineInv = refineInvestment(i)
+      return { name: i.name, value: refineInv[1] }
+    })
+
+    let balanceInvestment = _.map(dashboard.investments, (i) => {
+      let refineInv = refineInvestment(i)
+      return { name: i.name, value: -refineInv[0] + refineInv[1] }
+    })
+
+    setDepositPerInvestment(depositInvestment)
+    setFeedbackPerInvestment(feedBackInvestment)
+    setBalancePerInvestment(balanceInvestment)
+  }
+
+  const investmentBehaviorData = (dashboard) => {
+    let investmentBehave = _.map(dashboard.investments, (i) => {
+      let refineInv = refineInvestment(i, true)
+      return { name: i.name, type: 'line', data: refineInv }
+    })
+    setInvestmentBehavior(investmentBehave)
+  }
+
   const buildByGroup = (data) => {
-    return  {
+    return {
       tooltip: {
         trigger: 'item',
         formatter: '{b}: {c}'
@@ -102,226 +149,78 @@ const Dashboard = () => {
     };
   }
 
-  const depositByGroupData = [
-    {
-      name: 'Flora',
-      children: [
-        {
-          name: 'Black Tea',
-          value: 10,
-        },
-        {
-          name: 'Floral',
-          value: 20
-        }
-      ]
-    },
-    {
-      name: 'Fruity',
-      children: [
-        {
-          name: 'Berry',
-          value: 5
-        },
-        {
-          name: 'Dried',
-          value: 15
-        },
-        {
-          name: 'Other',
-          value: 20
-        },
-        {
-          name: 'Citrus',
-          value: 25
-        }
-      ]
-    },
-    {
-      name: 'Sour',
-      children: [
-        {
-          name: 'Sour',
-          value: 10
-        },
-        {
-          name: 'Alcohol',
-          value: 10
-        }
-      ]
-    },
-    {
-      name: 'Vegetative',
-      children: [
-        {
-          name: 'Olive',
-          value: 7
-        },
-        {
-          name: 'Raw',
-          value: 8
-        },
-        {
-          name: 'Green',
-          value: 9
-        },
-        {
-          name: 'Beany',
-          value: 10
-        }
-      ]
-    },
-    {
-      name: 'Other',
-      children: [
-        {
-          name: 'Papery',
-          value: 30
-        },
-        {
-          name: 'Chemical',
-          value: 35
-        }
-      ]
-    }
-  ]
-
-
-  const depositByGroupOption = {
-    tooltip: {
-      trigger: 'item',
-      formatter: '{b}: {c}'
-    },
-    series: {
-      type: 'sunburst',
-      data: depositByGroupData,
-      radius: [0, '95%'],
-      emphasis: {
-        focus: 'ancestor'
+  const buildByInvestment = (dato) => {
+    return {
+      tooltip: {
+        trigger: 'item'
       },
-      itemStyle: {
-        borderRadius: 4,
-        borderWidth: 2
+      legend: {
+        top: '5%',
+        left: 'center'
       },
-
-    }
-  };
-
-  const depositByInvestmentData = [
-    { value: 1048, name: 'Search Engine' },
-    { value: 735, name: 'Direct' },
-    { value: 580, name: 'Email' },
-    { value: 484, name: 'Union Ads' },
-    { value: 300, name: 'Video Ads' }
-  ]
-
-  const depositByInvestmentOption = {
-    tooltip: {
-      trigger: 'item'
-    },
-    legend: {
-      top: '5%',
-      left: 'center'
-    },
-    series: [
-      {
-        name: 'Investment',
-        type: 'pie',
-        radius: ['40%', '70%'],
-        avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 10,
-          borderColor: '#fff',
-          borderWidth: 2
-        },
-        label: {
-          show: false,
-          position: 'center'
-        },
-        emphasis: {
+      series: [
+        {
+          name: 'Investment',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
           label: {
-            show: true,
-            fontSize: '40',
-            fontWeight: 'bold'
-          }
-        },
-        labelLine: {
-          show: false
-        },
-        data: depositByInvestmentData
-      }
-    ]
-  };
-
-  const investmentBehaviorSeries = [
-    {
-      type: 'line',
-      name: 'Investment1',
-      data: [
-        ['2019-10-10', 200],
-        ['2019-10-11', 560],
-        ['2019-10-12', 750],
-        ['2019-10-13', 580],
-        ['2019-10-14', 250],
-        ['2019-10-15', 300],
-        ['2019-10-16', 450],
-        ['2019-10-17', 300],
-        ['2019-10-18', 100]
-      ]
-    },
-    {
-      type: 'line',
-      name: 'Investment2',
-      data: [
-        ['2019-10-5', 700],
-        ['2019-10-12', 750],
-        ['2019-10-13', 580],
-        ['2019-10-18', 100],
-        ['2019-10-20', 230],
-        ['2019-10-22', 10],
-        ['2019-10-24', 500],
-        ['2019-10-28', 2000]
-      ]
-    },
-    {
-      type: 'line',
-      name: 'Investment3',
-      data: [
-        ['2019-10-1', 122],
-        ['2019-10-10', 222],
-        ['2019-10-13', 346],
-        ['2019-10-17', 100],
-        ['2019-10-20', 20]
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '40',
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: dato
+        }
       ]
     }
-  ]
+  }
 
-  const investmentBehaviorOption = {
-    tooltip: {
-      trigger: 'axis'
-    },
-    legend: {},
-    dataZoom: [
-      {
-        startValue: '2014-06-01'
+  const buildInvestmentBehave = (dato) => {
+    return {
+      tooltip: {
+        trigger: 'axis'
       },
-      {
-        type: 'inside'
-      }
-    ],
-    xAxis: {
-      type: 'time',
-      boundaryGap: false
-    },
-    yAxis: {
-      type: 'value',
-      boundaryGap: [0, '30%']
-    },
-    series: investmentBehaviorSeries
+      legend: {},
+      dataZoom: [
+        {
+          startValue: '2014-06-01'
+        },
+        {
+          type: 'inside'
+        }
+      ],
+      xAxis: {
+        type: 'time',
+        boundaryGap: false
+      },
+      yAxis: {
+        type: 'value',
+        boundaryGap: [0, '30%']
+      },
+      series: dato
+    }
   }
 
   useEffect(() => {
-    if (dashBoard) groupData(dashBoard)
+    if (dashBoard) {
+      groupData(dashBoard)
+      investmentData(dashBoard)
+      investmentBehaviorData(dashBoard)
+    }
   }, [dashBoard])
 
   useEffect(() => {
@@ -345,7 +244,7 @@ const Dashboard = () => {
     <>
       <AddLine />
       <br />
-      {dashBoard &&
+      {dashBoard && depositPerGroup && feedbackPerGroup && balancePerGroup && depositPerInvestment && feedbackPerInvestment && balancePerInvestment && investmentBehavior &&
         <Container>
           <Grid container >
             <Grid item xs={12} sm={12} md={4} style={{ display: 'flex', alignContent: 'center' }}>
@@ -418,28 +317,28 @@ const Dashboard = () => {
               <Card sx={{ minWidth: 200, width: '100%', margin: 1, textAlign: 'center' }}>
                 <Typography variant="h5" style={{ margin: 10 }}>{t('balanceByInvestment')}</Typography>
                 <Divider />
-                <ReactEcharts option={depositByInvestmentOption} />
+                <ReactEcharts option={buildByInvestment(balancePerInvestment)} />
               </Card>
             </Grid>
             <Grid item xs={12} sm={12} md={4} style={{ display: 'flex', alignContent: 'center' }}>
               <Card sx={{ minWidth: 200, width: '100%', margin: 1, textAlign: 'center' }}>
                 <Typography variant="h5" style={{ margin: 10 }}>{t('depositByInvestment')}</Typography>
                 <Divider />
-                <ReactEcharts option={depositByInvestmentOption} />
+                <ReactEcharts option={buildByInvestment(depositPerInvestment)} />
               </Card>
             </Grid>
             <Grid item xs={12} sm={12} md={4} style={{ display: 'flex', alignContent: 'center' }}>
               <Card sx={{ minWidth: 200, width: '100%', margin: 1, textAlign: 'center' }}>
                 <Typography variant="h5" style={{ margin: 10 }}>{t('returnByInvestment')}</Typography>
                 <Divider />
-                <ReactEcharts option={depositByInvestmentOption} />
+                <ReactEcharts option={buildByInvestment(feedbackPerInvestment)} />
               </Card>
             </Grid>
             <Grid item xs={12} sm={12} md={12} style={{ display: 'flex', alignContent: 'center' }}>
               <Card sx={{ minWidth: 200, width: '100%', margin: 1, textAlign: 'center' }}>
                 <Typography variant="h5" style={{ margin: 10 }}>{t('investmentBehavior')}</Typography>
                 <Divider />
-                <ReactEcharts style={{ height: '400px' }} option={investmentBehaviorOption} />
+                <ReactEcharts style={{ height: '400px' }} option={buildInvestmentBehave(investmentBehavior)} />
               </Card>
             </Grid>
           </Grid>
