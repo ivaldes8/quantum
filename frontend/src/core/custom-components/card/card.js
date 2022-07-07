@@ -13,20 +13,21 @@ import {
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 import cardImage from "./istockphoto-840202842-170667a.jpg";
+import cardImage2 from "./_2022_03_return-1.jpg";
 
 const CardComponent = (props) => {
   const { t } = useTranslation();
 
-  const { title, description, currency = false, img, editable, deleteable, clickeable, element, onEdit, onDelete, onSelect } = props;
+  const { title, description, currency = false, defaultImage2 = true, img, editable, deleteable, clickeable, element, onEdit, onDelete, onSelect } = props;
   return (
-    <Card sx={{ maxWidth: 250 }}>
+    <Card sx={{ maxWidth: 250, minWidth: 250 }}>
       {clickeable ? (
         <>
           <CardActionArea onClick={() => onSelect(element)}>
             <CardMedia
               component="img"
               height="140"
-              image={img ? img : cardImage}
+              image={img ? img : defaultImage2 ? cardImage2 : cardImage}
               alt="green iguana"
             />
             {currency && (

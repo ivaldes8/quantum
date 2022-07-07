@@ -145,6 +145,7 @@ const Group = () => {
             onEditHandler={handleOnEdit}
             onDeleteHandler={handleOnDelete}
             onSelectHandler={handleOnSelect}
+            defaultImage2
             titleKey="name"
             descKey="description"
             noDataText="noGroup"
