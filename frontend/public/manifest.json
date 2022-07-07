@@ -57,18 +57,6 @@
       ]
     },
     {
-      "name": "Home",
-      "short_name": "Home",
-      "url": "/home",
-      "icons": [
-        {
-          "src": "/house.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
       "name": "Profile",
       "short_name": "Profile",
       "url": "/profile",
@@ -79,9 +67,21 @@
           "type": "image/png"
         }
       ]
+    },
+    {
+      "name": "Home",
+      "short_name": "Home",
+      "url": "/home",
+      "icons": [
+        {
+          "src": "/house.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#0fa5fc",
   "background_color": "#ffffff"
