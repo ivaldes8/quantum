@@ -18,14 +18,63 @@
       "sizes": "512x512"
     }
   ],
+  
   "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "/dashboard.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Investment groups",
+      "short_name": "Groups",
+      "url": "/group",
+      "icons": [
+        {
+          "src": "/chart.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
     {
       "name": "Investments",
       "short_name": "Investments",
       "url": "/investment",
       "icons": [
         {
-          "src": "/wallet-solid.png",
+          "src": "/wallet.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Home",
+      "short_name": "Home",
+      "url": "/home",
+      "icons": [
+        {
+          "src": "/house.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "short_name": "Profile",
+      "url": "/profile",
+      "icons": [
+        {
+          "src": "/user.png",
           "sizes": "192x192",
           "type": "image/png"
         }
