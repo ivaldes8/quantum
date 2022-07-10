@@ -8,6 +8,9 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isCreated: false,
+  isUpdated: false,
+  isDeleted: false,
   message: "",
 };
 
@@ -166,11 +169,19 @@ export const userSlice = createSlice({
       .addCase(createUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
+        state.isCreated = true;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.users.push(action.payload.user);
       })
       .addCase(createUser.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')
@@ -184,6 +195,10 @@ export const userSlice = createSlice({
       .addCase(updateUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
+        state.isCreated = false;
+        state.isUpdated = true;
+        state.isDeleted = false;
         let aux = [];
         // eslint-disable-next-line array-callback-return
         state.users.map((user) => {
@@ -198,6 +213,10 @@ export const userSlice = createSlice({
       .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')
@@ -210,12 +229,100 @@ export const userSlice = createSlice({
       })
       .addCase(getUsers.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.users = action.payload.user;
       })
       .addCase(getUsers.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
+        state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
+      })
+
+      .addCase(deleteUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = true;
+        state.users = state.users.filter(
+          (u) => u._id !== action.payload.id
+        );
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
+        state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
+      })
+
+      .addCase(getCurrentUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
+        state.currentUser = action.payload;
+      })
+      .addCase(getCurrentUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
+        state.message = action.payload;
+        if (action.payload === 'Not authorized') {
+          localStorage.removeItem('user')
+          window.location.replace('/home')
+        }
+      })
+
+      .addCase(updateCurrentUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateCurrentUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.isCreated = false;
+        state.isUpdated = true;
+        state.isDeleted = false;
+        state.currentUser = action.payload;
+      })
+      .addCase(updateCurrentUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')
@@ -232,62 +339,6 @@ export const userSlice = createSlice({
         state.dashBoard = action.payload.dashboard;
       })
       .addCase(getDashboard.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-        if (action.payload === 'Not authorized') {
-          localStorage.removeItem('user')
-          window.location.replace('/home')
-        }
-      })
-
-      .addCase(deleteUser.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(deleteUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.users = state.users.filter(
-          (u) => u._id !== action.payload.id
-        );
-      })
-      .addCase(deleteUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-        if (action.payload === 'Not authorized') {
-          localStorage.removeItem('user')
-          window.location.replace('/home')
-        }
-      })
-
-      .addCase(getCurrentUser.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getCurrentUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.currentUser = action.payload;
-      })
-      .addCase(getCurrentUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-        if (action.payload === 'Not authorized') {
-          localStorage.removeItem('user')
-          window.location.replace('/home')
-        }
-      })
-
-      .addCase(updateCurrentUser.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(updateCurrentUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.currentUser = action.payload;
-      })
-      .addCase(updateCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

@@ -6,25 +6,11 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isCreated: false,
+  isUpdated: false,
+  isDeleted: false,
   message: "",
 };
-
-const getDeposit = (actions) => {
-  let amount = 0;
-  actions.map((a) => {
-    amount += a.amount;
-  })
-  return amount;
-};
-
-const getFeedBack = (actions) => {
-  let feedBack = 0;
-  actions.map((a) => {
-    feedBack += a.feedback;
-  })
-  return feedBack;
-};
-
 
 //Get home
 export const getHome = createAsyncThunk(
@@ -82,6 +68,10 @@ export const homeSlice = createSlice({
       .addCase(updateHome.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
+        state.isCreated = false;
+        state.isUpdated = true;
+        state.isDeleted = false;
         let aux = [];
         // eslint-disable-next-line array-callback-return
         state.home.map((h) => {
@@ -96,6 +86,10 @@ export const homeSlice = createSlice({
       .addCase(updateHome.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')
@@ -107,12 +101,20 @@ export const homeSlice = createSlice({
       })
       .addCase(getHome.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.home = action.payload.home;
       })
       .addCase(getHome.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')

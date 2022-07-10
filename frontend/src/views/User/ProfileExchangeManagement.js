@@ -32,7 +32,7 @@ const ProfileExchangeManagement = ({ userCurrency = '' }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { exchanges, isLoading, isError, isSuccess, message } = useSelector(
+    const { exchanges, isLoading, isError, isSuccess, message, isCreated, isUpdated, isDeleted } = useSelector(
         (state) => state.exchange
     );
 
@@ -93,14 +93,8 @@ const ProfileExchangeManagement = ({ userCurrency = '' }) => {
         }
         if (isEdit) {
             dispatch(updateExchange({ ...toSend, _id: data._id }));
-            if (isSuccess && !isError) {
-                toast.success(t("homeCardUpdated"));
-            }
         } else {
             dispatch(createExchange(toSend));
-            if (isSuccess && !isError) {
-                toast.success(t("homeCardCreated"));
-            }
         }
         setOpenModal(false);
     };
@@ -108,9 +102,6 @@ const ProfileExchangeManagement = ({ userCurrency = '' }) => {
     const onDeleteModal = () => {
         setOpenConfModal(false)
         dispatch(deleteExchange(toDelete));
-        if (isSuccess && !isError) {
-            toast.success(t("homeCardDeleted"));
-        }
     }
 
     useEffect(() => {
@@ -127,8 +118,17 @@ const ProfileExchangeManagement = ({ userCurrency = '' }) => {
     useEffect(() => {
         if (isError) {
             toast.error(message);
-        }
-    }, [isError, message])
+          }
+          if (isSuccess && isCreated && !isError) {
+            toast.success(t("exchangeCreated"));
+          }
+          if (isSuccess && isUpdated && !isError) {
+            toast.success(t("exchangeUpdated"));
+          }
+          if (isSuccess && isDeleted && !isError) {
+            toast.success(t("exchangeDeleted"));
+          }
+    }, [isError, message, isSuccess, isDeleted, isCreated, isUpdated, dispatch])
 
     if (isLoading) {
         return <Loading w="80%" h="50%" z={100} />;

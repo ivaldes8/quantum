@@ -36,7 +36,7 @@ const HomeManagement = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { home, isLoading, isError, isSuccess, message } = useSelector(
+  const { home, isLoading, isError, isSuccess, message, isCreated, isUpdated, isDeleted } = useSelector(
     (state) => state.home
   );
 
@@ -70,10 +70,6 @@ const HomeManagement = () => {
     }
 
     dispatch(updateHome(toSend));
-
-    if (isSuccess && !isError) {
-      toast.success(t("homeUpdated"));
-    }
     setOpenModal(false);
   };
 
@@ -85,16 +81,18 @@ const HomeManagement = () => {
     };
   }, [navigate, dispatch]);
 
-  useEffect(() => {
+  useEffect(() => {   
     if (isError) {
       toast.error(message);
     }
-  }, [isError, message])
+    if (isSuccess && isUpdated && !isError) {
+      toast.success(t("homeUpdated"));
+    }
+  }, [isError, message, isSuccess, isUpdated, dispatch])
 
   if (isLoading) {
     return <Loading/>;
   }
-
 
   return (
     <>

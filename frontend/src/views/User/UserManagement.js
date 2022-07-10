@@ -35,7 +35,7 @@ const UserManagement = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { users, isLoading, isError, isSuccess, message } = useSelector(
+  const { users, isLoading, isError, isSuccess, message, isCreated, isUpdated, isDeleted } = useSelector(
     (state) => state.user
   );
 
@@ -110,14 +110,8 @@ const UserManagement = () => {
     }
     if (isEdit) {
       dispatch(updateUser({ ...toSend, _id: data._id }));
-      if (isSuccess && !isError) {
-        toast.success(t("userUpdated"));
-      }
     } else {
       dispatch(createUser({ ...toSend, password: data.password }));
-      if (isSuccess && !isError) {
-        toast.success(t("userCreated"));
-      }
     }
     setOpenModal(false);
   };
@@ -125,9 +119,6 @@ const UserManagement = () => {
   const onDeleteModal = () => {
     setOpenConfModal(false);
     dispatch(deleteUser(toDelete));
-    if (isSuccess && !isError) {
-      toast.success(t("userDeleted"));
-    }
   };
 
   useEffect(() => {
@@ -137,11 +128,20 @@ const UserManagement = () => {
     };
   }, [navigate, dispatch]);
 
-  useEffect(() => {
+  useEffect(() => { 
     if (isError) {
       toast.error(message);
     }
-  }, [isError, message])
+    if (isSuccess && isCreated && !isError) {
+       toast.success(t("userCreated"));
+    }
+    if (isSuccess && isUpdated && !isError) {
+      toast.success(t("userUpdated"));
+    }
+    if (isSuccess && isDeleted && !isError) {
+      toast.success(t("userDeleted"));
+    }
+  }, [isError, message, isSuccess, isDeleted, isCreated, isUpdated, dispatch])
 
   if (isLoading) {
     return <Loading />;

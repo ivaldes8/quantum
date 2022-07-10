@@ -41,7 +41,7 @@ const Group = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { groups, isLoading, isError, isSuccess, message } = useSelector(
+  const { groups, isLoading, isError, isSuccess, message, isCreated, isUpdated, isDeleted } = useSelector(
     (state) => state.group
   );
 
@@ -94,14 +94,8 @@ const Group = () => {
 
     if (isEdit) {
       dispatch(updateGroup(toSend));
-      if (isSuccess && !isError) {
-        toast.success(t("groupUpdated"));
-      }
     } else {
       dispatch(createGroup(toSend));
-      if (isSuccess && !isError) {
-        toast.success(t("groupCreated"));
-      }
     }
     setOpenModal(false);
   };
@@ -109,9 +103,6 @@ const Group = () => {
   const onDeleteModal = () => {
     setOpenConfModal(false)
     dispatch(deleteGroup(toDelete));
-    if (isSuccess && !isError) {
-      toast.success(t("groupDeleted"));
-    }
   }
 
   useEffect(() => {
@@ -126,13 +117,20 @@ const Group = () => {
     if (isError) {
       toast.error(message);
     }
-  }, [isError, message])
+    if (isSuccess && isCreated && !isError) {
+      toast.success(t("groupCreated"));
+    }
+    if (isSuccess && isUpdated && !isError) {
+      toast.success(t("groupUpdated"));
+    }
+    if (isSuccess && isDeleted && !isError) {
+      toast.success(t("groupDeleted"));
+    }
+  }, [isError, message, isSuccess, isDeleted, isCreated, isUpdated, dispatch])
 
   if (isLoading) {
     return <Loading />;
   }
-
-
 
   return (
     <>

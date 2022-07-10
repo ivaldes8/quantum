@@ -6,6 +6,9 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isCreated: false,
+  isUpdated: false,
+  isDeleted: false,
   message: "",
 };
 
@@ -103,11 +106,19 @@ export const currencySlice = createSlice({
       .addCase(createCurrency.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
+        state.isCreated = true;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.currencies.push(action.payload.currency);
       })
       .addCase(createCurrency.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')
@@ -121,6 +132,10 @@ export const currencySlice = createSlice({
       .addCase(updateCurrency.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
+        state.isCreated = false;
+        state.isUpdated = true;
+        state.isDeleted = false;
         let aux = [];
         // eslint-disable-next-line array-callback-return
         state.currencies.map((investment) => {
@@ -135,6 +150,10 @@ export const currencySlice = createSlice({
       .addCase(updateCurrency.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')
@@ -147,12 +166,20 @@ export const currencySlice = createSlice({
       })
       .addCase(getCurrencies.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.currencies = action.payload.currencies;
       })
       .addCase(getCurrencies.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')
@@ -165,7 +192,11 @@ export const currencySlice = createSlice({
       })
       .addCase(deleteCurrency.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = true;
         state.currencies = state.currencies.filter(
           (c) => c._id !== action.payload.id
         );
@@ -173,6 +204,10 @@ export const currencySlice = createSlice({
       .addCase(deleteCurrency.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')

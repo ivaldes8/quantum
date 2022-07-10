@@ -33,7 +33,7 @@ const HomeCardManagement = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { homeCards, isLoading, isError, isSuccess, message } = useSelector(
+    const { homeCards, isLoading, isError, isSuccess, message, isCreated, isUpdated, isDeleted } = useSelector(
         (state) => state.homeCard
     );
 
@@ -71,14 +71,8 @@ const HomeCardManagement = () => {
     const submitModal = (data) => {
         if (isEdit) {
             dispatch(updateHomeCard(data));
-            if (isSuccess && !isError) {
-                toast.success(t("homeCardUpdated"));
-            }
         } else {
             dispatch(createHomeCard(data));
-            if (isSuccess && !isError) {
-                toast.success(t("homeCardCreated"));
-            }
         }
         setOpenModal(false);
     };
@@ -86,9 +80,6 @@ const HomeCardManagement = () => {
     const onDeleteModal = () => {
         setOpenConfModal(false)
         dispatch(deleteHomeCard(toDelete));
-        if (isSuccess && !isError) {
-            toast.success(t("homeCardDeleted"));
-        }
     }
 
     useEffect(() => {
@@ -101,8 +92,17 @@ const HomeCardManagement = () => {
     useEffect(() => {
         if (isError) {
             toast.error(message);
-        }
-    }, [isError, message])
+          }
+          if (isSuccess && isCreated && !isError) {
+            toast.success(t("homeCardCreated"));
+          }
+          if (isSuccess && isUpdated && !isError) {
+            toast.success(t("homeCardUpdated"));
+          }
+          if (isSuccess && isDeleted && !isError) {
+            toast.success(t("homeCardDeleted"));
+          }
+    }, [isError, message, isSuccess, isDeleted, isCreated, isUpdated, dispatch])
 
     if (isLoading) {
         return <Loading w="80%" h="50%" z={100} />;

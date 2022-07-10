@@ -33,7 +33,7 @@ const InvestmentActions = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { actions, isLoading, isError, isSuccess, message } = useSelector(
+  const { actions, isLoading, isError, isSuccess, message, isCreated, isUpdated, isDeleted } = useSelector(
     (state) => state.action
   );
 
@@ -84,7 +84,7 @@ const InvestmentActions = () => {
     setIsEdit(true);
     const ToEdit = {
       ...data,
-      date: moment(data.date).utc().format("yyyy-MM-DD"), 
+      date: moment(data.date).utc().format("yyyy-MM-DD"),
     };
     setToEdit(ToEdit);
     setOpenModal(true);
@@ -106,15 +106,9 @@ const InvestmentActions = () => {
   const submitModal = (data) => {
     if (isEdit) {
       dispatch(updateAction(data));
-      if (isSuccess && !isError) {
-        toast.success(t("actionUpdated"));
-      }
     } else {
       const toSend = { ...data, id };
       dispatch(createAction(toSend));
-      if (isSuccess && !isError) {
-        toast.success(t("actionCreated"));
-      }
     }
     setOpenModal(false);
   };
@@ -122,9 +116,6 @@ const InvestmentActions = () => {
   const onDeleteModal = () => {
     setOpenConfModal(false);
     dispatch(deleteAction(toDelete));
-    if (isSuccess && !isError) {
-      toast.success(t("actionDeleted"));
-    }
   };
 
   const calculateTotals = (list) => {
@@ -136,7 +127,7 @@ const InvestmentActions = () => {
     });
     return ` ${t("totals")}: ${Format.formatCurrency(
       amount
-    )} / ${Format.formatCurrency(feedBack)} = ${Format.formatCurrency(-amount+feedBack)} - ${currency}`;
+    )} / ${Format.formatCurrency(feedBack)} = ${Format.formatCurrency(-amount + feedBack)} - ${currency}`;
   };
 
   useEffect(() => {
@@ -150,7 +141,16 @@ const InvestmentActions = () => {
     if (isError) {
       toast.error(message);
     }
-  }, [isError, message])
+    if (isSuccess && isCreated && !isError) {
+      toast.success(t("actionCreated"));
+    }
+    if (isSuccess && isUpdated && !isError) {
+      toast.success(t("actionUpdated"));
+    }
+    if (isSuccess && isDeleted && !isError) {
+      toast.success(t("actionDeleted"));
+    }
+  }, [isError, message, isSuccess, isDeleted, isCreated, isUpdated, dispatch])
 
   if (isLoading) {
     return <Loading />;

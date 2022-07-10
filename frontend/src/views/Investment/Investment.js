@@ -35,7 +35,7 @@ const Investment = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { investments, isLoading, isError, isSuccess, message } = useSelector(
+  const { investments, isLoading, isError, isSuccess, message, isCreated, isUpdated, isDeleted } = useSelector(
     (state) => state.investment
   );
 
@@ -81,14 +81,8 @@ const Investment = () => {
   const submitModal = (data) => {
     if (isEdit) {
       dispatch(updateInvestment(data));
-      if (isSuccess && !isError) {
-        toast.success(t("investmentUpdated"));
-      }
     } else {
       dispatch(createInvestment(data));
-      if (isSuccess && !isError) {
-        toast.success(t("investmentCreated"));
-      }
     }
     setOpenModal(false);
   };
@@ -96,9 +90,6 @@ const Investment = () => {
   const onDeleteModal = () => {
     setOpenConfModal(false)
     dispatch(deleteInvestment(toDelete));
-    if (isSuccess && !isError) {
-      toast.success(t("investmentDeleted"));
-    }
   }
 
   useEffect(() => {
@@ -113,7 +104,16 @@ const Investment = () => {
     if (isError) {
       toast.error(message);
     }
-  }, [isError, message])
+    if (isSuccess && isCreated && !isError) {
+      toast.success(t("investmentCreated"));
+    }
+    if (isSuccess && isUpdated && !isError) {
+      toast.success(t("investmentUpdated"));
+    }
+    if (isSuccess && isDeleted && !isError) {
+      toast.success(t("investmentDeleted"));
+    }
+  }, [isError, message, isSuccess, isDeleted, isCreated, isUpdated, dispatch])
 
   if (isLoading) {
     return <Loading />;
@@ -157,7 +157,7 @@ const Investment = () => {
           multiline
           validate={composeValidators(required)}
         />
-         <SimpleSelect
+        <SimpleSelect
           field="currency"
           label="currency"
           options={currencies}

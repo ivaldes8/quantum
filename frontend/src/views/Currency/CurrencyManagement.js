@@ -33,7 +33,7 @@ const CurrencyManagement = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { currencies, isLoading, isError, isSuccess, message } = useSelector(
+  const { currencies, isLoading, isError, isSuccess, message, isCreated, isUpdated, isDeleted } = useSelector(
     (state) => state.currency
   );
 
@@ -86,14 +86,8 @@ const CurrencyManagement = () => {
     }
     if (isEdit) {
       dispatch(updateCurrency(toSend));
-      if (isSuccess && !isError) {
-        toast.success(t("currencyUpdated"));
-      }
     } else {
       dispatch(createCurrency(toSend));
-      if (isSuccess && !isError) {
-        toast.success(t("currencyCreated"));
-      }
     }
     setOpenModal(false);
   };
@@ -101,9 +95,6 @@ const CurrencyManagement = () => {
   const onDeleteModal = () => {
     setOpenConfModal(false);
     dispatch(deleteCurrency(toDelete));
-    if (isSuccess && !isError) {
-      toast.success(t("currencyDeleted"));
-    }
   };
 
   useEffect(() => {
@@ -117,7 +108,16 @@ const CurrencyManagement = () => {
     if (isError) {
       toast.error(message);
     }
-  }, [isError, message])
+    if (isSuccess && isCreated && !isError) {
+      toast.success(t("currencyCreated"));
+    }
+    if (isSuccess && isUpdated && !isError) {
+      toast.success(t("currencyUpdated"));
+    }
+    if (isSuccess && isDeleted && !isError) {
+      toast.success(t("currencyDeleted"));
+    }
+  }, [isError, message, isSuccess, isDeleted, isCreated, isUpdated, dispatch])
 
   if (isLoading) {
     return <Loading />;

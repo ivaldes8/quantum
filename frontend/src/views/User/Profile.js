@@ -35,7 +35,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { currentUser, isLoading, isError, isSuccess, message } = useSelector(
+  const { currentUser, isLoading, isError, isSuccess, message, isUpdated } = useSelector(
     (state) => state.user
   );
 
@@ -61,10 +61,6 @@ const Profile = () => {
       currency: data.currency._id
     }
     dispatch(updateCurrentUser(toSend));
-
-    if (isSuccess && !isError) {
-      toast.success(t("profileUpdated"));
-    }
     setOpenModal(false);
   };
 
@@ -80,10 +76,15 @@ const Profile = () => {
   }, [navigate, dispatch]);
 
   useEffect(() => {
+
     if (isError) {
       toast.error(message);
     }
-  }, [isError, message])
+    if (isSuccess && isUpdated && !isError) {
+      toast.success(t("profileUpdated"));
+    }
+
+  }, [isError, message, isSuccess, isUpdated, dispatch])
 
   if (isLoading) {
     return <Loading />;
@@ -162,7 +163,7 @@ const Profile = () => {
             </>
           }
         </Paper>
-        <ProfileExchangeManagement userCurrency={currentUser.currency ? currentUser.currency.name : ''}/>
+        <ProfileExchangeManagement userCurrency={currentUser.currency ? currentUser.currency.name : ''} />
       </Container>
 
       <AddLine />

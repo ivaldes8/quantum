@@ -6,6 +6,9 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isCreated: false,
+  isUpdated: false,
+  isDeleted: false,
   message: "",
 };
 
@@ -104,11 +107,19 @@ export const homeCardSlice = createSlice({
       .addCase(createHomeCard.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
+        state.isCreated = true;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.homeCards.push(action.payload.homeCard);
       })
       .addCase(createHomeCard.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')
@@ -121,6 +132,10 @@ export const homeCardSlice = createSlice({
       .addCase(updateHomeCard.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
+        state.isCreated = false;
+        state.isUpdated = true;
+        state.isDeleted = false;
         let aux = [];
         // eslint-disable-next-line array-callback-return
         state.homeCards.map((hc) => {
@@ -135,6 +150,10 @@ export const homeCardSlice = createSlice({
       .addCase(updateHomeCard.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')
@@ -146,12 +165,20 @@ export const homeCardSlice = createSlice({
       })
       .addCase(getHomeCards.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.homeCards = action.payload.homeCards;
       })
       .addCase(getHomeCards.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')
@@ -164,7 +191,11 @@ export const homeCardSlice = createSlice({
       })
       .addCase(deleteHomeCard.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = true;
         state.homeCards = state.homeCards.filter(
           (hc) => hc._id !== action.payload.id
         );
@@ -172,6 +203,10 @@ export const homeCardSlice = createSlice({
       .addCase(deleteHomeCard.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
+        state.isCreated = false;
+        state.isUpdated = false;
+        state.isDeleted = false;
         state.message = action.payload;
         if (action.payload === 'Not authorized') {
           localStorage.removeItem('user')
