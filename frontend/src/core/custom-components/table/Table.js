@@ -53,8 +53,7 @@ function EnhancedTableHead(props) {
         {columns.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align="center"
-            style={{fontWeight: 'bold'}}
+            style={{fontWeight: 'bold', minWidth: 200}}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -73,7 +72,7 @@ function EnhancedTableHead(props) {
           </TableCell>
         ))}
         {actions && (
-          <TableCell padding="normal" align="center" style={{fontWeight: 'bold'}}>
+          <TableCell padding="normal"  style={{fontWeight: 'bold', minWidth: 200}}>
             {t("actions")}
           </TableCell>
         )}
@@ -143,7 +142,7 @@ export default function EnhancedTable({
                   <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                     {cells.map((cell) => {
                       return (
-                        <TableCell key={cell} align="center">
+                        <TableCell key={cell}>
                           {cell === "date"
                             ? moment(row[cell]).utc().format("DD-MM-YYYY")
                             : cell === "feedback" || cell === "amount" || cell === "deposit" || cell === "change"
@@ -155,7 +154,7 @@ export default function EnhancedTable({
                       );
                     })}
                     { actions && 
-                      <TableCell align="center">
+                      <TableCell>
                        <IconButton color="primary" onClick={() => handleEdit(row)}>
                          <Edit />
                        </IconButton>
