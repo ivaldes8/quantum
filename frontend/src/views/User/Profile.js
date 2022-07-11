@@ -14,6 +14,7 @@ import { getCurrencies } from "../../core/redux/features/currency/currencySlice"
 import {
   composeValidators,
   required,
+  equalTo,
   email
 } from "../../core/custom-components/validations/InputErrors";
 
@@ -43,6 +44,13 @@ const Profile = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const [toEdit, setToEdit] = useState(null);
+  const [changePassword, setChangePassword] = useState(false);
+
+  const handleChangePassword = () => {
+    setToEdit(currentUser);
+    setChangePassword(true)
+    setOpenModal(true);
+  };
 
   const handleOnEdit = () => {
     setToEdit(currentUser);
@@ -51,6 +59,7 @@ const Profile = () => {
 
   const onCloseModal = () => {
     setOpenModal(false);
+    setChangePassword(false)
   };
 
   const submitModal = (data) => {
@@ -60,8 +69,16 @@ const Profile = () => {
       lastName: data.lastName,
       currency: data.currency._id
     }
-    dispatch(updateCurrentUser(toSend));
+    const toSendChangePassword = {
+      password: data.newPasswordConf
+    }
+    if (changePassword) {
+      dispatch(updateCurrentUser(toSendChangePassword));
+    } else {
+      dispatch(updateCurrentUser(toSend));
+    }
     setOpenModal(false);
+    setChangePassword(false)
   };
 
   useEffect(() => {
@@ -76,7 +93,6 @@ const Profile = () => {
   }, [navigate, dispatch]);
 
   useEffect(() => {
-
     if (isError) {
       toast.error(message);
     }
@@ -96,7 +112,7 @@ const Profile = () => {
       <AddLine />
       <Container>
         <Paper elevation={3} style={{ marginBottom: 20 }}>
-          <Header title="userProfile" create={false} edit={true} onClickHandler={handleOnEdit} />
+          <Header title="userProfile" create={false} edit={true} secundaryButton={true} secundaryButtonText="changePassword" onSecundaryClickHandler={handleChangePassword} onClickHandler={handleOnEdit} />
 
           {currentUser &&
             <>
@@ -168,36 +184,55 @@ const Profile = () => {
 
       <AddLine />
       <DialogForm
-        title="EditProfile"
+        title={changePassword ? "changePassword" : "EditProfile"}
         submitText="Edit"
         openModal={openModal}
         onCloseModal={onCloseModal}
         onSubmitModal={submitModal}
         data={toEdit}
       >
-        <TextField
-          field="name"
-          label="name"
-          validate={composeValidators(required)}
-        />
-        <TextField
-          field="lastName"
-          label="lastName"
-          validate={composeValidators(required)}
-        />
-        <TextField
-          field="email"
-          label="email"
-          validate={composeValidators(required, email)}
-        />
-        <SimpleSelect
-          field="currency"
-          label="currency"
-          selectkey="name"
-          simple={false}
-          options={currencies}
-          validate={composeValidators(required)}
-        />
+        {changePassword ? (
+          <>
+            <TextField
+              field="newPassword"
+              label="newPassword"
+              type="password"
+              validate={composeValidators(required)}
+            />
+            <TextField
+              field="newPasswordConf"
+              type="password"
+              label="newPassowrdConfirmation"
+              validate={composeValidators(required, equalTo('newPassword'))}
+            />
+          </>
+        ) : (
+          <>
+            <TextField
+              field="name"
+              label="name"
+              validate={composeValidators(required)}
+            />
+            <TextField
+              field="lastName"
+              label="lastName"
+              validate={composeValidators(required)}
+            />
+            <TextField
+              field="email"
+              label="email"
+              validate={composeValidators(required, email)}
+            />
+            <SimpleSelect
+              field="currency"
+              label="currency"
+              selectkey="name"
+              simple={false}
+              options={currencies}
+              validate={composeValidators(required)}
+            />
+          </>
+        )}
       </DialogForm>
     </>
   )

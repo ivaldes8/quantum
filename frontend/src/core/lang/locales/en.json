@@ -8,6 +8,7 @@
   "lastName": "Last name",
   "email": "Email",
   "password": "Password",
+  "changePassword": "Change password",
   "Dashboard": "Dashboard",
   "Home": "Home",
   "Investments": "Investments",
@@ -50,6 +51,7 @@
   "fieldError.required": "This field es required",
   "fieldError.sizeLess250": "The file must be less than 250kb",
   "fieldError.validRole": "Please fill a valid role: Admin/User",
+  "fieldError.equalTo": "Passwords dont match",
   "groupUpdated": "Group updated succefully",
   "groupCreated": "Group created succefully",
   "groupDeleted": "Group deleted",
@@ -116,5 +118,7 @@
   "depositByInvestment": "Deposited by investments",
   "returnByInvestment": "Returned by investments",
   "investmentBehavior": "Investment behavior",
-  "balance": "Balance"
+  "balance": "Balance",
+  "newPassword": "New password",
+  "newPassowrdConfirmation": "New password confirmation"
 }

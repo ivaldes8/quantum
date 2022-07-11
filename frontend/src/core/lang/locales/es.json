@@ -8,6 +8,7 @@
   "lastName": "Apellidos",
   "email": "Correo",
   "password": "Contraseña",
+  "changePassword": "Cambiar contraseña",
   "Dashboard": "Dashboard",
   "Home": "Home",
   "Investments": "Inversiones",
@@ -50,6 +51,7 @@
   "fieldError.required": "Este campo es obligatorio",
   "fieldError.sizeLess250": "El archivo tiene que pesar menos de 250kb",
   "fieldError.validRole": "Por favor introduzca un rol válido: Admin/User",
+  "fieldError.equalTo": "Las contraseñas no coinciden",
   "groupUpdated": "Grupo editado satisfactoriamente",
   "groupCreated": "Grupo creado satisfactoriamente",
   "groupDeleted": "Grupo eliminado",
@@ -116,5 +118,7 @@
   "depositByInvestment": "Depositado por inversiones",
   "returnByInvestment": "Retorno por inversiones",
   "investmentBehavior": "Comportamiento de inversiones",
-  "balance": "Balance"
+  "balance": "Balance",
+  "newPassword": "Nueva contraseña",
+  "newPassowrdConfirmation": "Confirmación de la nueva contraseña"
 }

@@ -8,10 +8,13 @@ import { Add, ArrowBack, Edit } from "@mui/icons-material";
 const Header = ({
   create = true,
   edit = false,
+  secundaryButton = false,
+  secundaryButtonText = "",
   goBack = false,
   title = "",
   valueTitle = "",
   onClickHandler,
+  onSecundaryClickHandler
 }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -30,6 +33,16 @@ const Header = ({
         >
           {t(title)} {valueTitle}
         </Typography>
+        {secundaryButton && (
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ flexGrow: 1, margin: 1, height: 40 }}
+            onClick={onSecundaryClickHandler}
+          >
+            {t(secundaryButtonText)}
+          </Button>
+        )}
         {create && (
           <Button
             variant="contained"

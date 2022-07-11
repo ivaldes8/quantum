@@ -108,7 +108,7 @@ const updateCurrentUser = asyncHandler(async (req, res) => {
         throw new Error('Users can not change the roles')
     }
 
-    if (req.body.currency) {
+    if (req.body.currency && req.body.currency !== req.user.currency.toString()) {
         const exchange = await Exchange.find({ user: req.user._id, currency: req.body.currency })
         if (exchange.length > 0 && req.body.currency === exchange[0].currency.toString()) {
             const updatedExchange = await Exchange.findByIdAndUpdate(exchange[0]._id, { currency: req.user.currency })
