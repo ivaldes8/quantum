@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Divider, Typography, IconButton } from "@mui/material";
-import { Add, ArrowBack, Edit } from "@mui/icons-material";
+import { Add, ArrowBack, Edit, Key } from "@mui/icons-material";
 
 const Header = ({
   create = true,
@@ -34,14 +34,10 @@ const Header = ({
           {t(title)} {valueTitle}
         </Typography>
         {secundaryButton && (
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ flexGrow: 1, margin: 1, height: 40 }}
-            onClick={onSecundaryClickHandler}
-          >
-            {t(secundaryButtonText)}
-          </Button>
+          <IconButton variant="contained"
+            color="primary" onClick={onSecundaryClickHandler}>
+            <Key fontSize="large" />
+          </IconButton>
         )}
         {create && (
           <Button
