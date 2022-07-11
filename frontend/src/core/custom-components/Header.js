@@ -35,6 +35,7 @@ const Header = ({
         </Typography>
         {secundaryButton && (
           <IconButton variant="contained"
+            sx={{ margin: 1, height: 45 }}
             color="primary" onClick={onSecundaryClickHandler}>
             <Key fontSize="large" />
           </IconButton>
